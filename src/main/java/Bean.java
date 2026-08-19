@@ -37,24 +37,14 @@ public class Bean {
                            
         System.out.println("----------------------------------");
         System.out.println(banner);
-        System.out.println("----------------------------------");
-        String intro = "Hello! I'm Bean.";
-        System.out.println();
-        System.out.println(intro + "\n");
-        System.out.println("What can I do for you today?");
-        System.out.println();
-        System.out.println("----------------------------------");
-        System.out.println();
+        String intro = "Hello! I'm Bean.\n\nWhat can I do for you today?";
+        printString(intro);
         
     }
 
     private static void outro() {
         String goodbye = "Bye bye! Hope to see you again soon!";
-        System.out.println("----------------------------------");
-        System.out.println();
-        System.out.println(goodbye);
-        System.out.println();
-        System.out.println("----------------------------------");
+        printString(goodbye);
         terminateProgram = true;
 
     }
@@ -65,6 +55,13 @@ public class Bean {
                 outro();
                 break;
             default:
+                printString(input);
+
+        }
+
+    }
+
+    private static void printString(String input) {
                 System.out.println("----------------------------------");
                 System.out.println();
                 System.out.println(input);
@@ -72,7 +69,6 @@ public class Bean {
                 System.out.println("----------------------------------");
                 System.out.println();
 
-        }
 
     }
 
