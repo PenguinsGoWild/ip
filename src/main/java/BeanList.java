@@ -33,7 +33,7 @@ public class BeanList {
 
     public void addTodo(String task) {
         this.ls.add(new Todo(task));
-        Bean.printString("added: " + task);
+        printAddTask("[T][ ] " + task);
 
     }
 

@@ -92,6 +92,12 @@ public class Bean {
                 for (int i = 1; i < str.length; i++) {
                     sb.append(str[i] + " ");
                 }
+                if (sb.isEmpty()) {
+                    printString("Uh Oh! Invalid Syntax for todo!\n\n" +
+                            "Usage: todo \"TASK\"");
+                            return;
+
+                }
                 bl.addTodo(sb.toString().trim());
                 break;
             case Commands.EVENT:
@@ -161,7 +167,7 @@ public class Bean {
                 bl.addDeadline(sb.toString().trim(), date.toString().trim());
                 break;
             default:
-                printString(input);
+                printString("Sorry, I don't know what you mean. :<");
 
         }
 
