@@ -8,15 +8,31 @@ public class BeanList {
 
     }
 
+    public String getTaskTag(int i) {
+        return this.ls.get(i-1).getTag();
+    }
+
     public String getTaskName(int i) {
         return this.ls.get(i-1).get();
     }
+
     public int getSize() {
         return this.ls.size();
     }
 
-    public void addTask(String task) {
-        this.ls.add(new Task(task));
+    public void addDeadline(String task, String date) {
+        this.ls.add(new Deadline(task, date));
+        printAddTask("[D][ ] " + task + " (by: " + date + ")");
+
+    }
+    public void addEvent(String task, String from, String to) {
+        this.ls.add(new Event(task, from, to));
+        printAddTask("[E][ ] " + task + " (from: " + from + " to: " + to + ")");
+
+    }
+
+    public void addTodo(String task) {
+        this.ls.add(new Todo(task));
         Bean.printString("added: " + task);
 
     }
@@ -48,10 +64,18 @@ public class BeanList {
             Task task = this.ls.get(i);
             if (i != 0)
                 sb.append("\n");
-            sb.append((i+1) + ". " + "["+ (task.isDone() ? "X" : " ") + "] " + task.get());
+            sb.append((i+1) + ". " + task.getTag() + "["+ (task.isDone() ? "X" : " ") + "] " + task.get());
         }
 
-        Bean.printString(sb.toString());
+        Bean.printString("Here are the tasks in your list:\n\n" + sb.toString());
+
+    }
+
+    private void printAddTask(String s) {
+        Bean.printString("Alrighty! I've added the following task:\n\n"
+            + s + "\n\n" +
+            "Now you have " + this.ls.size() + " tasks in the list."
+        );
 
     }
     

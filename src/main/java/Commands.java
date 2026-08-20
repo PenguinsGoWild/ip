@@ -3,6 +3,9 @@ public enum Commands {
     LIST ("list", "ls"),
     MARK ("mark"),
     UNMARK("unmark"),
+    TODO("todo", "td"),
+    DEADLINE("deadline", "dln"),
+    EVENT("event", "evt"),
     NONE;
 
     private final String[] names;
