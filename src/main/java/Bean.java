@@ -51,12 +51,41 @@ public class Bean {
     }
 
     private static void getCommand(String input) {
-        switch (Commands.match(input)) {
+        String[] str = input.split(" ");
+        int index = -1;
+        switch (Commands.match(str[0])) {
             case Commands.EXIT:
                 outro();
                 break;
             case Commands.LIST:
                 bl.displayTasks();
+                break;
+            case Commands.MARK:
+                if (str.length == 1) break;
+                index = Integer.parseInt(str[1]);
+                if (index <= 0 || index - 1 >= bl.getSize()) {
+                    printString("Oops, you've keyed in an invalid Task index!");
+                    break;
+                }
+                printString("Good Job! I'll mark the task as done!\n\n"
+                     +
+                     " [X] " + bl.getTaskName(index)
+                );
+
+                bl.markTask(index);
+                break;
+            case Commands.UNMARK:
+                if (str.length == 1) break;
+                index = Integer.parseInt(str[1]);
+                if (index <= 0 || index - 1 >= bl.getSize()) {
+                    printString("Oops, you've keyed in an invalid Task index!");
+                    break;
+                }
+                printString("Awww, Okay! I'll unmark it!\n\n"
+                     +
+                     " [ ] " + bl.getTaskName(index)
+                );
+                bl.unmarkTask(index);
                 break;
             default:
                 bl.addTask(input);   

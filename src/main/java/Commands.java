@@ -1,6 +1,8 @@
 public enum Commands {
-    EXIT ("exit"),
+    EXIT ("exit", "q"),
     LIST ("list", "ls"),
+    MARK ("mark"),
+    UNMARK("unmark"),
     NONE;
 
     private final String[] names;
