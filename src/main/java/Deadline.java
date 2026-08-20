@@ -16,4 +16,9 @@ public class Deadline extends Task {
 
     }
 
+    @Override
+    public String toString() {
+        return this.tag + (this.done ? "[X] " : "[ ] ") + task + " (by: " + date + ")";
+    }
+
 }

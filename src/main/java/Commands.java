@@ -6,6 +6,7 @@ public enum Commands {
     TODO("todo", "td"),
     DEADLINE("deadline", "dln"),
     EVENT("event", "evt"),
+    DELETE("delete", "del"),
     NONE;
 
     private final String[] names;

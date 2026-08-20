@@ -166,6 +166,15 @@ public class Bean {
                 }
                 bl.addDeadline(sb.toString().trim(), date.toString().trim());
                 break;
+            case Commands.DELETE:
+                if (str.length == 1) break;
+                index = Integer.parseInt(str[1]);
+                if (index <= 0 || index - 1 >= bl.getSize()) {
+                    printString("Oops, you've keyed in an invalid Task index!");
+                    break;
+                }
+                bl.deleteTask(index);
+                break;
             default:
                 printString("Sorry, I don't know what you mean. :<");
 

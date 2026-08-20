@@ -57,6 +57,16 @@ public class BeanList {
 
     }
 
+    public void deleteTask(int i) {
+        if (i <= 0) return;
+        if (i-1>= this.ls.size()) return;
+        Bean.printString("Alrighty! I've removed the following task:\n\n"
+            + ls.get(i-1).toString() + "\n\n" +
+            "Now you have " + this.ls.size() + " tasks in the list."
+        );
+        this.ls.remove(i-1);
+    }
+
     public void displayTasks() {
         StringBuilder sb = new StringBuilder();
 

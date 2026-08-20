@@ -12,4 +12,9 @@ public class Event extends Task {
 
     }
 
+    @Override
+    public String toString() {
+        return this.tag + (this.done ? "[X] " : "[ ] ") + task + " (from: " + from + " to: " + from + ")";
+    }
+
 }
