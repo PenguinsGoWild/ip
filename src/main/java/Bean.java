@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public class Bean {
     static boolean terminateProgram = false;
+    private static BeanList bl = new BeanList();
 
     public static void main(String[] args) {
         intro();
@@ -54,14 +55,17 @@ public class Bean {
             case Commands.EXIT:
                 outro();
                 break;
+            case Commands.LIST:
+                bl.displayTasks();
+                break;
             default:
-                printString(input);
+                bl.addTask(input);   
 
         }
 
     }
 
-    private static void printString(String input) {
+    public static void printString(String input) {
                 System.out.println("----------------------------------");
                 System.out.println();
                 System.out.println(input);

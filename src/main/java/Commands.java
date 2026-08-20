@@ -1,5 +1,6 @@
 public enum Commands {
     EXIT ("exit"),
+    LIST ("list", "ls"),
     NONE;
 
     private final String[] names;
