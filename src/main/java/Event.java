@@ -8,13 +8,13 @@ public class Event extends Task {
     }
 
     public String get() {
-        return task + " (from: " + from + " to: " + from + ")";
+        return task + " (from: " + from + " to: " + to + ")";
 
     }
 
     @Override
     public String toString() {
-        return this.tag + (this.done ? "[X] " : "[ ] ") + task + " (from: " + from + " to: " + from + ")";
+        return this.tag + (this.done ? "[X] " : "[ ] ") + task + " (from: " + from + " to: " + to + ")";
     }
 
 }
