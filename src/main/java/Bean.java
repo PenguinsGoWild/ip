@@ -21,6 +21,15 @@ public class Bean {
             } catch (IOException e) {
                 System.err.println("An error occurred while reading input: " + e.getMessage());
 
+            } catch (UnknownCommandException e) {
+                printString(e.getMessage());
+
+            } catch (BeanListOutOfBoundsException e) {
+                printString(e.getMessage());
+
+            } catch (InvalidSyntaxException e) {
+                printString(e.getMessage());
+
             }
         }
 
@@ -65,8 +74,7 @@ public class Bean {
                 if (str.length == 1) break;
                 index = Integer.parseInt(str[1]);
                 if (index <= 0 || index - 1 >= bl.getSize()) {
-                    printString("Oops, you've keyed in an invalid Task index!");
-                    break;
+                    throw new BeanListOutOfBoundsException("Oops, you've keyed in an invalid Task index! (" + index + " of " + bl.getSize() + ")", index);
                 }
                 printString("Good Job! I'll mark the task as done!\n\n"
                      +
@@ -79,8 +87,7 @@ public class Bean {
                 if (str.length == 1) break;
                 index = Integer.parseInt(str[1]);
                 if (index <= 0 || index - 1 >= bl.getSize()) {
-                    printString("Oops, you've keyed in an invalid Task index!");
-                    break;
+                    throw new BeanListOutOfBoundsException("Oops, you've keyed in an invalid Task index! (" + index + " of " + bl.getSize() + ")", index);
                 }
                 printString("Awww, Okay! I'll unmark it!\n\n"
                      +
@@ -93,9 +100,8 @@ public class Bean {
                     sb.append(str[i] + " ");
                 }
                 if (sb.isEmpty()) {
-                    printString("Uh Oh! Invalid Syntax for todo!\n\n" +
-                            "Usage: todo \"TASK\"");
-                            return;
+                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for todo!\n\n" +
+                            "Usage: todo \"TASK\"", input);
 
                 }
                 bl.addTodo(sb.toString().trim());
@@ -106,16 +112,14 @@ public class Bean {
                 for (int i = 1; i < str.length; i++) {
                     if (str[i].equals("/from")) {
                         if (i+1 >= str.length) {
-                            printString("Uh Oh! Invalid Syntax for event!\n\n" +
-                                    "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"");
-                            return;
+                            throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n\n" +
+                                    "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
                         }
                         for (int j = i+1; j < str.length; j++) {
                             if (str[j].equals("/to")) {
                                 if (j+1 >= str.length) {
-                                    printString("Uh Oh! Invalid Syntax for event!\n\n" +
-                                            "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"");
-                                    return;
+                                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n\n" +
+                                            "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
                                 }
                                 for (int k = j+1; k <str.length; k++)  {
                                     to.append(str[k] + " ");
@@ -131,10 +135,22 @@ public class Bean {
                     }
                     sb.append(str[i] + " ");
                 }
-                if (from.isEmpty() || to.isEmpty()) {
-                    printString("Uh Oh! Invalid Syntax for event!\n\n" +
-                    "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"");
-                    return;
+                if (sb.isEmpty()) {
+                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n" +
+                                            "Event must have a name!\n\n" +
+                            "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
+
+                }
+                if (from.isEmpty()) {
+                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n" +
+                            "Event must have a from date!\n\n" +
+                            "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
+
+                }
+                if (to.isEmpty()) {
+                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n" +
+                            "Event must have a to date!\n\n" +
+                            "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
 
                 }
 
@@ -146,8 +162,8 @@ public class Bean {
                 for (int i = 1; i < str.length; i++) {
                     if (str[i].equals("/by")) {
                         if (i+1 >= str.length) {
-                            printString("Uh Oh! Invalid Syntax for deadline!");
-                            return;
+                            throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for deadline!\n\n" +
+                                    "Usage: deadline \"TASK\" /by \"DATE\"", input);
                         }
                         for (int j = i+1; j < str.length; j++) {
                             date.append(str[j] + " ");
@@ -158,10 +174,16 @@ public class Bean {
                     }
                     sb.append(str[i] + " ");
                 }
+                if (sb.isEmpty()) {
+                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for deadline!\n" +
+                            "Deadline must have a name!\n\n" +
+                            "Usage: deadline \"TASK\" /by \"DATE\"", input);
+
+                }
                 if (date.isEmpty()) {
-                    printString("Uh Oh! Invalid Syntax for deadline!\n\n" +
-                    "Usage: deadline \"TASK\" /by \"DATE\"");
-                    return;
+                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for deadline!\n" +
+                            "Deadline must have by date!\n\n" +
+                            "Usage: deadline \"TASK\" /by \"DATE\"", input);
 
                 }
                 bl.addDeadline(sb.toString().trim(), date.toString().trim());
@@ -170,13 +192,12 @@ public class Bean {
                 if (str.length == 1) break;
                 index = Integer.parseInt(str[1]);
                 if (index <= 0 || index - 1 >= bl.getSize()) {
-                    printString("Oops, you've keyed in an invalid Task index!");
-                    break;
+                    throw new BeanListOutOfBoundsException("Oops, you've keyed in an invalid Task index! (" + index + " of " + bl.getSize() + ")", index);
                 }
                 bl.deleteTask(index);
                 break;
             default:
-                printString("Sorry, I don't know what you mean. :<");
+                throw new UnknownCommandException("Sorry, I don't know what you mean. :<",input);
 
         }
 
