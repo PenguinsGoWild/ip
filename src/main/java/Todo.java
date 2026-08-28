@@ -6,7 +6,7 @@ public class Todo extends Task {
     }
     @Override
     public String toString() {
-        return this.tag + (this.done ? "[X] " : "[ ] ") + task;
+        return this.tag + (this.isDone ? "[X] " : "[ ] ") + task;
     }
     
 }

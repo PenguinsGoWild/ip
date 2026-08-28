@@ -11,14 +11,14 @@ public class Deadline extends Task {
         return this.date;
     }
 
-    public String get() {
-        return task + " (by: " + date + ")";
+    public String[] get() {
+        return new String[] {task, date};
 
     }
 
     @Override
     public String toString() {
-        return this.tag + (this.done ? "[X] " : "[ ] ") + task + " (by: " + date + ")";
+        return this.tag + (this.isDone ? "[X] " : "[ ] ") + task + " (by: " + date + ")";
     }
 
 }
