@@ -1,8 +1,10 @@
 package bean.command;
+
+/** Represents the commands understood by the application and their aliases. */
 public enum Commands {
-    EXIT ("exit", "q"),
-    LIST ("list", "ls"),
-    MARK ("mark"),
+    EXIT("exit", "q"),
+    LIST("list", "ls"),
+    MARK("mark"),
     UNMARK("unmark"),
     TODO("todo", "td"),
     DEADLINE("deadline", "dln"),
@@ -14,25 +16,17 @@ public enum Commands {
 
     Commands(String... names) {
         this.names = names;
-
     }
 
-    /**
-     * Matches string input to respective enum.
-     * 
-     * @param input Command input to be matched.
-     * 
-     */
+    /** Returns the command matching the given input, or {@link #NONE} when there is no match. */
     public static Commands match(String input) {
-        for (Commands cmd : Commands.values()) {
-            for (String name : cmd.names)  {
+        for (Commands command : Commands.values()) {
+            for (String name : command.names) {
                 if (name.equalsIgnoreCase(input)) {
-                    return cmd;
+                    return command;
                 }
             }
         }
         return NONE;
     }
-
-    
 }

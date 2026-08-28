@@ -1,10 +1,14 @@
 package bean.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/** Represents a task that occurs between two dates. */
 public class Event extends Task {
-    LocalDate from, to;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
+
+    private final LocalDate from;
+    private final LocalDate to;
 
     Event(String task, LocalDate from, LocalDate to) {
         super(task);
@@ -14,15 +18,15 @@ public class Event extends Task {
     }
 
     public String[] get() {
-        return new String[] {isDone ? "1" : "0", task, from.toString(),
-            to.toString()};
+        return new String[] { isDone ? "1" : "0", task, from.toString(),
+                to.toString() };
 
     }
 
     @Override
     public String toString() {
-        return this.tag + (this.isDone ? "[X] " : "[ ] ") + task + " (from: "
-            + from.format(formatter).toString() + " to: " + to.format(formatter).toString() + ")";
+        return tag + (isDone ? "[X] " : "[ ] ") + task + " (from: "
+                + from.format(DATE_FORMATTER) + " to: " + to.format(DATE_FORMATTER) + ")";
     }
 
 }
