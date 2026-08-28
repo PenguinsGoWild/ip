@@ -17,10 +17,10 @@ public class Event extends Task {
         this.to = to;
     }
 
+    @Override
     public String[] get() {
         return new String[] { isDone ? "1" : "0", task, from.toString(),
                 to.toString() };
-
     }
 
     @Override
@@ -28,5 +28,4 @@ public class Event extends Task {
         return tag + (isDone ? "[X] " : "[ ] ") + task + " (from: "
                 + from.format(DATE_FORMATTER) + " to: " + to.format(DATE_FORMATTER) + ")";
     }
-
 }

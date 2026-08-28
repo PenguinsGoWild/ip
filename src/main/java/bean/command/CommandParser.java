@@ -6,6 +6,7 @@ import bean.exception.InvalidSyntaxException;
 import bean.exception.UnknownCommandException;
 import bean.task.BeanList;
 import bean.ui.BeanInteraction;
+
 /** Parses and executes commands entered by the user. */
 public class CommandParser {
 
@@ -105,7 +106,8 @@ public class CommandParser {
                             + "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
                 }
 
-                taskList.addEvent(taskName.toString().trim(), from.toString().trim(), to.toString().trim());
+                taskList.addEvent(taskName.toString().trim(), from.toString().trim(),
+                        to.toString().trim());
                 break;
             case DEADLINE:
                 StringBuilder date = new StringBuilder();
@@ -147,21 +149,19 @@ public class CommandParser {
                 }
                 taskList.deleteTask(index);
                 break;
-           case FIND:
-                for (int i = 1; i < str.length; i++) {
-                    sb.append(str[i] + " ");
+            case FIND:
+                for (int i = 1; i < words.length; i++) {
+                    taskName.append(words[i]).append(" ");
                 }
 
-                if (sb.isEmpty()) {
-                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for find!\n\n" +
-                            "Usage: find \"KEYWORD\"", input);
-
+                if (taskName.isEmpty()) {
+                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for find!\n\n"
+                            + "Usage: find \"KEYWORD\"", input);
                 }
-                bl.findTasks(sb.toString().trim());
+                taskList.findTasks(taskName.toString().trim());
                 break;
             default:
                 throw new UnknownCommandException("Sorry, I don't know what you mean. :<", input);
-
         }
     }
 }

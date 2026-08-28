@@ -19,14 +19,14 @@ public class Deadline extends Task {
         return date.format(DATE_FORMATTER);
     }
 
+    @Override
     public String[] get() {
         return new String[] { isDone ? "1" : "0", task, date.toString() };
-
     }
 
     @Override
     public String toString() {
-        return tag + (isDone ? "[X] " : "[ ] ") + task + " (by: " + date.format(DATE_FORMATTER) + ")";
+        return tag + (isDone ? "[X] " : "[ ] ") + task + " (by: "
+                + date.format(DATE_FORMATTER) + ")";
     }
-
 }

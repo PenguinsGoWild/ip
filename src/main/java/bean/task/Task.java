@@ -1,5 +1,6 @@
 package bean.task;
 
+/** Represents the state and common behaviour of a task. */
 class Task {
     protected String task;
     protected String tag = "";
@@ -17,20 +18,19 @@ class Task {
     /** Marks the task as complete. */
     public void markDone() {
         this.isDone = true;
-
     }
+
     /** Marks the task as incomplete. */
     public void unmarkDone() {
         this.isDone = false;
-
     }
 
     public boolean isDone() {
         return this.isDone;
     }
+
     /** Returns the task fields in a format suitable for storage. */
     public String[] get() {
         return new String[] { isDone ? "1" : "0", task };
     }
-
 }
