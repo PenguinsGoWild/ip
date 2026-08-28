@@ -1,3 +1,4 @@
+package bean.ui;
 public class BeanInteraction {
 
     /**

@@ -1,3 +1,4 @@
+package bean.exception;
 
 public class InvalidSyntaxException extends RuntimeException {
     

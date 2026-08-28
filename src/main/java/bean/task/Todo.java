@@ -1,3 +1,5 @@
+package bean.task;
+
 public class Todo extends Task {
 
     Todo(String task) {

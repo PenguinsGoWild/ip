@@ -1,3 +1,12 @@
+package bean.command;
+
+import bean.exception.BeanListOutOfBoundsException;
+import bean.exception.InvalidSyntaxException;
+import bean.exception.UnknownCommandException;
+import bean.task.BeanList;
+import bean.ui.BeanInteraction;
+import bean.Bean;
+
 public class CommandParser {
 
     public static void getCommand(String input, BeanList bl) {

@@ -1,13 +1,16 @@
+package bean.task;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import bean.ui.BeanInteraction;
+
 public class BeanList {
     private ArrayList<Task> ls;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
-    BeanList () {
+    public BeanList () {
         this.ls = new ArrayList<Task>();
 
     }

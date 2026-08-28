@@ -1,3 +1,5 @@
+package bean.storage;
+
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -6,6 +8,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.File;
 import java.time.format.DateTimeParseException;
+
+import bean.task.BeanList;
+import bean.exception.InvalidMemoryDataException;
 
 public class MemoryHandler {
     private String path;
@@ -18,7 +23,7 @@ public class MemoryHandler {
     public static final String TASK_UNMARKED = "0";
     public static final String TASK_MARKED = "1";
 
-    MemoryHandler(String path) {
+    public MemoryHandler(String path) {
         this.path = path;
 
 

@@ -1,3 +1,4 @@
+package bean.task;
 class Task {
     String task;
     String tag = "";

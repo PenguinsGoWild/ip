@@ -1,3 +1,4 @@
+package bean.command;
 public enum Commands {
     EXIT ("exit", "q"),
     LIST ("list", "ls"),

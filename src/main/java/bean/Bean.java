@@ -1,10 +1,20 @@
+package bean;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
+import bean.storage.MemoryHandler;
+import bean.command.CommandParser;
+import bean.exception.BeanListOutOfBoundsException;
+import bean.exception.InvalidSyntaxException;
+import bean.exception.UnknownCommandException;
+import bean.task.BeanList;
+import bean.ui.BeanInteraction;
+
 import java.io.IOException;
 
 public class Bean {
     private static BeanList bl = new BeanList();
-    private static MemoryHandler mh = new MemoryHandler("./src/main/java/memory.txt");
+    private static MemoryHandler mh = new MemoryHandler("./memory.txt");
     private static boolean isTerminated = false;
 
     public static void main(String[] args) {

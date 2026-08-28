@@ -1,3 +1,4 @@
+package bean.exception;
 public class InvalidMemoryDataException extends RuntimeException {
     
     private final String invalidMemory;

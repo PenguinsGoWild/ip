@@ -1,3 +1,4 @@
+package bean.exception;
 public class BeanListOutOfBoundsException extends RuntimeException {
     
     private final int invalidIndex;
