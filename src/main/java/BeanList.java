@@ -36,7 +36,7 @@ public class BeanList {
             this.ls.add(new Deadline(task, parsedDate));
             printAddTask("[D][ ] " + task + " (by: " + parsedDate.format(formatter).toString() + ")");
         } catch (DateTimeParseException e) {
-            Bean.printString("Woah! You tried keying in a wrong date format!\n" +
+            BeanInteraction.printString("Woah! You tried keying in a wrong date format!\n" +
                 "Try the format yyyy-mm-dd!"
             );
         }
@@ -58,7 +58,7 @@ public class BeanList {
             printAddTask("[E][ ] " + task + " (from: " + parsedFrom.format(formatter).toString()
                 + " to: " + parsedTo.format(formatter).toString() + ")");
         } catch (DateTimeParseException e) {
-            Bean.printString("Woah! You tried keying in a wrong date format!\n" +
+            BeanInteraction.printString("Woah! You tried keying in a wrong date format!\n" +
                 "Try the format yyyy-mm-dd!"
             );
         }
@@ -154,7 +154,7 @@ public class BeanList {
     public void deleteTask(int i) {
         if (i <= 0) return;
         if (i-1>= this.ls.size()) return;
-        Bean.printString("Alrighty! I've removed the following task:\n\n"
+        BeanInteraction.printString("Alrighty! I've removed the following task:\n\n"
             + ls.get(i-1).toString() + "\n\n" +
             "Now you have " + this.ls.size() + " tasks in the list."
         );
@@ -197,7 +197,7 @@ public class BeanList {
             sb.append((i+1) + ". " + task.toString());
         }
 
-        Bean.printString("Here are the tasks in your list:\n\n" + sb.toString());
+        BeanInteraction.printString("Here are the tasks in your list:\n\n" + sb.toString());
 
     }
 
@@ -207,7 +207,7 @@ public class BeanList {
      * @param s Message to be printed
      */
     private void printAddTask(String s) {
-        Bean.printString("Alrighty! I've added the following task:\n\n"
+        BeanInteraction.printString("Alrighty! I've added the following task:\n\n"
             + s + "\n\n" +
             "Now you have " + this.ls.size() + " tasks in the list."
         );
