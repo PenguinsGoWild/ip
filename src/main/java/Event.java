@@ -1,6 +1,11 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
-    String from, to;
-    Event(String task, String from, String to) {
+    LocalDate from, to;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+
+    Event(String task, LocalDate from, LocalDate to) {
         super(task);
         this.tag = "[E]";
         this.from = from;
@@ -8,13 +13,15 @@ public class Event extends Task {
     }
 
     public String[] get() {
-        return new String[] {isDone ? "1" : "0", task, from, to};
+        return new String[] {isDone ? "1" : "0", task, from.toString(),
+            to.toString()};
 
     }
 
     @Override
     public String toString() {
-        return this.tag + (this.isDone ? "[X] " : "[ ] ") + task + " (from: " + from + " to: " + to + ")";
+        return this.tag + (this.isDone ? "[X] " : "[ ] ") + task + " (from: "
+            + from.format(formatter).toString() + " to: " + to.format(formatter).toString() + ")";
     }
 
 }

@@ -1,8 +1,11 @@
-
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class BeanList {
     private ArrayList<Task> ls;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
     BeanList () {
         this.ls = new ArrayList<Task>();
@@ -28,8 +31,15 @@ public class BeanList {
      * @param date By date.
      */
     public void addDeadline(String task, String date) {
-        this.ls.add(new Deadline(task, date));
-        printAddTask("[D][ ] " + task + " (by: " + date + ")");
+        try {
+            LocalDate parsedDate = LocalDate.parse(date);
+            this.ls.add(new Deadline(task, parsedDate));
+            printAddTask("[D][ ] " + task + " (by: " + parsedDate.format(formatter).toString() + ")");
+        } catch (DateTimeParseException e) {
+            Bean.printString("Woah! You tried keying in a wrong date format!\n" +
+                "Try the format yyyy-mm-dd!"
+            );
+        }
 
     }
 
@@ -41,8 +51,17 @@ public class BeanList {
      * @param to To date.
      */
     public void addEvent(String task, String from, String to) {
-        this.ls.add(new Event(task, from, to));
-        printAddTask("[E][ ] " + task + " (from: " + from + " to: " + to + ")");
+        try {
+            LocalDate parsedFrom = LocalDate.parse(from);
+            LocalDate parsedTo = LocalDate.parse(to);
+            this.ls.add(new Event(task, parsedFrom, parsedTo));
+            printAddTask("[E][ ] " + task + " (from: " + parsedFrom.format(formatter).toString()
+                + " to: " + parsedTo.format(formatter).toString() + ")");
+        } catch (DateTimeParseException e) {
+            Bean.printString("Woah! You tried keying in a wrong date format!\n" +
+                "Try the format yyyy-mm-dd!"
+            );
+        }
 
     }
 
@@ -65,7 +84,8 @@ public class BeanList {
      * @param date By date.
      */
     public void addDeadlineSilent(String task, String date) {
-        this.ls.add(new Deadline(task, date));
+            LocalDate parsedDate = LocalDate.parse(date);
+            this.ls.add(new Deadline(task, parsedDate));
 
     }
 
@@ -78,7 +98,9 @@ public class BeanList {
      * @param to To date.
      */
     public void addEventSilent(String task, String from, String to) {
-        this.ls.add(new Event(task, from, to));
+        LocalDate parsedFrom = LocalDate.parse(from);
+        LocalDate parsedTo = LocalDate.parse(to);
+        this.ls.add(new Event(task, parsedFrom, parsedTo));
 
     }
 

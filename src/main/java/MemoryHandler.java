@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.File;
+import java.time.format.DateTimeParseException;
 
 public class MemoryHandler {
     private String path;
@@ -91,13 +92,16 @@ public class MemoryHandler {
             } catch (IOException e2) {
                 System.out.println("An error occurred when trying to create memory file!");
                 e2.printStackTrace();
-            }
-
-
+            } 
         } catch (IOException e) {
             System.out.println(e.getMessage());
 
-        } 
+        } catch (DateTimeParseException e) {
+            System.out.println("Warning: Data format in memory is incorrect! Skipping line!");
+
+        }
+
+
     }
 
     public void writeMemory(BeanList bl) {
