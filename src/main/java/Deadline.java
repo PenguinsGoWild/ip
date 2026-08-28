@@ -12,7 +12,7 @@ public class Deadline extends Task {
     }
 
     public String[] get() {
-        return new String[] {task, date};
+        return new String[] {isDone ? "1" : "0", task, date};
 
     }
 

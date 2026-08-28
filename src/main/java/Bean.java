@@ -5,11 +5,14 @@ import java.io.IOException;
 public class Bean {
     static boolean terminateProgram = false;
     private static BeanList bl = new BeanList();
+    private static MemoryHandler mh = new MemoryHandler("./src/main/memory.txt");
 
     public static void main(String[] args) {
+        mh.readMemory(bl);
         intro();
         String input = "";
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         while (!terminateProgram) {
             try {
                 System.out.print(">>> ");
@@ -55,6 +58,7 @@ public class Bean {
     private static void outro() {
         String goodbye = "Bye bye! Hope to see you again soon!";
         printString(goodbye);
+        mh.writeMemory(bl);
         terminateProgram = true;
 
     }

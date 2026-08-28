@@ -14,27 +14,82 @@ public class BeanList {
     }
 
     public String getTaskName(int i) {
-        return this.ls.get(i-1).get();
+        return this.ls.get(i-1).get()[1];
     }
 
     public int getSize() {
         return this.ls.size();
     }
 
+    /**
+     * Adds a new Deadline task at the end of the list.
+     * 
+     * @param task Task name.
+     * @param date By date.
+     */
     public void addDeadline(String task, String date) {
         this.ls.add(new Deadline(task, date));
         printAddTask("[D][ ] " + task + " (by: " + date + ")");
 
     }
+
+    /**
+     * Adds a new Event task at the end of the list.
+     * 
+     * @param task Task name.
+     * @param from From date.
+     * @param to To date.
+     */
     public void addEvent(String task, String from, String to) {
         this.ls.add(new Event(task, from, to));
         printAddTask("[E][ ] " + task + " (from: " + from + " to: " + to + ")");
 
     }
 
+    /**
+     * Adds a new Todo task at the end of the list.
+     * 
+     * @param task Task name.
+     */
     public void addTodo(String task) {
         this.ls.add(new Todo(task));
         printAddTask("[T][ ] " + task);
+
+    }
+
+    /**
+     * Adds a new Deadline task at the end of the list silently.
+     * For memory usage.
+     * 
+     * @param task Task name.
+     * @param date By date.
+     */
+    public void addDeadlineSilent(String task, String date) {
+        this.ls.add(new Deadline(task, date));
+
+    }
+
+    /**
+     * Adds a new Event task at the end of the list silently.
+     * For memory usage.
+     * 
+     * @param task Task name.
+     * @param from From date.
+     * @param to To date.
+     */
+    public void addEventSilent(String task, String from, String to) {
+        this.ls.add(new Event(task, from, to));
+
+    }
+
+    /**
+     * Adds a new Todo task at the end of the list silently.
+     * For memory usage.
+     * 
+     * @param task Task name.
+     */
+    public void addTodoSilent(String task) {
+        this.ls.add(new Todo(task));
 
     }
 
@@ -84,6 +139,28 @@ public class BeanList {
         this.ls.remove(i-1);
     }
 
+    /**
+     * Formats tasks into suitable format for writing to memory.
+     * 
+     * @param i Index i..
+     * @return formatted string.
+     */
+    public String formatTask(int i) {
+        Task task = this.ls.get(i);
+        String[] args = task.get();
+        switch (task.getTag()) {
+            case "[T]":
+                return "0" + "|" + args[0] + "|" + args[1];
+            case "[D]":
+                return "1" + "|" + args[0] + "|" + args[1] + "|" + args[2];
+            case "[E]":
+                return "2" + "|" + args[0] + "|" + args[1] + "|" + args[2] + "|" + args[3];
+
+        }
+        return "";
+
+    }
+
     /** 
      * Displays all the tasks currently in the list.
      * 
@@ -95,7 +172,7 @@ public class BeanList {
             Task task = this.ls.get(i);
             if (i != 0)
                 sb.append("\n");
-            sb.append((i+1) + ". " + task.getTag() + "["+ (task.isDone() ? "X" : " ") + "] " + task.get());
+            sb.append((i+1) + ". " + task.toString());
         }
 
         Bean.printString("Here are the tasks in your list:\n\n" + sb.toString());

@@ -7,14 +7,14 @@ public class Event extends Task {
         this.to = to;
     }
 
-    public String get() {
-        return task + " (from: " + from + " to: " + to + ")";
+    public String[] get() {
+        return new String[] {isDone ? "1" : "0", task, from, to};
 
     }
 
     @Override
     public String toString() {
-        return this.tag + (this.done ? "[X] " : "[ ] ") + task + " (from: " + from + " to: " + to + ")";
+        return this.tag + (this.isDone ? "[X] " : "[ ] ") + task + " (from: " + from + " to: " + to + ")";
     }
 
 }
