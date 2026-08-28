@@ -1,4 +1,5 @@
 package bean;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -52,6 +53,5 @@ public class Bean {
     public static void terminate() {
         isTerminated = true;
     }
-
 
 }

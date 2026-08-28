@@ -22,28 +22,32 @@ public class CommandParser {
                 bl.displayTasks();
                 break;
             case Commands.MARK:
-                if (str.length == 1) break;
+                if (str.length == 1)
+                    break;
                 index = Integer.parseInt(str[1]);
                 if (index <= 0 || index - 1 >= bl.getSize()) {
-                    throw new BeanListOutOfBoundsException("Oops, you've keyed in an invalid Task index! (" + index + " of " + bl.getSize() + ")", index);
+                    throw new BeanListOutOfBoundsException(
+                            "Oops, you've keyed in an invalid Task index! (" + index + " of " + bl.getSize() + ")",
+                            index);
                 }
                 BeanInteraction.printString("Good Job! I'll mark the task as done!\n\n"
-                     +
-                     " "+ bl.getTaskTag(index) + "[X] " + bl.getTaskName(index)
-                );
+                        +
+                        " " + bl.getTaskTag(index) + "[X] " + bl.getTaskName(index));
 
                 bl.markTask(index);
                 break;
             case Commands.UNMARK:
-                if (str.length == 1) break;
+                if (str.length == 1)
+                    break;
                 index = Integer.parseInt(str[1]);
                 if (index <= 0 || index - 1 >= bl.getSize()) {
-                    throw new BeanListOutOfBoundsException("Oops, you've keyed in an invalid Task index! (" + index + " of " + bl.getSize() + ")", index);
+                    throw new BeanListOutOfBoundsException(
+                            "Oops, you've keyed in an invalid Task index! (" + index + " of " + bl.getSize() + ")",
+                            index);
                 }
                 BeanInteraction.printString("Awww, Okay! I'll unmark it!\n\n"
-                     +
-                     " " + bl.getTaskTag(index) + "[ ] " + bl.getTaskName(index)
-                );
+                        +
+                        " " + bl.getTaskTag(index) + "[ ] " + bl.getTaskName(index));
                 bl.unmarkTask(index);
                 break;
             case Commands.TODO:
@@ -62,17 +66,17 @@ public class CommandParser {
                 StringBuilder to = new StringBuilder();
                 for (int i = 1; i < str.length; i++) {
                     if (str[i].equals("/from")) {
-                        if (i+1 >= str.length) {
+                        if (i + 1 >= str.length) {
                             throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n\n" +
                                     "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
                         }
-                        for (int j = i+1; j < str.length; j++) {
+                        for (int j = i + 1; j < str.length; j++) {
                             if (str[j].equals("/to")) {
-                                if (j+1 >= str.length) {
+                                if (j + 1 >= str.length) {
                                     throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n\n" +
                                             "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
                                 }
-                                for (int k = j+1; k <str.length; k++)  {
+                                for (int k = j + 1; k < str.length; k++) {
                                     to.append(str[k] + " ");
                                 }
                                 break;
@@ -88,7 +92,7 @@ public class CommandParser {
                 }
                 if (sb.isEmpty()) {
                     throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n" +
-                                            "Event must have a name!\n\n" +
+                            "Event must have a name!\n\n" +
                             "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
 
                 }
@@ -105,18 +109,17 @@ public class CommandParser {
 
                 }
 
-
                 bl.addEvent(sb.toString().trim(), from.toString().trim(), to.toString().trim());
                 break;
             case Commands.DEADLINE:
                 StringBuilder date = new StringBuilder();
                 for (int i = 1; i < str.length; i++) {
                     if (str[i].equals("/by")) {
-                        if (i+1 >= str.length) {
+                        if (i + 1 >= str.length) {
                             throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for deadline!\n\n" +
                                     "Usage: deadline \"TASK\" /by \"DATE\"", input);
                         }
-                        for (int j = i+1; j < str.length; j++) {
+                        for (int j = i + 1; j < str.length; j++) {
                             date.append(str[j] + " ");
 
                         }
@@ -140,18 +143,21 @@ public class CommandParser {
                 bl.addDeadline(sb.toString().trim(), date.toString().trim());
                 break;
             case Commands.DELETE:
-                if (str.length == 1) break;
+                if (str.length == 1)
+                    break;
                 index = Integer.parseInt(str[1]);
                 if (index <= 0 || index - 1 >= bl.getSize()) {
-                    throw new BeanListOutOfBoundsException("Oops, you've keyed in an invalid Task index! (" + index + " of " + bl.getSize() + ")", index);
+                    throw new BeanListOutOfBoundsException(
+                            "Oops, you've keyed in an invalid Task index! (" + index + " of " + bl.getSize() + ")",
+                            index);
                 }
                 bl.deleteTask(index);
                 break;
             default:
-                throw new UnknownCommandException("Sorry, I don't know what you mean. :<",input);
+                throw new UnknownCommandException("Sorry, I don't know what you mean. :<", input);
 
         }
 
     }
-    
+
 }

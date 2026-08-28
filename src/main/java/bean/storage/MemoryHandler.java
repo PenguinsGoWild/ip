@@ -26,7 +26,6 @@ public class MemoryHandler {
     public MemoryHandler(String path) {
         this.path = path;
 
-
     }
 
     public void readMemory(BeanList bl) {
@@ -47,7 +46,7 @@ public class MemoryHandler {
                     }
                     if (vars[2].isBlank()) {
                         throw new InvalidMemoryDataException("Warning: Invalid Data! "
-                            + "Name cannot be blank!", line);
+                                + "Name cannot be blank!", line);
                     }
 
                     switch (vars[0]) {
@@ -78,7 +77,6 @@ public class MemoryHandler {
                         bl.markTask(bl.getSize());
                     }
 
-
                 } catch (InvalidMemoryDataException e) {
                     System.out.println(e.getMessage());
                 }
@@ -93,11 +91,11 @@ public class MemoryHandler {
                 if (file.createNewFile()) {
                     System.out.println("File successfully created: " + file.getName());
                 }
-                
+
             } catch (IOException e2) {
                 System.out.println("An error occurred when trying to create memory file!");
                 e2.printStackTrace();
-            } 
+            }
         } catch (IOException e) {
             System.out.println(e.getMessage());
 
@@ -105,7 +103,6 @@ public class MemoryHandler {
             System.out.println("Warning: Data format in memory is incorrect! Skipping line!");
 
         }
-
 
     }
 
@@ -127,6 +124,4 @@ public class MemoryHandler {
 
     }
 
-
-    
 }

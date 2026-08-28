@@ -1,7 +1,7 @@
 package bean.exception;
 
 public class InvalidSyntaxException extends RuntimeException {
-    
+
     private final String invalidSyntax;
 
     public InvalidSyntaxException(String message, String invalidSyntax) {

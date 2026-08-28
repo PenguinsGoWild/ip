@@ -1,4 +1,5 @@
 package bean.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.format.DateTimeFormatter;
@@ -10,17 +11,17 @@ public class BeanList {
     private ArrayList<Task> ls;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
-    public BeanList () {
+    public BeanList() {
         this.ls = new ArrayList<Task>();
 
     }
 
     public String getTaskTag(int i) {
-        return this.ls.get(i-1).getTag();
+        return this.ls.get(i - 1).getTag();
     }
 
     public String getTaskName(int i) {
-        return this.ls.get(i-1).get()[1];
+        return this.ls.get(i - 1).get()[1];
     }
 
     public int getSize() {
@@ -40,8 +41,7 @@ public class BeanList {
             printAddTask("[D][ ] " + task + " (by: " + parsedDate.format(formatter).toString() + ")");
         } catch (DateTimeParseException e) {
             BeanInteraction.printString("Woah! You tried keying in a wrong date format!\n" +
-                "Try the format yyyy-mm-dd!"
-            );
+                    "Try the format yyyy-mm-dd!");
         }
 
     }
@@ -51,7 +51,7 @@ public class BeanList {
      * 
      * @param task Task name.
      * @param from From date.
-     * @param to To date.
+     * @param to   To date.
      */
     public void addEvent(String task, String from, String to) {
         try {
@@ -59,11 +59,10 @@ public class BeanList {
             LocalDate parsedTo = LocalDate.parse(to);
             this.ls.add(new Event(task, parsedFrom, parsedTo));
             printAddTask("[E][ ] " + task + " (from: " + parsedFrom.format(formatter).toString()
-                + " to: " + parsedTo.format(formatter).toString() + ")");
+                    + " to: " + parsedTo.format(formatter).toString() + ")");
         } catch (DateTimeParseException e) {
             BeanInteraction.printString("Woah! You tried keying in a wrong date format!\n" +
-                "Try the format yyyy-mm-dd!"
-            );
+                    "Try the format yyyy-mm-dd!");
         }
 
     }
@@ -87,8 +86,8 @@ public class BeanList {
      * @param date By date.
      */
     public void addDeadlineSilent(String task, String date) {
-            LocalDate parsedDate = LocalDate.parse(date);
-            this.ls.add(new Deadline(task, parsedDate));
+        LocalDate parsedDate = LocalDate.parse(date);
+        this.ls.add(new Deadline(task, parsedDate));
 
     }
 
@@ -98,7 +97,7 @@ public class BeanList {
      * 
      * @param task Task name.
      * @param from From date.
-     * @param to To date.
+     * @param to   To date.
      */
     public void addEventSilent(String task, String from, String to) {
         LocalDate parsedFrom = LocalDate.parse(from);
@@ -124,12 +123,14 @@ public class BeanList {
      * @param i Index of task.
      */
     public void markTask(int i) {
-        if (i <= 0) return;
-        if (i-1>= this.ls.size()) return;
+        if (i <= 0)
+            return;
+        if (i - 1 >= this.ls.size())
+            return;
 
-        Task task = this.ls.get(i-1);
+        Task task = this.ls.get(i - 1);
         task.markDone();
-        this.ls.set(i-1, task);
+        this.ls.set(i - 1, task);
 
     }
 
@@ -139,15 +140,16 @@ public class BeanList {
      * @param i Index of task.
      */
     public void unmarkTask(int i) {
-        if (i <= 0) return;
-        if (i-1>= this.ls.size()) return;
+        if (i <= 0)
+            return;
+        if (i - 1 >= this.ls.size())
+            return;
 
-        Task task = this.ls.get(i-1);
+        Task task = this.ls.get(i - 1);
         task.unmarkDone();
-        this.ls.set(i-1, task);
+        this.ls.set(i - 1, task);
 
     }
-
 
     /**
      * Deletes task from the list at index i.
@@ -155,13 +157,14 @@ public class BeanList {
      * @param i Index of task.
      */
     public void deleteTask(int i) {
-        if (i <= 0) return;
-        if (i-1>= this.ls.size()) return;
+        if (i <= 0)
+            return;
+        if (i - 1 >= this.ls.size())
+            return;
         BeanInteraction.printString("Alrighty! I've removed the following task:\n\n"
-            + ls.get(i-1).toString() + "\n\n" +
-            "Now you have " + this.ls.size() + " tasks in the list."
-        );
-        this.ls.remove(i-1);
+                + ls.get(i - 1).toString() + "\n\n" +
+                "Now you have " + this.ls.size() + " tasks in the list.");
+        this.ls.remove(i - 1);
     }
 
     /**
@@ -186,10 +189,10 @@ public class BeanList {
 
     }
 
-    /** 
+    /**
      * Displays all the tasks currently in the list.
      * 
-    **/
+     **/
     public void displayTasks() {
         StringBuilder sb = new StringBuilder();
 
@@ -197,7 +200,7 @@ public class BeanList {
             Task task = this.ls.get(i);
             if (i != 0)
                 sb.append("\n");
-            sb.append((i+1) + ". " + task.toString());
+            sb.append((i + 1) + ". " + task.toString());
         }
 
         BeanInteraction.printString("Here are the tasks in your list:\n\n" + sb.toString());
@@ -211,10 +214,9 @@ public class BeanList {
      */
     private void printAddTask(String s) {
         BeanInteraction.printString("Alrighty! I've added the following task:\n\n"
-            + s + "\n\n" +
-            "Now you have " + this.ls.size() + " tasks in the list."
-        );
+                + s + "\n\n" +
+                "Now you have " + this.ls.size() + " tasks in the list.");
 
     }
-    
+
 }

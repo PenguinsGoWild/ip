@@ -1,6 +1,7 @@
 package bean.exception;
+
 public class InvalidMemoryDataException extends RuntimeException {
-    
+
     private final String invalidMemory;
 
     public InvalidMemoryDataException(String message, String invalidMemory) {
@@ -10,8 +11,7 @@ public class InvalidMemoryDataException extends RuntimeException {
 
     public InvalidMemoryDataException(String invalidMemory) {
         super("Warning: Invalid Memory Data!"
-            + "Data should only have integers, \'|\' and Strings! No spaces are allowed!"
-        );
+                + "Data should only have integers, \'|\' and Strings! No spaces are allowed!");
         this.invalidMemory = invalidMemory;
     }
 

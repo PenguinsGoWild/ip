@@ -1,8 +1,9 @@
 package bean.command;
+
 public enum Commands {
-    EXIT ("exit", "q"),
-    LIST ("list", "ls"),
-    MARK ("mark"),
+    EXIT("exit", "q"),
+    LIST("list", "ls"),
+    MARK("mark"),
     UNMARK("unmark"),
     TODO("todo", "td"),
     DEADLINE("deadline", "dln"),
@@ -19,7 +20,7 @@ public enum Commands {
 
     public static Commands match(String input) {
         for (Commands cmd : Commands.values()) {
-            for (String name : cmd.names)  {
+            for (String name : cmd.names) {
                 if (name.equalsIgnoreCase(input)) {
                     return cmd;
                 }
@@ -28,5 +29,4 @@ public enum Commands {
         return NONE;
     }
 
-    
 }

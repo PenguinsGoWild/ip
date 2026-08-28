@@ -1,4 +1,5 @@
 package bean.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -14,15 +15,15 @@ public class Event extends Task {
     }
 
     public String[] get() {
-        return new String[] {isDone ? "1" : "0", task, from.toString(),
-            to.toString()};
+        return new String[] { isDone ? "1" : "0", task, from.toString(),
+                to.toString() };
 
     }
 
     @Override
     public String toString() {
         return this.tag + (this.isDone ? "[X] " : "[ ] ") + task + " (from: "
-            + from.format(formatter).toString() + " to: " + to.format(formatter).toString() + ")";
+                + from.format(formatter).toString() + " to: " + to.format(formatter).toString() + ")";
     }
 
 }

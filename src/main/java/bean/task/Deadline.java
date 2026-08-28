@@ -1,10 +1,12 @@
 package bean.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
     LocalDate date = LocalDate.parse("1900-01-01");
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
+
     Deadline(String task, LocalDate date) {
         super(task);
         this.tag = "[D]";
@@ -17,7 +19,7 @@ public class Deadline extends Task {
     }
 
     public String[] get() {
-        return new String[] {isDone ? "1" : "0", task, this.date.toString()};
+        return new String[] { isDone ? "1" : "0", task, this.date.toString() };
 
     }
 

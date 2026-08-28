@@ -1,13 +1,16 @@
 package bean.task;
+
 class Task {
     String task;
     String tag = "";
     boolean isDone;
+
     Task(String task) {
         this.task = task;
         isDone = false;
 
     }
+
     public String getTag() {
         return this.tag;
     }
@@ -20,7 +23,7 @@ class Task {
         this.isDone = true;
 
     }
-    
+
     /**
      * Marks task as incomplete.
      * 
@@ -39,7 +42,7 @@ class Task {
      * 
      */
     public String[] get() {
-        return new String[] {isDone ? "1" : "0", this.task};
+        return new String[] { isDone ? "1" : "0", this.task };
     }
 
 }

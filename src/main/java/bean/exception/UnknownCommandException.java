@@ -1,6 +1,7 @@
 package bean.exception;
+
 public class UnknownCommandException extends RuntimeException {
-    
+
     private final String invalidCommand;
 
     public UnknownCommandException(String message, String invalidCommand) {
