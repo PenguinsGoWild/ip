@@ -1,7 +1,7 @@
 class Task {
     String task;
     String tag = "";
-    boolean done;
+    boolean isDone;
     Task(String task) {
         this.task = task;
         done = false;
@@ -12,17 +12,17 @@ class Task {
     }
 
     public void markDone() {
-        this.done = true;
+        this.isDone = true;
 
     }
     
     public void unmarkDone() {
-        this.done = false;
+        this.isDone = false;
 
     }
 
     public boolean isDone() {
-        return this.done;
+        return this.isDone;
     }
 
     public String get() {
