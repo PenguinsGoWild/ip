@@ -4,6 +4,7 @@
 /*.iml
 
 # Gradle build files
+/.gradle-user-home
 /.gradle/
 /build/
 src/main/resources/docs/
@@ -23,3 +24,4 @@ text-ui-test/EXPECTED-UNIX.TXT
 
 memory.txt
 .vscode
+debug.log
