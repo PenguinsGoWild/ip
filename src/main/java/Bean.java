@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Bean {
     private static BeanList bl = new BeanList();
-    private static MemoryHandler mh = new MemoryHandler("./src/main/memory.txt");
+    private static MemoryHandler mh = new MemoryHandler("./src/main/java/memory.txt");
     private static boolean isTerminated = false;
 
     public static void main(String[] args) {
@@ -42,9 +42,6 @@ public class Bean {
     public static void terminate() {
         isTerminated = true;
     }
-
-
-
 
 
 }
