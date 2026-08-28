@@ -147,6 +147,18 @@ public class CommandParser {
                 }
                 bl.deleteTask(index);
                 break;
+           case FIND:
+                for (int i = 1; i < str.length; i++) {
+                    sb.append(str[i] + " ");
+                }
+
+                if (sb.isEmpty()) {
+                    throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for find!\n\n" +
+                            "Usage: find \"KEYWORD\"", input);
+
+                }
+                bl.findTasks(sb.toString().trim());
+                break;
             default:
                 throw new UnknownCommandException("Sorry, I don't know what you mean. :<",input);
 

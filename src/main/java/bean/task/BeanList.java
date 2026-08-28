@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import bean.ui.BeanInteraction;
 
@@ -196,6 +198,28 @@ public class BeanList {
         for (int i = 0; i < this.ls.size(); i++) {
             Task task = this.ls.get(i);
             if (i != 0)
+                sb.append("\n");
+            sb.append((i+1) + ". " + task.toString());
+        }
+
+        BeanInteraction.printString("Here are the tasks in your list:\n\n" + sb.toString());
+
+    }
+
+    /** 
+     * Finds and displays the tasks currently in the list that match the string.
+     * 
+    **/
+    public void findTasks (String regex) {
+        Pattern pattern = Pattern.compile(regex);
+
+        StringBuilder sb = new StringBuilder();
+        List<Task> newList = ls.stream().filter(x -> pattern.matcher(x.get()[1]).find())
+            .toList();
+
+        for (int i = 0; i < newList.size(); i++) {
+            Task task = newList.get(i);
+            if (i != 0) 
                 sb.append("\n");
             sb.append((i+1) + ". " + task.toString());
         }

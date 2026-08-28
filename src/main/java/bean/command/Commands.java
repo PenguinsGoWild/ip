@@ -8,6 +8,7 @@ public enum Commands {
     DEADLINE("deadline", "dln"),
     EVENT("event", "evt"),
     DELETE("delete", "del"),
+    FIND("find", "f"),
     NONE;
 
     private final String[] names;
