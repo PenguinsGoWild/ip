@@ -29,6 +29,11 @@ public class MemoryHandler {
 
     }
 
+    /**
+     * Reads memory from path and writes to BeanList buffer.
+     * 
+     * @param bl List that stores tasks.
+     */
     public void readMemory(BeanList bl) {
         try {
             br = new BufferedReader(new FileReader(path));
@@ -109,6 +114,11 @@ public class MemoryHandler {
 
     }
 
+    /**
+     * Writes the BeanList buffer back into memory.
+     * 
+     * @param bl List that stores tasks.
+     */
     public void writeMemory(BeanList bl) {
         try {
             pw = new PrintWriter(new FileWriter(path));

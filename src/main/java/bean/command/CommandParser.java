@@ -9,6 +9,12 @@ import bean.Bean;
 
 public class CommandParser {
 
+    /**
+     * Parses the input commands and executes the matched command.
+     * 
+     * @param input Input command.
+     * @param bl Bean List to be updated if needed.
+     */
     public static void getCommand(String input, BeanList bl) {
         String[] str = input.split(" ");
         StringBuilder sb = new StringBuilder();

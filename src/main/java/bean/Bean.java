@@ -49,6 +49,10 @@ public class Bean {
 
     }
 
+    /**
+     * Sets isTerminated boolean to true.
+     * 
+     */
     public static void terminate() {
         isTerminated = true;
     }

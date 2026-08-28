@@ -17,6 +17,12 @@ public enum Commands {
 
     }
 
+    /**
+     * Matches string input to respective enum.
+     * 
+     * @param input Command input to be matched.
+     * 
+     */
     public static Commands match(String input) {
         for (Commands cmd : Commands.values()) {
             for (String name : cmd.names)  {
