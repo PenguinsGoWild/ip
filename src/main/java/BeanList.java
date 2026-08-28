@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class BeanList {
     private ArrayList<Task> ls;
+
     BeanList () {
         this.ls = new ArrayList<Task>();
 
@@ -37,6 +38,11 @@ public class BeanList {
 
     }
 
+    /**
+     * Marks the task in the list as complete at index i.
+     * 
+     * @param i Index of task.
+     */
     public void markTask(int i) {
         if (i <= 0) return;
         if (i-1>= this.ls.size()) return;
@@ -47,6 +53,11 @@ public class BeanList {
 
     }
 
+    /**
+     * Marks the task in the list as incomplete at index i.
+     * 
+     * @param i Index of task.
+     */
     public void unmarkTask(int i) {
         if (i <= 0) return;
         if (i-1>= this.ls.size()) return;
@@ -57,6 +68,12 @@ public class BeanList {
 
     }
 
+
+    /**
+     * Deletes task from the list at index i.
+     * 
+     * @param i Index of task.
+     */
     public void deleteTask(int i) {
         if (i <= 0) return;
         if (i-1>= this.ls.size()) return;
@@ -67,6 +84,10 @@ public class BeanList {
         this.ls.remove(i-1);
     }
 
+    /** 
+     * Displays all the tasks currently in the list.
+     * 
+    **/
     public void displayTasks() {
         StringBuilder sb = new StringBuilder();
 
@@ -81,6 +102,11 @@ public class BeanList {
 
     }
 
+    /**
+     * Prints string s to screen in a formatted way.
+     * 
+     * @param s Message to be printed
+     */
     private void printAddTask(String s) {
         Bean.printString("Alrighty! I've added the following task:\n\n"
             + s + "\n\n" +
