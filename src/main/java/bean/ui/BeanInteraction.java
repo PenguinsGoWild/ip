@@ -5,7 +5,7 @@ public class BeanInteraction {
 
     /**
      * Prints a nicely formatted string.
-     * 
+     *
      * @param input Input to be formatted and printed to screen.
      */
     public static void printString(String input) {

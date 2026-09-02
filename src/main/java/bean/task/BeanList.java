@@ -135,11 +135,11 @@ public class BeanList {
         Task task = tasks.get(index);
         String[] taskData = task.get();
         return switch (task.getTag()) {
-        case "[T]" -> "0|" + taskData[0] + "|" + taskData[1];
-        case "[D]" -> "1|" + taskData[0] + "|" + taskData[1] + "|" + taskData[2];
-        case "[E]" -> "2|" + taskData[0] + "|" + taskData[1] + "|" + taskData[2]
-                + "|" + taskData[3];
-        default -> "";
+            case "[T]" -> "0|" + taskData[0] + "|" + taskData[1];
+            case "[D]" -> "1|" + taskData[0] + "|" + taskData[1] + "|" + taskData[2];
+            case "[E]" -> "2|" + taskData[0] + "|" + taskData[1] + "|" + taskData[2]
+                    + "|" + taskData[3];
+            default -> "";
         };
     }
 
