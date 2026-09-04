@@ -32,7 +32,15 @@ public class MainWindow extends AnchorPane {
     /** Initializes the dialog container and displays Bean's greeting. */
     @FXML
     public void initialize() {
+        DottedBackground background = new DottedBackground();
+
+        background.widthProperty().bind(widthProperty());
+        background.heightProperty().bind(heightProperty());
+
+        getChildren().add(background);
+
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+
         dialogContainer.getChildren().addAll(DialogBox.getBeanDialog("       ▄▄▄                    \n"
                 + "      ██▀▀█▄                  \n"
                 + "      ██ ▄█▀             ▄    \n"

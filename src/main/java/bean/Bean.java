@@ -38,6 +38,7 @@ public class Bean extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Bean.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+            stage.setTitle("Bean");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
