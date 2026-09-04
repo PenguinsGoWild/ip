@@ -14,12 +14,14 @@ import javafx.scene.layout.VBox;
 /**
  * Controller for the main GUI.
  */
-public class MainWindow extends AnchorPane {
+public class MainWindow {
     private static final Image USER_IMAGE = new Image(
             Bean.class.getResourceAsStream("/images/BeanUser.jpg"));
     private static final Image BEAN_IMAGE = new Image(
             Bean.class.getResourceAsStream("/images/BeanBot.jpg"));
 
+    @FXML
+    private AnchorPane rootPane;
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -34,10 +36,11 @@ public class MainWindow extends AnchorPane {
     public void initialize() {
         DottedBackground background = new DottedBackground();
 
-        background.widthProperty().bind(widthProperty());
-        background.heightProperty().bind(heightProperty());
+        background.widthProperty().bind(rootPane.widthProperty());
+        background.heightProperty().bind(rootPane.heightProperty());
+        background.setMouseTransparent(true);
 
-        getChildren().add(background);
+        rootPane.getChildren().add(0, background);
 
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
