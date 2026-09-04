@@ -38,7 +38,8 @@ public class MainWindow extends AnchorPane {
                 + "      ██ ▄█▀             ▄    \n"
                 + "      ██▀▀█▄ ▄█▀█▄ ▄▀▀█▄ ████▄\n"
                 + "    ▄ ██  ▄█ ██▄█▀ ▄█▀██ ██ ██\n"
-                + "    ▀██████▀▄▀█▄▄▄▄▀█▄██▄██ ▀█\n", BEAN_IMAGE));
+                + "    ▀██████▀▄▀█▄▄▄▄▀█▄██▄██ ▀█\n"
+                + "Hello! I'm Bean.\n\nWhat can I do for you today?", BEAN_IMAGE));
     }
 
     /**
