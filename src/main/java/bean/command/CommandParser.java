@@ -19,7 +19,7 @@ public class CommandParser {
             case EVENT -> EventCommand.execute(input, taskList);
             case DEADLINE -> DeadlineCommand.execute(input, taskList);
             case DELETE -> DeleteCommand.execute(input, taskList);
-            case FIND ->FindCommand.execute(input, taskList);
+            case FIND -> FindCommand.execute(input, taskList);
             default -> throw new UnknownCommandException("Sorry, I don't know what you mean. :<", input);
         };
     }

@@ -1,10 +1,12 @@
 package bean.command;
 
-import bean.task.BeanList;
 import bean.exception.BeanListOutOfBoundsException;
+import bean.task.BeanList;
 
+/** Executes commands that mark tasks as incomplete. */
 public class UnmarkCommand {
-    
+
+    /** Marks the task at the index supplied in the command input as incomplete. */
     public static String execute(String input, BeanList taskList) {
         String[] words = input.split(" ");
         int index = -1;
@@ -21,5 +23,4 @@ public class UnmarkCommand {
         return taskList.unmarkTask(index);
     }
 
-    
 }

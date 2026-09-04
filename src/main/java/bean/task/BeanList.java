@@ -96,6 +96,9 @@ public class BeanList {
      * Marks the task at the given one-based index as complete.
      */
     public String markTask(int index) {
+        if (index <= 0 || index > tasks.size()) {
+            return "";
+        }
 
         tasks.get(index - 1).markDone();
 

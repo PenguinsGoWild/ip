@@ -1,16 +1,18 @@
 package bean.command;
 
-import bean.task.BeanList;
 import bean.exception.InvalidSyntaxException;
+import bean.task.BeanList;
 
+/** Executes commands that add event tasks. */
 public class EventCommand {
 
+    /** Adds an event task based on the supplied command input. */
     public static String execute(String input, BeanList taskList) {
         String[] words = input.split(" ");
         StringBuilder taskName = new StringBuilder();
         StringBuilder from = new StringBuilder();
         StringBuilder to = new StringBuilder();
-        int[] indexes = {-1,-1,-1};
+        int[] indexes = {-1, -1, -1};
         int index = 0;
 
         for (int i = 1; i < words.length; i++) {
@@ -30,17 +32,14 @@ public class EventCommand {
 
         for (int i = 1; i < indexes[0]; i++) {
             taskName.append(words[i]).append(" ");
-
         }
 
         for (int i = indexes[0] + 1; i < indexes[1]; i++) {
-            to.append(words[i]).append(" ");
-
+            from.append(words[i]).append(" ");
         }
 
         for (int i = indexes[1] + 1; i < indexes[2]; i++) {
-        from.append(words[2]).append(" ");
-
+            to.append(words[i]).append(" ");
         }
 
         checkEmpty(taskName, input, StringType.NAME);
@@ -53,7 +52,7 @@ public class EventCommand {
 
     /**
      * Checks if the string is empty and throws an InvalidSyntaxException if it is.
-     * 
+     *
      * @param string String that is being checked.
      * @param input Input of command.
      * @param type Type of syntax to check for.
@@ -75,5 +74,4 @@ public class EventCommand {
         }
 
     }
-    
 }

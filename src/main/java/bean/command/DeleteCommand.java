@@ -1,9 +1,12 @@
 package bean.command;
 
-import bean.task.BeanList;
 import bean.exception.BeanListOutOfBoundsException;
+import bean.task.BeanList;
 
+/** Executes commands that delete tasks. */
 public class DeleteCommand {
+
+    /** Deletes the task at the index supplied in the command input. */
     public static String execute(String input, BeanList taskList) {
         String[] words = input.split(" ");
         int index = -1;
@@ -21,5 +24,4 @@ public class DeleteCommand {
 
         return taskList.deleteTask(index);
     }
-    
 }

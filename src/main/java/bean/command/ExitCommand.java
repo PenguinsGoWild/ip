@@ -1,10 +1,12 @@
 package bean.command;
 
-import bean.ui.MainWindow;
+import bean.exception.ExitCommandException;
 
+/** Handles the exit command without depending on a particular user interface. */
 public class ExitCommand {
+
+    /** Requests application termination by returning control to the application boundary. */
     public static String execute() {
-        return "Baiiii!";
+        throw new ExitCommandException("Baiiii!");
     }
-    
 }

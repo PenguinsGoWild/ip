@@ -1,20 +1,25 @@
 package bean.ui;
 
 import bean.Bean;
-
+import bean.exception.ExitCommandException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.application.Platform;
+
 /**
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
+    private static final Image USER_IMAGE = new Image(
+            Bean.class.getResourceAsStream("/images/BeanUser.jpg"));
+    private static final Image BEAN_IMAGE = new Image(
+            Bean.class.getResourceAsStream("/images/BeanBot.jpg"));
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -24,9 +29,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     private Button sendButton;
 
-    private static Image userImage = new Image(Bean.class.getResourceAsStream("/images/BeanUser.jpg"));
-    private static Image beanImage = new Image(Bean.class.getResourceAsStream("/images/BeanBot.jpg"));
-
+    /** Initializes the dialog container and displays Bean's greeting. */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
@@ -35,7 +38,7 @@ public class MainWindow extends AnchorPane {
                 + "      ██ ▄█▀             ▄    \n"
                 + "      ██▀▀█▄ ▄█▀█▄ ▄▀▀█▄ ████▄\n"
                 + "    ▄ ██  ▄█ ██▄█▀ ▄█▀██ ██ ██\n"
-                + "    ▀██████▀▄▀█▄▄▄▄▀█▄██▄██ ▀█\n", beanImage));
+                + "    ▀██████▀▄▀█▄▄▄▄▀█▄██▄██ ▀█\n", BEAN_IMAGE));
     }
 
     /**
@@ -45,16 +48,20 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = Bean.getCommandResult(input);
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getBeanDialog(response, beanImage)
-        );
+        try {
+            addDialogs(input, Bean.getResponse(input));
+        } catch (ExitCommandException e) {
+            addDialogs(input, e.getMessage());
+            Platform.exit();
+        }
         userInput.clear();
     }
 
-    public void exit() {
-        dialogContainer.getChildren().addAll(DialogBox.getBeanDialog("Baiiii!", beanImage));
-        Platform.exit();
+    /** Adds the user's input and Bean's response to the dialog container. */
+    private void addDialogs(String input, String response) {
+        dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog(input, USER_IMAGE),
+                DialogBox.getBeanDialog(response, BEAN_IMAGE)
+        );
     }
 }

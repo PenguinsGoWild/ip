@@ -1,8 +1,6 @@
 package bean;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import bean.command.CommandParser;
 import bean.exception.BeanListOutOfBoundsException;
@@ -10,7 +8,6 @@ import bean.exception.InvalidSyntaxException;
 import bean.exception.UnknownCommandException;
 import bean.storage.MemoryHandler;
 import bean.task.BeanList;
-import bean.ui.BeanInteraction;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,8 +24,6 @@ public class Bean extends Application {
 
         MEMORY_HANDLER.readMemory(TASKS);
         initGui(stage);
-        BeanInteraction.intro();
-        MEMORY_HANDLER.writeMemory(TASKS);
     }
 
 
@@ -49,11 +44,6 @@ public class Bean extends Application {
      * Generates a response for the user's chat message.
      */
     public static String getResponse(String input) {
-        return input;
-    }
-
-    /** Executes a command and converts known command errors into displayable results. */
-    public static String getCommandResult(String input) {
         try {
             return CommandParser.getCommand(input, TASKS);
         } catch (UnknownCommandException e) {
@@ -64,6 +54,4 @@ public class Bean extends Application {
             return e.getMessage();
         }
     }
-
-
 }

@@ -1,10 +1,12 @@
 package bean.command;
 
-import bean.task.BeanList;
 import bean.exception.InvalidSyntaxException;
+import bean.task.BeanList;
 
+/** Executes commands that add deadline tasks. */
 public class DeadlineCommand {
 
+    /** Adds a deadline task based on the supplied command input. */
     public static String execute(String input, BeanList taskList) {
         String[] words = input.split(" ");
         StringBuilder taskName = new StringBuilder();
@@ -40,7 +42,7 @@ public class DeadlineCommand {
 
     /**
      * Checks if the string is empty and throws an InvalidSyntaxException if it is.
-     * 
+     *
      * @param string String that is being checked.
      * @param input Input of command.
      * @param type Type of syntax to check for.
@@ -61,5 +63,4 @@ public class DeadlineCommand {
         }
 
     }
-    
 }
