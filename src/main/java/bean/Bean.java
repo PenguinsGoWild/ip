@@ -11,41 +11,59 @@ import bean.exception.UnknownCommandException;
 import bean.storage.MemoryHandler;
 import bean.task.BeanList;
 import bean.ui.BeanInteraction;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /** Starts the Bean command-line task manager. */
-public class Bean {
+public class Bean extends Application {
     private static final BeanList TASKS = new BeanList();
-    private static final MemoryHandler MEMORY_HANDLER = new MemoryHandler("./memory.txt");
+    private static final MemoryHandler MEMORY_HANDLER = new MemoryHandler("memory.txt");
 
-    private static boolean isTerminated = false;
+    @Override
+    public void start(Stage stage) {
 
-    /** Starts the application and accepts commands until the user exits. */
-    public static void main(String[] args) {
         MEMORY_HANDLER.readMemory(TASKS);
+        initGui(stage);
         BeanInteraction.intro();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        while (!isTerminated) {
-            try {
-                System.out.print(">>> ");
-                String input = reader.readLine();
-                System.out.println();
-                CommandParser.getCommand(input, TASKS);
-            } catch (IOException e) {
-                System.err.println("An error occurred while reading input: " + e.getMessage());
-            } catch (UnknownCommandException e) {
-                BeanInteraction.printString(e.getMessage());
-            } catch (BeanListOutOfBoundsException e) {
-                BeanInteraction.printString(e.getMessage());
-            } catch (InvalidSyntaxException e) {
-                BeanInteraction.printString(e.getMessage());
-            }
-        }
         MEMORY_HANDLER.writeMemory(TASKS);
     }
 
-    /** Requests normal application termination after the current command completes. */
-    public static void terminate() {
-        isTerminated = true;
+
+    private static void initGui(Stage stage) {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Bean.class.getResource("/view/MainWindow.fxml"));
+            AnchorPane ap = fxmlLoader.load();
+            Scene scene = new Scene(ap);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public static String getResponse(String input) {
+        return input;
+    }
+
+    /** Executes a command and converts known command errors into displayable results. */
+    public static String getCommandResult(String input) {
+        try {
+            return CommandParser.getCommand(input, TASKS);
+        } catch (UnknownCommandException e) {
+            return e.getMessage();
+        } catch (BeanListOutOfBoundsException e) {
+            return e.getMessage();
+        } catch (InvalidSyntaxException e) {
+            return e.getMessage();
+        }
+    }
+
+
 }

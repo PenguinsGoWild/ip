@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import bean.ui.BeanInteraction;
-
 /** Stores and manages the tasks currently known to the application. */
 public class BeanList {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
@@ -35,39 +33,39 @@ public class BeanList {
     /**
      * Adds a deadline task at the end of the list.
      */
-    public void addDeadline(String task, String date) {
+    public String addDeadline(String task, String date) {
         try {
             LocalDate parsedDate = LocalDate.parse(date);
             tasks.add(new Deadline(task, parsedDate));
-            printAddTask("[D][ ] " + task + " (by: " + parsedDate.format(DATE_FORMATTER) + ")");
+            return formatAddTask("[D][ ] " + task + " (by: " + parsedDate.format(DATE_FORMATTER) + ")");
         } catch (DateTimeParseException e) {
-            BeanInteraction.printString("Woah! You tried keying in a wrong date format!\n"
-                    + "Try the format yyyy-mm-dd!");
+            return "Woah! You tried keying in a wrong date format!\n"
+                    + "Try the format yyyy-mm-dd!";
         }
     }
 
     /**
      * Adds a new event task at the end of the list.
      */
-    public void addEvent(String task, String from, String to) {
+    public String addEvent(String task, String from, String to) {
         try {
             LocalDate parsedFrom = LocalDate.parse(from);
             LocalDate parsedTo = LocalDate.parse(to);
             tasks.add(new Event(task, parsedFrom, parsedTo));
-            printAddTask("[E][ ] " + task + " (from: " + parsedFrom.format(DATE_FORMATTER)
+            return formatAddTask("[E][ ] " + task + " (from: " + parsedFrom.format(DATE_FORMATTER)
                     + " to: " + parsedTo.format(DATE_FORMATTER) + ")");
         } catch (DateTimeParseException e) {
-            BeanInteraction.printString("Woah! You tried keying in a wrong date format!\n"
-                    + "Try the format yyyy-mm-dd!");
+            return "Woah! You tried keying in a wrong date format!\n"
+                    + "Try the format yyyy-mm-dd!";
         }
     }
 
     /**
      * Adds a new to-do task at the end of the list.
      */
-    public void addTodo(String task) {
+    public String addTodo(String task) {
         tasks.add(new Todo(task));
-        printAddTask("[T][ ] " + task);
+        return formatAddTask("[T][ ] " + task);
     }
 
     /**
@@ -97,35 +95,33 @@ public class BeanList {
     /**
      * Marks the task at the given one-based index as complete.
      */
-    public void markTask(int index) {
-        if (!isValidIndex(index)) {
-            return;
-        }
+    public String markTask(int index) {
 
         tasks.get(index - 1).markDone();
+
+        return "Good Job! I'll mark the task as done!\n\n"
+            + " " + getTaskTag(index) + "[X] " + getTaskName(index);
     }
 
     /**
      * Marks the task at the given one-based index as incomplete.
      */
-    public void unmarkTask(int index) {
-        if (!isValidIndex(index)) {
-            return;
-        }
+    public String unmarkTask(int index) {
 
         tasks.get(index - 1).unmarkDone();
+        return "Awww, Okay! I'll unmark it!\n\n"
+                + " " + getTaskTag(index) + "[ ] " + getTaskName(index);
     }
 
     /**
      * Deletes the task at the given one-based index.
      */
-    public void deleteTask(int index) {
-        if (!isValidIndex(index)) {
-            return;
-        }
-        BeanInteraction.printString("Alrighty! I've removed the following task:\n\n"
-                + tasks.get(index - 1) + "\n\nNow you have " + tasks.size() + " tasks in the list.");
-        tasks.remove(index - 1);
+    public String deleteTask(int index) {
+
+        String removedTask = tasks.remove(index - 1).get()[1];
+
+        return "Alrighty! I've removed the following task:\n\n"
+                + removedTask + "\n\nNow you have " + tasks.size() + " tasks in the list.";
     }
 
     /**
@@ -146,7 +142,7 @@ public class BeanList {
     /**
      * Displays all tasks currently in the list.
      */
-    public void displayTasks() {
+    public String displayTasks() {
         StringBuilder taskDisplay = new StringBuilder();
 
         for (int index = 0; index < tasks.size(); index++) {
@@ -156,11 +152,11 @@ public class BeanList {
             taskDisplay.append(index + 1).append(". ").append(tasks.get(index));
         }
 
-        BeanInteraction.printString("Here are the tasks in your list:\n\n" + taskDisplay);
+        return "Here are the tasks in your list:\n\n" + taskDisplay;
     }
 
     /** Finds and displays tasks whose descriptions match the given regular expression. */
-    public void findTasks(String searchExpression) {
+    public String findTasks(String searchExpression) {
         Pattern pattern = Pattern.compile(searchExpression);
 
         StringBuilder taskDisplay = new StringBuilder();
@@ -175,18 +171,14 @@ public class BeanList {
             taskDisplay.append(index + 1).append(". ").append(matchingTasks.get(index));
         }
 
-        BeanInteraction.printString("Here are the tasks in your list:\n\n" + taskDisplay);
-    }
-
-    private boolean isValidIndex(int index) {
-        return index > 0 && index <= tasks.size();
+        return "Here are the tasks in your list:\n\n" + taskDisplay;
     }
 
     /**
-     * Prints the formatted confirmation after adding a task.
+     * Returns a formatted confirmation message with the taskDescription.
      */
-    private void printAddTask(String taskDescription) {
-        BeanInteraction.printString("Alrighty! I've added the following task:\n\n"
-                + taskDescription + "\n\nNow you have " + tasks.size() + " tasks in the list.");
+    private String formatAddTask(String taskDescription) {
+        return "Alrighty! I've added the following task:\n\n"
+                + taskDescription + "\n\nNow you have " + tasks.size() + " tasks in the list.";
     }
 }
