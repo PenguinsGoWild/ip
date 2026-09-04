@@ -26,6 +26,11 @@ public class Bean extends Application {
         initGui(stage);
     }
 
+    /** Saves the current task list when the JavaFX application is closing. */
+    @Override
+    public void stop() {
+        MEMORY_HANDLER.writeMemory(TASKS);
+    }
 
     private static void initGui(Stage stage) {
 
