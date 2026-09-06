@@ -25,7 +25,7 @@ public class Bean extends Application {
 
         MEMORY_HANDLER.readMemory(TASKS);
         Parameters param = getParameters();
-        
+
         initGui(stage, param);
     }
 

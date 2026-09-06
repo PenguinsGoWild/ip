@@ -1,10 +1,9 @@
 package bean.ui;
 
-import java.lang.reflect.Parameter;
+import java.util.List;
 
 import bean.Bean;
 import bean.exception.ExitCommandException;
-import java.util.List;
 import javafx.application.Application.Parameters;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -50,9 +49,6 @@ public class MainWindow {
         rootPane.getChildren().add(0, background);
 
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-
-        
-
     }
 
     /**
@@ -79,16 +75,16 @@ public class MainWindow {
         );
     }
 
+    /** Configures the window using the parameters supplied to the application. */
     public void setParams(Parameters params) {
         this.params = params;
         List<String> rawArgs = params.getRaw();
         if (rawArgs.contains("secret")) {
             showDefaultMessage = false;
-
         }
-
     }
 
+    /** Displays either the standard greeting or the secret greeting. */
     public void showIntroMessage() {
         if (showDefaultMessage) {
             dialogContainer.getChildren().addAll(DialogBox.getBeanDialog("       ▄▄▄                    \n"
@@ -100,13 +96,11 @@ public class MainWindow {
                     + "Hello! I'm Bean.\n\nWhat can I do for you today?", BEAN_IMAGE));
         } else {
             dialogContainer.getChildren().addAll(DialogBox.getBeanDialog("     ▄▄▄▄· ▄▄▄ . ▄▄▄·  ▐ ▄ \n"
-                      +"     ▐█ ▀█▪▀▄.▀·▐█ ▀█ •█▌▐█\n"
-                      +"     ▐█▀▀█▄▐▀▀▪▄▄█▀▀█ ▐█▐▐▌\n"
-                      +"     ██▄▪▐█▐█▄▄▌▐█ ▪▐▌██▐█▌\n"
-                      +"     ·▀▀▀▀  ▀▀▀  ▀  ▀ ▀▀ █▪\n"
+                    + "     ▐█ ▀█▪▀▄.▀·▐█ ▀█ •█▌▐█\n"
+                    + "     ▐█▀▀█▄▐▀▀▪▄▄█▀▀█ ▐█▐▐▌\n"
+                    + "     ██▄▪▐█▐█▄▄▌▐█ ▪▐▌██▐█▌\n"
+                    + "     ·▀▀▀▀  ▀▀▀  ▀  ▀ ▀▀ █▪\n"
                     + "Hello! I'm Bean.\n\nWhat can I do for you today?", BEAN_IMAGE));
-
         }
-
     }
 }

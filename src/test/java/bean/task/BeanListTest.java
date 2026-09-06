@@ -40,4 +40,31 @@ public class BeanListTest {
         assertDoesNotThrow(() -> beanList.markTask(-1)); // Negative index
         assertDoesNotThrow(() -> beanList.markTask(5)); // Out of bounds index
     }
+
+    @Test
+    public void taskOperations_todoIsMarkedFoundAndDeleted() {
+        BeanList beanList = new BeanList();
+        beanList.addTodoSilent("Read textbook");
+
+        assertEquals("0|0|Read textbook", beanList.formatTask(0));
+        assertEquals("Here are the tasks in your list:\n\n1. [T][ ] Read textbook",
+                beanList.findTasks("textbook"));
+        assertEquals("Good Job! I'll mark the task as done!\n\n [T][X] Read textbook",
+                beanList.markTask(1));
+        assertEquals("Alrighty! I've removed the following task:\n\nRead textbook"
+                + "\n\nNow you have 0 tasks in the list.", beanList.deleteTask(1));
+        assertEquals(0, beanList.getSize());
+    }
+
+    @Test
+    public void addEvent_validDates_taskIsStoredWithDates() {
+        BeanList beanList = new BeanList();
+
+        beanList.addEvent("Project meeting", "2026-09-01", "2026-09-02");
+
+        assertEquals(1, beanList.getSize());
+        assertEquals("[E]", beanList.getTaskTag(1));
+        assertEquals("Project meeting", beanList.getTaskName(1));
+        assertEquals("2|0|Project meeting|2026-09-01|2026-09-02", beanList.formatTask(0));
+    }
 }
