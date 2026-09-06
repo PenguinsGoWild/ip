@@ -1,7 +1,11 @@
 package bean.ui;
 
+import java.lang.reflect.Parameter;
+
 import bean.Bean;
 import bean.exception.ExitCommandException;
+import java.util.List;
+import javafx.application.Application.Parameters;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,6 +35,9 @@ public class MainWindow {
     @FXML
     private Button sendButton;
 
+    private Parameters params;
+    private boolean showDefaultMessage = true;
+
     /** Initializes the dialog container and displays Bean's greeting. */
     @FXML
     public void initialize() {
@@ -44,13 +51,8 @@ public class MainWindow {
 
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
 
-        dialogContainer.getChildren().addAll(DialogBox.getBeanDialog("       ▄▄▄                    \n"
-                + "      ██▀▀█▄                  \n"
-                + "      ██ ▄█▀             ▄    \n"
-                + "      ██▀▀█▄ ▄█▀█▄ ▄▀▀█▄ ████▄\n"
-                + "    ▄ ██  ▄█ ██▄█▀ ▄█▀██ ██ ██\n"
-                + "    ▀██████▀▄▀█▄▄▄▄▀█▄██▄██ ▀█\n"
-                + "Hello! I'm Bean.\n\nWhat can I do for you today?", BEAN_IMAGE));
+        
+
     }
 
     /**
@@ -75,5 +77,36 @@ public class MainWindow {
                 DialogBox.getUserDialog(input, USER_IMAGE),
                 DialogBox.getBeanDialog(response, BEAN_IMAGE)
         );
+    }
+
+    public void setParams(Parameters params) {
+        this.params = params;
+        List<String> rawArgs = params.getRaw();
+        if (rawArgs.contains("secret")) {
+            showDefaultMessage = false;
+
+        }
+
+    }
+
+    public void showIntroMessage() {
+        if (showDefaultMessage) {
+            dialogContainer.getChildren().addAll(DialogBox.getBeanDialog("       ▄▄▄                    \n"
+                    + "      ██▀▀█▄                  \n"
+                    + "      ██ ▄█▀             ▄    \n"
+                    + "      ██▀▀█▄ ▄█▀█▄ ▄▀▀█▄ ████▄\n"
+                    + "    ▄ ██  ▄█ ██▄█▀ ▄█▀██ ██ ██\n"
+                    + "    ▀██████▀▄▀█▄▄▄▄▀█▄██▄██ ▀█\n"
+                    + "Hello! I'm Bean.\n\nWhat can I do for you today?", BEAN_IMAGE));
+        } else {
+            dialogContainer.getChildren().addAll(DialogBox.getBeanDialog("     ▄▄▄▄· ▄▄▄ . ▄▄▄·  ▐ ▄ \n"
+                      +"     ▐█ ▀█▪▀▄.▀·▐█ ▀█ •█▌▐█\n"
+                      +"     ▐█▀▀█▄▐▀▀▪▄▄█▀▀█ ▐█▐▐▌\n"
+                      +"     ██▄▪▐█▐█▄▄▌▐█ ▪▐▌██▐█▌\n"
+                      +"     ·▀▀▀▀  ▀▀▀  ▀  ▀ ▀▀ █▪\n"
+                    + "Hello! I'm Bean.\n\nWhat can I do for you today?", BEAN_IMAGE));
+
+        }
+
     }
 }

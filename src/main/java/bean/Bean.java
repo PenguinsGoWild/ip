@@ -8,6 +8,7 @@ import bean.exception.InvalidSyntaxException;
 import bean.exception.UnknownCommandException;
 import bean.storage.MemoryHandler;
 import bean.task.BeanList;
+import bean.ui.MainWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,7 +24,9 @@ public class Bean extends Application {
     public void start(Stage stage) {
 
         MEMORY_HANDLER.readMemory(TASKS);
-        initGui(stage);
+        Parameters param = getParameters();
+        
+        initGui(stage, param);
     }
 
     /** Saves the current task list when the JavaFX application is closing. */
@@ -32,11 +35,14 @@ public class Bean extends Application {
         MEMORY_HANDLER.writeMemory(TASKS);
     }
 
-    private static void initGui(Stage stage) {
+    private static void initGui(Stage stage, Parameters param) {
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Bean.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
+            MainWindow controller = fxmlLoader.getController();
+            controller.setParams(param);
+            controller.showIntroMessage();
             Scene scene = new Scene(ap);
             stage.setTitle("Bean");
             stage.setScene(scene);
