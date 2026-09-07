@@ -8,6 +8,33 @@
     -fx-background-color: transparent;
 }
 
+.sendButton {
+    -fx-background-color: rgba(221, 219, 219, 0.9);
+    -fx-backgroound-insets: 6px;
+    -fx-background-radius: 15px;
+
+    -fx-effect: innershadow(
+        gaussian,
+        rgba(252, 252, 252, 1),
+        10,
+        0.5,
+        0,
+        0
+    );
+}
+
+.send-button-container {
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(28, 27, 27, 0.6),
+        10,
+        0.2,
+        0,
+        0
+    );
+}
+
 .userInput {
     -fx-background-color: rgba(81, 81, 82, 0.3);
     -fx-background-insets: 6px;
@@ -26,7 +53,10 @@
         0,
         0
     );
+}
 
+.user-input-container {
+    -fx-background-color: transparent;
     -fx-effect: dropshadow(
         gaussian,
         rgba(28, 27, 27, 0.6),
@@ -34,9 +64,7 @@
         0.5,
         0,
         0
-
-    )
-
+    );
 }
 
 .dialog {
@@ -57,7 +85,10 @@
         0,
         0
     );
+}
 
+.dialog-wrapper {
+    -fx-background-color: transparent;
     -fx-effect: dropshadow(
         gaussian,
         rgba(28, 27, 27, 0.6),
@@ -65,11 +96,7 @@
         0.5,
         0,
         0
-
-    )
-    
-
-
+    );
 }
 
 .dialog-text {

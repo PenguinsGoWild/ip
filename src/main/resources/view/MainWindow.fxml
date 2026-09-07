@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="rootPane"
@@ -20,24 +21,37 @@
             xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <TextField fx:id="userInput"
-                   onAction="#handleUserInput"
+        <StackPane styleClass="user-input-container"
                    prefHeight="80.0"
                    prefWidth="324.0"
-                   styleClass="userInput"
-                   stylesheets="@../styles/main.css"
-                   alignment="TOP_LEFT"
-                   AnchorPane.bottomAnchor="0.0"
-                   AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="76.0" />
-        <Button fx:id="sendButton"
-                mnemonicParsing="false"
-                onAction="#handleUserInput"
-                prefHeight="80.0"
-                prefWidth="76.0"
-                text="Send"
-                AnchorPane.bottomAnchor="0.0"
-                AnchorPane.rightAnchor="0.0" />
+                   AnchorPane.bottomAnchor="5.0"
+                   AnchorPane.leftAnchor="5.0"
+                   AnchorPane.rightAnchor="89.0">
+            <TextField fx:id="userInput"
+                       onAction="#handleUserInput"
+                       maxHeight="1.7976931348623157E308"
+                       maxWidth="1.7976931348623157E308"
+                       prefHeight="80.0"
+                       prefWidth="324.0"
+                       styleClass="userInput"
+                       stylesheets="@../styles/main.css"
+                       alignment="TOP_LEFT" />
+        </StackPane>
+        <StackPane styleClass="send-button-container"
+                   prefHeight="80.0"
+                   prefWidth="76.0"
+                   AnchorPane.bottomAnchor="5.0"
+                   AnchorPane.rightAnchor="5.0">
+            <Button fx:id="sendButton"
+                    mnemonicParsing="false"
+                    onAction="#handleUserInput"
+                    maxHeight="1.7976931348623157E308"
+                    maxWidth="1.7976931348623157E308"
+                    prefHeight="80.0"
+                    prefWidth="76.0"
+                    text="Send"
+                    styleClass="sendButton" />
+        </StackPane>
         <ScrollPane fx:id="scrollPane"
                     fitToWidth="true"
                     hbarPolicy="NEVER"
