@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity"
@@ -14,7 +15,8 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="bean.ui.MainWindow" 
             styleClass="main-window"
-            stylesheets = "@../styles/main.css">
+            stylesheets = "@../styles/main.css"
+            >
     <children>
         <TextField fx:id="userInput"
                    layoutY="558.0"
@@ -42,7 +44,8 @@
                       styleClass="dialog-container"
                       style="-fx-background-color: transparent;"
                       prefHeight="552.0"
-                      prefWidth="388.0" />
+                      prefWidth="388.0" 
+                      spacing = "10.0" />
             </content>
         </ScrollPane>
     </children>

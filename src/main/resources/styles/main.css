@@ -8,6 +8,23 @@
     -fx-background-color: transparent;
 }
 
-.dialog-container {
-    -fx-background-color: transparent;
+.dialog {
+    -fx-background-color: rgba(19, 19, 20, 0.742);
+    -fx-background-radius: 15px;
+    
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(255, 255, 255, 0.95),
+        15,
+        0.8,
+        0,
+        0
+    );
+}
+
+.displayPicture {
+    -fx-border-color: #2196F3;
+    -fx-border-width: 2px;
+    -fx-border-radius: 15px;
+
 }

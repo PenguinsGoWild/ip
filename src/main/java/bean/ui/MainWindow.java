@@ -34,7 +34,6 @@ public class MainWindow {
     @FXML
     private Button sendButton;
 
-    private Parameters params;
     private boolean showDefaultMessage = true;
 
     /** Initializes the dialog container and displays Bean's greeting. */
@@ -77,7 +76,6 @@ public class MainWindow {
 
     /** Configures the window using the parameters supplied to the application. */
     public void setParams(Parameters params) {
-        this.params = params;
         List<String> rawArgs = params.getRaw();
         if (rawArgs.contains("secret")) {
             showDefaultMessage = false;
