@@ -47,7 +47,6 @@ public class MainWindow {
 
         rootPane.getChildren().add(0, background);
 
-        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
     /**
@@ -73,6 +72,8 @@ public class MainWindow {
                     DialogBox.getUserDialog(input, USER_IMAGE),
                     DialogBox.getBeanDialog(response, BEAN_IMAGE)
             );
+
+        Platform.runLater(() -> scrollPane.setVvalue(1.0));
         }
     }
 
