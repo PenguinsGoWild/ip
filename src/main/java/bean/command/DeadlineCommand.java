@@ -18,7 +18,7 @@ public class DeadlineCommand {
             indexes[index] = i;
             if (words[i].equals("/by")) {
                 index = 1;
-            }
+            } 
         }
 
         if (indexes[0] == -1 || indexes[1] == -1) {
@@ -30,7 +30,7 @@ public class DeadlineCommand {
             taskName.append(words[i]).append(" ");
         }
 
-        for (int i = indexes[0] + 1; i < indexes[1]; i++) {
+        for (int i = indexes[0] + 1; i <= indexes[1]; i++) {
             date.append(words[i]).append(" ");
         }
 
@@ -52,14 +52,15 @@ public class DeadlineCommand {
             String output = "";
             switch (type) {
                 case NAME -> output = "Deadline must have a name!\n\n";
-                case BY -> output = "Deadline must have a to date!\n\n";
+                case BY -> output = "Deadline must have a by date!\n\n"
+                    + "Try the format yyyy-mm-dd!\n\n";
                 default -> output = "";
 
             }
 
             throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for deadline!\n"
                     + output
-                    + "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
+                    + "Usage: event \"TASK\" /by \"DATE\"", input);
         }
 
     }

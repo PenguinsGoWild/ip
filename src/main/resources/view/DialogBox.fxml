@@ -18,6 +18,7 @@
          >
   <children>
     <Label fx:id="dialog" 
+           styleClass="dialog-text"
            text="Label" 
            wrapText="true" 
            minHeight="-Infinity"/>

@@ -33,7 +33,7 @@
                 prefWidth="76.0"
                 text="Send" />
         <ScrollPane fx:id="scrollPane"
-                    style="-fx-background-color: transparent;"
+                    styleClass="scrollPane"
                     hbarPolicy="NEVER"
                     hvalue="1.0"
                     prefHeight="557.0"
@@ -41,8 +41,6 @@
                     vvalue="1.0">
             <content>
                 <VBox fx:id="dialogContainer"
-                      styleClass="dialog-container"
-                      style="-fx-background-color: transparent;"
                       prefHeight="552.0"
                       prefWidth="388.0" 
                       spacing = "10.0" />

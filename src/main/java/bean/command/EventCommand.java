@@ -24,6 +24,7 @@ public class EventCommand {
                 index = 2;
             }
 
+
         }
         if (indexes[0] == -1 || indexes[1] == -1 || indexes[2] == -1) {
             throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n\n"
@@ -38,7 +39,7 @@ public class EventCommand {
             from.append(words[i]).append(" ");
         }
 
-        for (int i = indexes[1] + 1; i < indexes[2]; i++) {
+        for (int i = indexes[1] + 1; i <= indexes[2]; i++) {
             to.append(words[i]).append(" ");
         }
 
@@ -62,8 +63,10 @@ public class EventCommand {
             String output = "";
             switch (type) {
                 case NAME -> output = "Event must have a name!\n\n";
-                case FROM -> output = "Event must have a from date!\n\n";
-                case TO -> output = "Event must have a to date!\n\n";
+                case FROM -> output = "Event must have a from date!\n\n"
+                    + "Try the format yyyy-mm-dd!\n\n";
+                case TO -> output = "Event must have a to date!\n\n"
+                    + "Try the format yyyy-mm-dd!\n\n";
                 default -> output = "";
 
             }

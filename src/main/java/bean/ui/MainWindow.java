@@ -68,10 +68,12 @@ public class MainWindow {
 
     /** Adds the user's input and Bean's response to the dialog container. */
     private void addDialogs(String input, String response) {
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, USER_IMAGE),
-                DialogBox.getBeanDialog(response, BEAN_IMAGE)
-        );
+        if (!input.isEmpty()) {
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getUserDialog(input, USER_IMAGE),
+                    DialogBox.getBeanDialog(response, BEAN_IMAGE)
+            );
+        }
     }
 
     /** Configures the window using the parameters supplied to the application. */
