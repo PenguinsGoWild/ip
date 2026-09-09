@@ -18,6 +18,19 @@ import javafx.scene.layout.VBox;
  * Controller for the main GUI.
  */
 public class MainWindow {
+    private static final String DEFAULT_INTRO_MESSAGE = "       ▄▄▄                    \n"
+            + "      ██▀▀█▄                  \n"
+            + "      ██ ▄█▀             ▄    \n"
+            + "      ██▀▀█▄ ▄█▀█▄ ▄▀▀█▄ ████▄\n"
+            + "    ▄ ██  ▄█ ██▄█▀ ▄█▀██ ██ ██\n"
+            + "    ▀██████▀▄▀█▄▄▄▄▀█▄██▄██ ▀█\n"
+            + "Hello! I'm Bean.\n\nWhat can I do for you today?";
+    private static final String SECRET_INTRO_MESSAGE = "     ▄▄▄▄· ▄▄▄ . ▄▄▄·  ▐ ▄ \n"
+            + "     ▐█ ▀█▪▀▄.▀·▐█ ▀█ •█▌▐█\n"
+            + "     ▐█▀▀█▄▐▀▀▪▄▄█▀▀█ ▐█▐▐▌\n"
+            + "     ██▄▪▐█▐█▄▄▌▐█ ▪▐▌██▐█▌\n"
+            + "     ·▀▀▀▀  ▀▀▀  ▀  ▀ ▀▀ █▪\n"
+            + "Hello! I'm Bean.\n\nWhat can I do for you today?";
     private static final Image USER_IMAGE = new Image(
             Bean.class.getResourceAsStream("/images/BeanUser.jpg"));
     private static final Image BEAN_IMAGE = new Image(
@@ -87,21 +100,7 @@ public class MainWindow {
 
     /** Displays either the standard greeting or the secret greeting. */
     public void showIntroMessage() {
-        if (showDefaultMessage) {
-            dialogContainer.getChildren().addAll(DialogBox.getBeanDialog("       ▄▄▄                    \n"
-                    + "      ██▀▀█▄                  \n"
-                    + "      ██ ▄█▀             ▄    \n"
-                    + "      ██▀▀█▄ ▄█▀█▄ ▄▀▀█▄ ████▄\n"
-                    + "    ▄ ██  ▄█ ██▄█▀ ▄█▀██ ██ ██\n"
-                    + "    ▀██████▀▄▀█▄▄▄▄▀█▄██▄██ ▀█\n"
-                    + "Hello! I'm Bean.\n\nWhat can I do for you today?", BEAN_IMAGE));
-        } else {
-            dialogContainer.getChildren().addAll(DialogBox.getBeanDialog("     ▄▄▄▄· ▄▄▄ . ▄▄▄·  ▐ ▄ \n"
-                    + "     ▐█ ▀█▪▀▄.▀·▐█ ▀█ •█▌▐█\n"
-                    + "     ▐█▀▀█▄▐▀▀▪▄▄█▀▀█ ▐█▐▐▌\n"
-                    + "     ██▄▪▐█▐█▄▄▌▐█ ▪▐▌██▐█▌\n"
-                    + "     ·▀▀▀▀  ▀▀▀  ▀  ▀ ▀▀ █▪\n"
-                    + "Hello! I'm Bean.\n\nWhat can I do for you today?", BEAN_IMAGE));
-        }
+        String introMessage = showDefaultMessage ? DEFAULT_INTRO_MESSAGE : SECRET_INTRO_MESSAGE;
+        dialogContainer.getChildren().addAll(DialogBox.getBeanDialog(introMessage, BEAN_IMAGE));
     }
 }
