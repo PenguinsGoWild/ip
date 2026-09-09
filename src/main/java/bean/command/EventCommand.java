@@ -10,9 +10,6 @@ public class EventCommand {
     /** Adds an event task based on the supplied command input. */
     public static String execute(String input, BeanList taskList) {
         String[] words = input.split(" ");
-        StringBuilder taskName = new StringBuilder();
-        StringBuilder from = new StringBuilder();
-        StringBuilder to = new StringBuilder();
         int[] indexes = {-1, -1, -1};
         int index = 0;
 
@@ -32,17 +29,9 @@ public class EventCommand {
                 + "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
         }
 
-        for (int i = 1; i < indexes[0]; i++) {
-            taskName.append(words[i]).append(" ");
-        }
-
-        for (int i = indexes[0] + 1; i < indexes[1]; i++) {
-            from.append(words[i]).append(" ");
-        }
-
-        for (int i = indexes[1] + 1; i <= indexes[2]; i++) {
-            to.append(words[i]).append(" ");
-        }
+        StringBuilder taskName = CommandText.joinWords(words, 1, indexes[0]);
+        StringBuilder from = CommandText.joinWords(words, indexes[0] + 1, indexes[1]);
+        StringBuilder to = CommandText.joinWords(words, indexes[1] + 1, indexes[2] + 1);
 
         CommandValidator.checkEmpty(taskName, input, "event",
                 "Event must have a name!\n\n", USAGE);

@@ -10,8 +10,6 @@ public class DeadlineCommand {
     /** Adds a deadline task based on the supplied command input. */
     public static String execute(String input, BeanList taskList) {
         String[] words = input.split(" ");
-        StringBuilder taskName = new StringBuilder();
-        StringBuilder date = new StringBuilder();
         int[] indexes = {-1, -1};
         int index = 0;
 
@@ -27,13 +25,8 @@ public class DeadlineCommand {
                     + "Usage: deadline \"TASK\" /by \"DATE\"", input);
         }
 
-        for (int i = 1; i < indexes[0]; i++) {
-            taskName.append(words[i]).append(" ");
-        }
-
-        for (int i = indexes[0] + 1; i <= indexes[1]; i++) {
-            date.append(words[i]).append(" ");
-        }
+        StringBuilder taskName = CommandText.joinWords(words, 1, indexes[0]);
+        StringBuilder date = CommandText.joinWords(words, indexes[0] + 1, indexes[1] + 1);
 
         CommandValidator.checkEmpty(taskName, input, "deadline",
                 "Deadline must have a name!\n\n", USAGE);
