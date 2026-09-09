@@ -6,6 +6,8 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /** Stores and manages the tasks currently known to the application. */
 public class BeanList {
@@ -146,35 +148,20 @@ public class BeanList {
      * Displays all tasks currently in the list.
      */
     public String displayTasks() {
-        StringBuilder taskDisplay = new StringBuilder();
+        return "Here are the tasks in your list:\n\n"
+            + formatTaskDisplay(tasks);
 
-        for (int index = 0; index < tasks.size(); index++) {
-            if (index != 0) {
-                taskDisplay.append("\n");
-            }
-            taskDisplay.append(index + 1).append(". ").append(tasks.get(index));
-        }
-
-        return "Here are the tasks in your list:\n\n" + taskDisplay;
     }
 
     /** Finds and displays tasks whose descriptions match the given regular expression. */
     public String findTasks(String searchExpression) {
         Pattern pattern = Pattern.compile(searchExpression);
 
-        StringBuilder taskDisplay = new StringBuilder();
         List<Task> matchingTasks = tasks.stream()
                 .filter(task -> pattern.matcher(task.get()[1]).find())
                 .toList();
 
-        for (int index = 0; index < matchingTasks.size(); index++) {
-            if (index != 0) {
-                taskDisplay.append("\n");
-            }
-            taskDisplay.append(index + 1).append(". ").append(matchingTasks.get(index));
-        }
-
-        return "Here are the tasks in your list:\n\n" + taskDisplay;
+        return "Here are the tasks in your list:\n\n" + formatTaskDisplay(matchingTasks);
     }
 
     /**
@@ -183,5 +170,11 @@ public class BeanList {
     private String formatAddTask(String taskDescription) {
         return "Alrighty! I've added the following task:\n\n"
                 + taskDescription + "\n\nNow you have " + tasks.size() + " tasks in the list.";
+    }
+
+    private String formatTaskDisplay(List<Task> taskList) {
+        return IntStream.range(0, taskList.size())
+            .mapToObj(index -> index + 1 + ". " + taskList.get(index))
+            .collect(Collectors.joining("\n"));
     }
 }
