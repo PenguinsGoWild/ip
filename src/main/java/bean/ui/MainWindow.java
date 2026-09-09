@@ -73,7 +73,7 @@ public class MainWindow {
                     DialogBox.getBeanDialog(response, BEAN_IMAGE)
             );
 
-        Platform.runLater(() -> scrollPane.setVvalue(1.0));
+            Platform.runLater(() -> scrollPane.setVvalue(1.0));
         }
     }
 
