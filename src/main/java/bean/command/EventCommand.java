@@ -5,6 +5,7 @@ import bean.task.BeanList;
 
 /** Executes commands that add event tasks. */
 public class EventCommand {
+    private static final String USAGE = "event \"TASK\" /from \"DATE\" /to \"DATE\"";
 
     /** Adds an event task based on the supplied command input. */
     public static String execute(String input, BeanList taskList) {
@@ -43,38 +44,16 @@ public class EventCommand {
             to.append(words[i]).append(" ");
         }
 
-        checkEmpty(taskName, input, StringType.NAME);
-        checkEmpty(from, input, StringType.FROM);
-        checkEmpty(to, input, StringType.TO);
+        CommandValidator.checkEmpty(taskName, input, "event",
+                "Event must have a name!\n\n", USAGE);
+        CommandValidator.checkEmpty(from, input, "event",
+                "Event must have a from date!\n\nTry the format yyyy-mm-dd!\n\n",
+                USAGE);
+        CommandValidator.checkEmpty(to, input, "event",
+                "Event must have a to date!\n\nTry the format yyyy-mm-dd!\n\n",
+                USAGE);
 
         return taskList.addEvent(taskName.toString().trim(), from.toString().trim(),
                 to.toString().trim());
-    }
-
-    /**
-     * Checks if the string is empty and throws an InvalidSyntaxException if it is.
-     *
-     * @param string String that is being checked.
-     * @param input Input of command.
-     * @param type Type of syntax to check for.
-     */
-    private static void checkEmpty(StringBuilder string, String input, StringType type) {
-        if (string.isEmpty()) {
-            String output = "";
-            switch (type) {
-                case NAME -> output = "Event must have a name!\n\n";
-                case FROM -> output = "Event must have a from date!\n\n"
-                    + "Try the format yyyy-mm-dd!\n\n";
-                case TO -> output = "Event must have a to date!\n\n"
-                    + "Try the format yyyy-mm-dd!\n\n";
-                default -> output = "";
-
-            }
-
-            throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n"
-                    + output
-                        + "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
-        }
-
     }
 }
