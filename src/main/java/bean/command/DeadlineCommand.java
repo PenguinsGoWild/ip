@@ -5,12 +5,11 @@ import bean.task.BeanList;
 
 /** Executes commands that add deadline tasks. */
 public class DeadlineCommand {
+    private static final String USAGE = "event \"TASK\" /by \"DATE\"";
 
     /** Adds a deadline task based on the supplied command input. */
     public static String execute(String input, BeanList taskList) {
         String[] words = input.split(" ");
-        StringBuilder taskName = new StringBuilder();
-        StringBuilder date = new StringBuilder();
         int[] indexes = {-1, -1};
         int index = 0;
 
@@ -26,42 +25,15 @@ public class DeadlineCommand {
                     + "Usage: deadline \"TASK\" /by \"DATE\"", input);
         }
 
-        for (int i = 1; i < indexes[0]; i++) {
-            taskName.append(words[i]).append(" ");
-        }
+        StringBuilder taskName = CommandText.joinWords(words, 1, indexes[0]);
+        StringBuilder date = CommandText.joinWords(words, indexes[0] + 1, indexes[1] + 1);
 
-        for (int i = indexes[0] + 1; i <= indexes[1]; i++) {
-            date.append(words[i]).append(" ");
-        }
-
-        checkEmpty(taskName, input, StringType.NAME);
-        checkEmpty(date, input, StringType.BY);
+        CommandValidator.checkEmpty(taskName, input, "deadline",
+                "Deadline must have a name!\n\n", USAGE);
+        CommandValidator.checkEmpty(date, input, "deadline",
+                "Deadline must have a by date!\n\nTry the format yyyy-mm-dd!\n\n",
+                USAGE);
 
         return taskList.addDeadline(taskName.toString().trim(), date.toString().trim());
-    }
-
-    /**
-     * Checks if the string is empty and throws an InvalidSyntaxException if it is.
-     *
-     * @param string String that is being checked.
-     * @param input Input of command.
-     * @param type Type of syntax to check for.
-     */
-    private static void checkEmpty(StringBuilder string, String input, StringType type) {
-        if (string.isEmpty()) {
-            String output = "";
-            switch (type) {
-                case NAME -> output = "Deadline must have a name!\n\n";
-                case BY -> output = "Deadline must have a by date!\n\n"
-                    + "Try the format yyyy-mm-dd!\n\n";
-                default -> output = "";
-
-            }
-
-            throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for deadline!\n"
-                    + output
-                    + "Usage: event \"TASK\" /by \"DATE\"", input);
-        }
-
     }
 }

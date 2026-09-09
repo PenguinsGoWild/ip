@@ -32,52 +32,9 @@ public class MemoryHandler {
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.isBlank()) {
-                    continue;
-                }
-
-                String[] values = line.split("\\|");
-
-                try {
-                    if (values.length < 3) {
-                        throw new InvalidMemoryDataException(line);
-                    }
-                    if (values[2].isBlank()) {
-                        throw new InvalidMemoryDataException(
-                                "Warning: Invalid Data! Name cannot be blank!", line);
-                    }
-                    int sizeBeforeAdding = taskList.getSize();
-
-                    switch (values[0]) {
-                        case TASK_TODO:
-                            assert values.length >= 3 : "A to-do record needs three fields";
-                            taskList.addTodoSilent(values[2]);
-                            break;
-                        case TASK_DEADLINE:
-                            if (values.length < 4) {
-                                throw new InvalidMemoryDataException(line);
-                            }
-                            assert values.length >= 4 : "A deadline record needs four fields";
-                            taskList.addDeadlineSilent(values[2], values[3]);
-                            break;
-                        case TASK_EVENT:
-                            if (values.length < 5) {
-                                throw new InvalidMemoryDataException(line);
-                            }
-                            assert values.length >= 5 : "An event record needs five fields";
-                            taskList.addEventSilent(values[2], values[3], values[4]);
-                            break;
-                        default:
-                            return;
-                    }
-                    assert taskList.getSize() == sizeBeforeAdding + 1
-                            : "A valid memory record must add exactly one task";
-                    if (values[1].equals(TASK_MARKED)) {
-                        assert taskList.getSize() > 0 : "A marked record must have a task to mark";
-                        taskList.markTask(taskList.getSize());
-                    }
-                } catch (InvalidMemoryDataException e) {
-                    System.out.println(e.getMessage());
+                boolean shouldContinue = processMemoryLine(line, taskList);
+                if (!shouldContinue) {
+                    return;
                 }
             }
         } catch (FileNotFoundException e) {
@@ -96,6 +53,70 @@ public class MemoryHandler {
         } catch (DateTimeParseException e) {
             System.out.println("Warning: Data format in memory is incorrect! Skipping line!");
         }
+    }
+
+    /** Processes one saved-data line and returns whether reading should continue. */
+    private boolean processMemoryLine(String line, BeanList taskList) {
+        if (line.isBlank()) {
+            return true;
+        }
+
+        String[] values = line.split("\\|");
+
+        try {
+            validateMemoryData(values, line);
+            int sizeBeforeAdding = taskList.getSize();
+            if (!addTaskFromMemory(values, taskList, line)) {
+                return false;
+            }
+            assert taskList.getSize() == sizeBeforeAdding + 1
+                    : "A valid memory record must add exactly one task";
+            if (values[1].equals(TASK_MARKED)) {
+                assert taskList.getSize() > 0 : "A marked record must have a task to mark";
+                taskList.markTask(taskList.getSize());
+            }
+        } catch (InvalidMemoryDataException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+
+    /** Validates the fields shared by all saved task records. */
+    private void validateMemoryData(String[] values, String line) {
+        if (values.length < 3) {
+            throw new InvalidMemoryDataException(line);
+        }
+        if (values[2].isBlank()) {
+            throw new InvalidMemoryDataException(
+                    "Warning: Invalid Data! Name cannot be blank!", line);
+        }
+    }
+
+    /** Adds a task represented by a saved record and returns whether reading should continue. */
+    private boolean addTaskFromMemory(String[] values, BeanList taskList, String line) {
+        switch (values[0]) {
+            case TASK_TODO:
+                assert values.length >= 3 : "A to-do record needs three fields";
+                taskList.addTodoSilent(values[2]);
+                break;
+            case TASK_DEADLINE:
+                if (values.length < 4) {
+                    throw new InvalidMemoryDataException(line);
+                }
+                assert values.length >= 4 : "A deadline record needs four fields";
+                taskList.addDeadlineSilent(values[2], values[3]);
+                break;
+            case TASK_EVENT:
+                if (values.length < 5) {
+                    throw new InvalidMemoryDataException(line);
+                }
+                assert values.length >= 5 : "An event record needs five fields";
+                taskList.addEventSilent(values[2], values[3], values[4]);
+                break;
+            default:
+                return false;
+        }
+        return true;
     }
 
     /** Writes all tasks in the given task list to the memory file. */

@@ -9,10 +9,7 @@ public class FindCommand {
     /** Finds tasks whose names match the supplied command input. */
     public static String execute(String input, BeanList taskList) {
         String[] words = input.split(" ");
-        StringBuilder taskName = new StringBuilder();
-        for (int i = 1; i < words.length; i++) {
-            taskName.append(words[i]).append(" ");
-        }
+        StringBuilder taskName = CommandText.joinWords(words, 1, words.length);
 
         if (taskName.isEmpty()) {
             throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for find!\n\n"
