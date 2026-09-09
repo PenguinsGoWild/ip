@@ -19,10 +19,12 @@ public class BeanList {
     }
 
     public String getTaskTag(int i) {
+        assert i >= 1 && i <= tasks.size() : "Task index must be one-based and valid";
         return tasks.get(i - 1).getTag();
     }
 
     public String getTaskName(int i) {
+        assert i >= 1 && i <= tasks.size() : "Task index must be one-based and valid";
         return tasks.get(i - 1).get()[1];
     }
 
@@ -100,6 +102,7 @@ public class BeanList {
             return "";
         }
 
+        assert index >= 1 && index <= tasks.size() : "Task index must be one-based and valid";
         tasks.get(index - 1).markDone();
 
         return "Good Job! I'll mark the task as done!\n\n"
@@ -111,6 +114,7 @@ public class BeanList {
      */
     public String unmarkTask(int index) {
 
+        assert index >= 1 && index <= tasks.size() : "Task index must be one-based and valid";
         tasks.get(index - 1).unmarkDone();
         return "Awww, Okay! I'll unmark it!\n\n"
                 + " " + getTaskTag(index) + "[ ] " + getTaskName(index);
@@ -121,6 +125,7 @@ public class BeanList {
      */
     public String deleteTask(int index) {
 
+        assert index >= 1 && index <= tasks.size() : "Task index must be one-based and valid";
         String removedTask = tasks.remove(index - 1).get()[1];
 
         return "Alrighty! I've removed the following task:\n\n"
@@ -131,13 +136,26 @@ public class BeanList {
      * Returns the task at the zero-based index in a format suitable for storage.
      */
     public String formatTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Storage index must be zero-based and valid";
         Task task = tasks.get(index);
         String[] taskData = task.get();
-        return switch (task.getTag()) {
-            case "[T]" -> "0|" + taskData[0] + "|" + taskData[1];
-            case "[D]" -> "1|" + taskData[0] + "|" + taskData[1] + "|" + taskData[2];
-            case "[E]" -> "2|" + taskData[0] + "|" + taskData[1] + "|" + taskData[2]
-                    + "|" + taskData[3];
+        String tag = task.getTag();
+        assert tag.equals("[T]") || tag.equals("[D]") || tag.equals("[E]")
+                : "Every task must have a recognized storage tag";
+        return switch (tag) {
+            case "[T]" -> {
+                assert taskData.length == 2 : "A to-do task must have two storage fields";
+                yield "0|" + taskData[0] + "|" + taskData[1];
+            }
+            case "[D]" -> {
+                assert taskData.length == 3 : "A deadline task must have three storage fields";
+                yield "1|" + taskData[0] + "|" + taskData[1] + "|" + taskData[2];
+            }
+            case "[E]" -> {
+                assert taskData.length == 4 : "An event task must have four storage fields";
+                yield "2|" + taskData[0] + "|" + taskData[1] + "|" + taskData[2]
+                        + "|" + taskData[3];
+            }
             default -> "";
         };
     }

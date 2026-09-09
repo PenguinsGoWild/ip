@@ -31,6 +31,9 @@ public class DialogBox extends HBox {
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
+            assert dialog != null && displayPicture != null
+                    : "DialogBox.fxml must inject both dialog controls";
+            assert getChildren().size() == 2 : "DialogBox.fxml must contain two child nodes";
         } catch (IOException e) {
             e.printStackTrace();
         }

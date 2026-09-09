@@ -18,7 +18,7 @@ public class DeadlineCommand {
             indexes[index] = i;
             if (words[i].equals("/by")) {
                 index = 1;
-            } 
+            }
         }
 
         if (indexes[0] == -1 || indexes[1] == -1) {
