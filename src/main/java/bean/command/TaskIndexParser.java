@@ -1,6 +1,7 @@
 package bean.command;
 
 import bean.exception.BeanListOutOfBoundsException;
+import bean.exception.InvalidSyntaxException;
 
 /** Parses and validates task indices supplied to task-manipulation commands. */
 final class TaskIndexParser {
@@ -15,6 +16,10 @@ final class TaskIndexParser {
             return -1;
         }
 
+        if (words[1].isBlank()) {
+            throw new InvalidSyntaxException(
+                "Oops, you've keyed in an additional blank space index!", input);
+        }
         int index = Integer.parseInt(words[1]);
         if (index <= 0 || index > taskCount) {
             throw new BeanListOutOfBoundsException(
