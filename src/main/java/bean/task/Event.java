@@ -10,8 +10,14 @@ public class Event extends Task {
     private final LocalDate from;
     private final LocalDate to;
 
-    Event(String task, LocalDate from, LocalDate to) {
-        super(task);
+    Event(String task, LocalDate from, LocalDate to, int position) {
+        super(task, position);
+        this.tag = "[E]";
+        this.from = from;
+        this.to = to;
+    }
+    Event(String task, LocalDate from, LocalDate to, Priority priority, int position) {
+        super(task, priority, position);
         this.tag = "[E]";
         this.from = from;
         this.to = to;
@@ -20,12 +26,12 @@ public class Event extends Task {
     @Override
     public String[] get() {
         return new String[] { isDone ? "1" : "0", task, from.toString(),
-                to.toString() };
+                to.toString(), String.valueOf(priority.getLevel())};
     }
 
     @Override
     public String toString() {
-        return tag + (isDone ? "[X] " : "[ ] ") + task + " (from: "
+        return priority.toString() + " " + tag + (isDone ? "[X] " : "[ ] ") + task + " (from: "
                 + from.format(DATE_FORMATTER) + " to: " + to.format(DATE_FORMATTER) + ")";
     }
 }

@@ -32,7 +32,7 @@ public class BeanListTest {
     @Test
     public void markTask_invalidIndices_doesNotThrowException() {
         BeanList beanList = new BeanList();
-        beanList.addTodoSilent("Read textbook"); // List size is now 1
+        beanList.addTodoSilent("Read textbook", Priority.LOW); // List size is now 1
 
         // Action & Assertion: Pass boundary-breaking indices and verify the program
         // silently returns instead of crashing with an IndexOutOfBoundsException
@@ -44,7 +44,7 @@ public class BeanListTest {
     @Test
     public void taskOperations_todoIsMarkedFoundAndDeleted() {
         BeanList beanList = new BeanList();
-        beanList.addTodoSilent("Read textbook");
+        beanList.addTodoSilent("Read textbook", Priority.HIGH);
 
         assertEquals("0|0|Read textbook", beanList.formatTask(0));
         assertEquals("Here are the tasks in your list:\n\n1. [T][ ] Read textbook",

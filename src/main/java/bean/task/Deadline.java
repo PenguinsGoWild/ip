@@ -9,8 +9,14 @@ public class Deadline extends Task {
 
     private final LocalDate date;
 
-    Deadline(String task, LocalDate date) {
-        super(task);
+    Deadline(String task, LocalDate date, int position) {
+        super(task, position);
+        this.tag = "[D]";
+        this.date = date;
+    }
+
+    Deadline(String task, LocalDate date, Priority priority, int position) {
+        super(task, priority, position);
         this.tag = "[D]";
         this.date = date;
     }
@@ -21,12 +27,12 @@ public class Deadline extends Task {
 
     @Override
     public String[] get() {
-        return new String[] { isDone ? "1" : "0", task, date.toString() };
+        return new String[] { isDone ? "1" : "0", task, date.toString(), String.valueOf(priority.getLevel()) };
     }
 
     @Override
     public String toString() {
-        return tag + (isDone ? "[X] " : "[ ] ") + task + " (by: "
+        return priority.toString() + " " + tag + (isDone ? "[X] " : "[ ] ") + task + " (by: "
                 + date.format(DATE_FORMATTER) + ")";
     }
 }
