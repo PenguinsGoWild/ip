@@ -25,7 +25,7 @@ public class TodoCommand {
         StringBuilder taskName = CommandText.joinWords(words, 1, indexes[0] + 1);
 
         CommandValidator.checkEmpty(taskName, input, "todo", 
-            "Todo must have a name!\n\n", "Usage: todo \"NAME\"");
+            "Todo must have a name!\n\n", "Usage: todo \"TASK\"");
 
         if (indexes[1] != -1) {
             if (words.length - indexes[1] - 1 >= 0) { 
@@ -34,7 +34,7 @@ public class TodoCommand {
             }
             throw new InvalidSyntaxException(
                 "Uh Oh! Invalid Syntax for adding todo with priority!\n\n"
-                + "Usage: todo \"TASK\" /priority \"{HIGH, MEDIUM, LOW}\"" , input);
+                + "Usage: todo \"TASK\" /priority \"{HIGH | MEDIUM | LOW}\"" , input);
         }
 
         return taskList.addTodo(taskName.toString().trim());
