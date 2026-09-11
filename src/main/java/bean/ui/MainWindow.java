@@ -7,6 +7,7 @@ import bean.exception.ExitCommandException;
 import javafx.application.Application.Parameters;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -80,14 +81,27 @@ public class MainWindow {
 
     /** Adds the user's input and Bean's response to the dialog container. */
     private void addDialogs(String input, String response) {
-        if (!input.isEmpty()) {
-            dialogContainer.getChildren().addAll(
-                    DialogBox.getUserDialog(input, USER_IMAGE),
-                    DialogBox.getBeanDialog(response, BEAN_IMAGE)
-            );
-
-            Platform.runLater(() -> scrollPane.setVvalue(1.0));
+        if (input.isEmpty()) {
+            return;
         }
+        dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog(input, USER_IMAGE),
+                DialogBox.getBeanDialog(response, BEAN_IMAGE));
+
+        scrollToBottomAfterLayout();
+    }
+
+    /** Scrolls once after the scene has finished sizing the new dialogs and the scroll pane. */
+    private void scrollToBottomAfterLayout() {
+        Scene scene = scrollPane.getScene();
+        scene.addPostLayoutPulseListener(new Runnable() {
+            @Override
+            public void run() {
+                scene.removePostLayoutPulseListener(this);
+                scrollPane.setVvalue(scrollPane.getVmax());
+            }
+        });
+        Platform.requestNextPulse();
     }
 
     /** Configures the window using the parameters supplied to the application. */
