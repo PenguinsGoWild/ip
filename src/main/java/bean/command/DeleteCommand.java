@@ -12,6 +12,6 @@ public class DeleteCommand {
             return "";
         }
 
-        return taskList.deleteTask(index);
+        return taskList.deleteTask(index) + "\n" + taskList.displayTasks();
     }
 }
