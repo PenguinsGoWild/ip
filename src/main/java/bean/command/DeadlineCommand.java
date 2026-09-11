@@ -13,7 +13,6 @@ public class DeadlineCommand {
         String[] words = input.split(" ");
         int[] indexes = {-1, -1, -1};
         int index = 0;
-        Priority priority;
 
         for (int i = 1; i < words.length; i++) {
             indexes[index] = i;
@@ -30,18 +29,16 @@ public class DeadlineCommand {
                     + "Usage: deadline \"TASK\" /by \"DATE\"", input);
         }
 
-        if (indexes[2] == -1 && words[indexes[1]].equals("/priority")) { 
+        if (indexes[2] == -1 && words[indexes[1]].equals("/priority")) {
             throw new InvalidSyntaxException(
-                "Uh Oh! Invalid Syntax for adding deadling with priority!\n\n"
-                + "Usage: deadline \"TASK\" /by \"DATE\" "
-                + "/priority \"{HIGH | MEDIUM | LOW}\"" , input);
+                    "Uh Oh! Invalid Syntax for adding deadling with priority!\n\n"
+                    + "Usage: deadline \"TASK\" /by \"DATE\" "
+                    + "/priority \"{HIGH | MEDIUM | LOW}\"", input);
         }
 
         StringBuilder taskName = CommandText.joinWords(words, 1, indexes[0]);
-        StringBuilder date = CommandText.joinWords(words, indexes[0] + 1, 
-            indexes[2] > indexes[1] 
-            ? indexes[1]
-            : indexes[1] + 1);
+        StringBuilder date = CommandText.joinWords(words, indexes[0] + 1,
+                indexes[2] > indexes[1] ? indexes[1] : indexes[1] + 1);
 
         CommandValidator.checkEmpty(taskName, input, "deadline",
                 "Deadline must have a name!\n\n", USAGE);
@@ -50,10 +47,9 @@ public class DeadlineCommand {
                 USAGE);
 
         if (indexes[2] != -1) {
-            priority = Priority.fromString(words[indexes[2]]);
-            return taskList.addDeadline(taskName.toString().trim()
-                , date.toString().trim(), priority);
-
+            Priority priority = Priority.fromString(words[indexes[2]]);
+            return taskList.addDeadline(taskName.toString().trim(),
+                    date.toString().trim(), priority);
         }
 
         return taskList.addDeadline(taskName.toString().trim(), date.toString().trim());

@@ -10,8 +10,6 @@ public class TodoCommand {
     /** Adds a to-do task based on the supplied command input. */
     public static String execute(String input, BeanList taskList) {
         String[] words = input.split(" ");
-        Priority priority;
-
         int[] indexes = {-1, -1};
 
         for (int i = 1; i < words.length; i++) {
@@ -24,20 +22,19 @@ public class TodoCommand {
 
         StringBuilder taskName = CommandText.joinWords(words, 1, indexes[0] + 1);
 
-        CommandValidator.checkEmpty(taskName, input, "todo", 
-            "Todo must have a name!\n\n", "Usage: todo \"TASK\"");
+        CommandValidator.checkEmpty(taskName, input, "todo",
+                "Todo must have a name!\n\n", "Usage: todo \"TASK\"");
 
         if (indexes[1] != -1) {
-            if (words.length - indexes[1] - 1 >= 0) { 
-                priority = Priority.fromString(words[indexes[1]]);
+            if (words.length - indexes[1] - 1 >= 0) {
+                Priority priority = Priority.fromString(words[indexes[1]]);
                 return taskList.addTodo(taskName.toString().trim(), priority);
             }
             throw new InvalidSyntaxException(
-                "Uh Oh! Invalid Syntax for adding todo with priority!\n\n"
-                + "Usage: todo \"TASK\" /priority \"{HIGH | MEDIUM | LOW}\"" , input);
+                    "Uh Oh! Invalid Syntax for adding todo with priority!\n\n"
+                    + "Usage: todo \"TASK\" /priority \"{HIGH | MEDIUM | LOW}\"", input);
         }
 
         return taskList.addTodo(taskName.toString().trim());
-
     }
 }

@@ -1,6 +1,6 @@
 package bean.task;
 
-/** Represents the state and common behaviour of a task. */
+/** Represents the state and common behavior of a task. */
 class Task {
     protected String task;
     protected String tag = "";
@@ -27,7 +27,7 @@ class Task {
     public int getPosition() {
         return position;
     }
-    
+
     public void setPosition(int position) {
         this.position = position;
     }
