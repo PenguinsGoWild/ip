@@ -13,7 +13,7 @@
     -fx-background-insets: 0;
     -fx-background-radius: 18px;
     -fx-text-fill: #35363a;
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Trebuchet MS";
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-cursor: hand;
@@ -43,7 +43,7 @@
     -fx-border-radius: 18px;
     -fx-text-fill: #1f4059;
     -fx-prompt-text-fill: #4d7189;
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Trebuchet MS";
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-padding: 0 16px;
@@ -56,25 +56,24 @@
 }
 
 .dialog {
-    -fx-background-color: rgba(248, 247, 243, 0.88);
-    -fx-background-radius: 22px;
-    -fx-border-color: rgba(255, 255, 255, 0.9);
-    -fx-border-width: 1px;
-    -fx-border-radius: 22px;
+    -fx-background-color: rgba(255, 255, 255, 0.58);
+    -fx-background-radius: 24px;
+    -fx-border-color: rgba(255, 255, 255, 0.94);
+    -fx-border-width: 2px;
+    -fx-border-radius: 24px;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.9), 12, 0.2, 0, -3);
 }
 
 .user-dialog .dialog {
-    -fx-background-color: rgba(255, 255, 255, 0.18);
-    -fx-border-color: #6e9fc2;
+    -fx-background-color: rgba(255, 255, 255, 0.62);
+    -fx-border-color: rgba(216, 237, 251, 0.98);
     -fx-border-width: 2px;
-    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.75), 10, 0.24, 0, -2);
 }
 
 .bean-dialog .dialog {
-    -fx-background-color: rgba(255, 255, 255, 0.18);
-    -fx-border-color: rgba(255, 255, 255, 0.72);
-    -fx-border-width: 1px;
-    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.75), 10, 0.24, 0, -2);
+    -fx-background-color: rgba(255, 255, 255, 0.62);
+    -fx-border-color: rgba(231, 228, 248, 0.98);
+    -fx-border-width: 2px;
 }
 
 .error-dialog .dialog {
@@ -92,14 +91,17 @@
     -fx-background-color: #ffffff;
     -fx-background-radius: 16px;
     -fx-text-fill: #35363a;
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Trebuchet MS";
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-effect: dropshadow(gaussian, rgba(63, 66, 72, 0.12), 8, 0.18, 0, 3);
 }
 
 .user-dialog .dialog-text {
-    -fx-background-color: #b8d8ec;
+    -fx-background-color: linear-gradient(to bottom, #f8fcff, #d9ebf8);
+    -fx-border-color: rgba(255, 255, 255, 0.86);
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
 }
 
 .bean-dialog .dialog-text {
@@ -143,13 +145,13 @@
 }
 
 .scrollPane .scroll-bar:vertical .thumb {
-    -fx-background-color: rgba(108, 143, 164, 0.42);
+    -fx-background-color: #1f5f9e;
     -fx-background-radius: 4px;
     -fx-background-insets: 1px;
 }
 
 .scrollPane .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: rgba(77, 116, 140, 0.68);
+    -fx-background-color: #123f70;
 }
 
 .scrollPane .scroll-bar:vertical .increment-button,
