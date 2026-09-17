@@ -166,6 +166,13 @@
     -fx-background-radius: 9px;
 }
 
+.task-row-text {
+    -fx-font-family: "Trebuchet MS";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-fill: #3f5364;
+}
+
 .task-list-empty {
     -fx-text-fill: #71808b;
     -fx-font-style: italic;
@@ -179,6 +186,10 @@
     -fx-text-fill: #a5222e;
 }
 
+.priority-high .task-row-text {
+    -fx-fill: #a5222e;
+}
+
 .priority-medium {
     -fx-background-color: #fff2bd;
     -fx-border-color: #e4c865;
@@ -187,12 +198,24 @@
     -fx-text-fill: #765900;
 }
 
+.priority-medium .task-row-text {
+    -fx-fill: #765900;
+}
+
 .priority-low {
     -fx-background-color: #dff2e3;
     -fx-border-color: #9bc9a5;
     -fx-border-width: 1px;
     -fx-border-radius: 9px;
     -fx-text-fill: #2d7040;
+}
+
+.priority-low .task-row-text {
+    -fx-fill: #2d7040;
+}
+
+.task-completed {
+    -fx-strikethrough: true;
 }
 
 .error-dialog .dialog-text {

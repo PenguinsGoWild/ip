@@ -22,6 +22,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 /**
@@ -82,10 +84,16 @@ public class DialogBox extends HBox {
         int taskCount = 0;
         for (int i = 1; i < lines.length; i++) {
             if (!lines[i].isBlank()) {
-                Label taskRow = new Label(lines[i]);
-                taskRow.setWrapText(true);
+                Text taskText = new Text(lines[i]);
+                taskText.setStrikethrough(lines[i].contains("[X]"));
+                taskText.getStyleClass().add("task-row-text");
+                TextFlow taskRow = new TextFlow(taskText);
+                taskRow.setMaxWidth(Double.MAX_VALUE);
                 taskRow.getStyleClass().add("task-list-item");
                 taskRow.getStyleClass().add(getPriorityStyleClass(lines[i]));
+                if (lines[i].contains("[X]")) {
+                    taskRow.getStyleClass().add("task-completed");
+                }
                 taskList.getChildren().add(taskRow);
                 taskCount++;
             }
