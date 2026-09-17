@@ -36,7 +36,8 @@
         </padding>
     </Label>
 
-    <StackPane prefWidth="109.0"
+    <StackPane fx:id="avatarContainer"
+               prefWidth="109.0"
                prefHeight="109.0"
                alignment="CENTER"
                >
@@ -48,12 +49,19 @@
                 preserveRatio="true"
                 >
             <clip>
-                <Circle centerX="49.5"
+                <Circle fx:id="imageClip"
+                        centerX="49.5"
                         centerY="49.5"
                         radius="49.5" 
                         />
             </clip>
         </ImageView>
+        <Circle fx:id="avatarBorder"
+                centerX="49.5"
+                centerY="49.5"
+                radius="48.0"
+                styleClass="avatar-border"
+                mouseTransparent="true" />
     </StackPane>
   </children>
   <padding>

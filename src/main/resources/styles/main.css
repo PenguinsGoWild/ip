@@ -1,5 +1,5 @@
 .main-window {
-    -fx-background-color: #fffaf2;
+    -fx-background-color: #298dff;
 }
 
 .scroll-pane,
@@ -35,14 +35,14 @@
 }
 
 .userInput {
-    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-color: rgba(184, 216, 236, 0.96);
     -fx-background-insets: 0;
     -fx-background-radius: 18px;
-    -fx-border-color: #c8c9cc;
+    -fx-border-color: #6296bb;
     -fx-border-width: 2px;
     -fx-border-radius: 18px;
-    -fx-text-fill: #35363a;
-    -fx-prompt-text-fill: #8c8e93;
+    -fx-text-fill: #1f4059;
+    -fx-prompt-text-fill: #4d7189;
     -fx-font-family: "Segoe UI";
     -fx-font-size: 15px;
     -fx-font-weight: bold;
@@ -51,8 +51,8 @@
 }
 
 .userInput:focused {
-    -fx-border-color: #888b91;
-    -fx-effect: dropshadow(gaussian, rgba(63, 66, 72, 0.26), 14, 0.22, 0, 4);
+    -fx-border-color: #2f6e9f;
+    -fx-effect: dropshadow(gaussian, rgba(47, 110, 159, 0.34), 14, 0.22, 0, 4);
 }
 
 .dialog {
@@ -61,6 +61,26 @@
     -fx-border-color: rgba(255, 255, 255, 0.9);
     -fx-border-width: 1px;
     -fx-border-radius: 22px;
+}
+
+.user-dialog .dialog {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+    -fx-border-color: #6e9fc2;
+    -fx-border-width: 2px;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.75), 10, 0.24, 0, -2);
+}
+
+.bean-dialog .dialog {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+    -fx-border-color: rgba(255, 255, 255, 0.72);
+    -fx-border-width: 1px;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.75), 10, 0.24, 0, -2);
+}
+
+.error-dialog .dialog {
+    -fx-background-color: rgba(255, 244, 242, 0.94);
+    -fx-border-color: #c66d6d;
+    -fx-border-width: 2px;
 }
 
 .dialog-wrapper {
@@ -78,10 +98,31 @@
     -fx-effect: dropshadow(gaussian, rgba(63, 66, 72, 0.12), 8, 0.18, 0, 3);
 }
 
+.user-dialog .dialog-text {
+    -fx-background-color: #b8d8ec;
+}
+
+.bean-dialog .dialog-text {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #e7edf7);
+    -fx-border-color: rgba(255, 255, 255, 0.66);
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.72), 8, 0.22, 0, -2);
+}
+
+.error-dialog .dialog-text {
+    -fx-background-color: #fff0ee;
+    -fx-text-fill: #b33f3f;
+}
+
 .displayPicture {
-    -fx-border-color: #9a9ca1;
-    -fx-border-width: 3px;
-    -fx-border-radius: 52px;
+    -fx-border-color: transparent;
+}
+
+.avatar-border {
+    -fx-fill: transparent;
+    -fx-stroke: #9a9ca1;
+    -fx-stroke-width: 3px;
 }
 
 .scrollPane {
@@ -102,13 +143,13 @@
 }
 
 .scrollPane .scroll-bar:vertical .thumb {
-    -fx-background-color: rgba(104, 107, 114, 0.42);
+    -fx-background-color: rgba(108, 143, 164, 0.42);
     -fx-background-radius: 4px;
     -fx-background-insets: 1px;
 }
 
 .scrollPane .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: rgba(75, 78, 84, 0.68);
+    -fx-background-color: rgba(77, 116, 140, 0.68);
 }
 
 .scrollPane .scroll-bar:vertical .increment-button,

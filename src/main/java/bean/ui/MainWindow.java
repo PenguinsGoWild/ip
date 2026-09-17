@@ -86,7 +86,7 @@ public class MainWindow {
         }
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, USER_IMAGE),
-                DialogBox.getBeanDialog(response, BEAN_IMAGE));
+                DialogBox.getBeanDialog(response, BEAN_IMAGE, isErrorResponse(response)));
 
         scrollToBottomAfterLayout();
     }
@@ -102,6 +102,17 @@ public class MainWindow {
             }
         });
         Platform.requestNextPulse();
+    }
+
+    /** Returns whether the response is an error message that should be emphasized visually. */
+    private boolean isErrorResponse(String response) {
+        return response.startsWith("Sorry")
+                || response.startsWith("Uh Oh!")
+                || response.startsWith("Oops")
+                || response.startsWith("Woah!")
+                || response.startsWith("Error")
+                || response.startsWith("Warning")
+                || response.startsWith("Command not recognized");
     }
 
     /** Configures the window using the parameters supplied to the application. */

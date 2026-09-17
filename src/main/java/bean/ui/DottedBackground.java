@@ -32,9 +32,8 @@ public class DottedBackground extends Canvas {
                 0, 0, 0, 1,
                 true,
                 CycleMethod.NO_CYCLE,
-                new Stop(0, Color.rgb(255, 254, 249)),
-                new Stop(0.52, Color.rgb(244, 244, 241)),
-                new Stop(1, Color.rgb(219, 222, 226))
+                new Stop(0, Color.rgb(0, 102, 219)),
+                new Stop(1, Color.rgb(41, 141, 255))
         );
         gc.setFill(backgroundGradient);
         gc.fillRect(0, 0, width, height);
@@ -48,8 +47,8 @@ public class DottedBackground extends Canvas {
                 double opacity = 0.24 * (1 - progress) + 0.08 * progress;
 
                 boolean isHighlightDot = ((int) (x / spacing) + (int) (y / spacing)) % 2 == 0;
-                Color dotColor = isHighlightDot ? Color.rgb(255, 255, 255, opacity)
-                        : Color.rgb(151, 155, 161, opacity * 0.72);
+                Color dotColor = isHighlightDot ? Color.rgb(218, 241, 255, opacity)
+                        : Color.rgb(3, 92, 196, opacity * 0.55);
                 gc.setFill(dotColor);
                 gc.fillOval(
                         x - radius,

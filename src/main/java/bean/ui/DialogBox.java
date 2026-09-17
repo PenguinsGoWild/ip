@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 
 /**
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
@@ -24,6 +25,12 @@ public class DialogBox extends HBox {
     private Label dialog;
     @FXML
     private ImageView displayPicture;
+    @FXML
+    private StackPane avatarContainer;
+    @FXML
+    private Circle imageClip;
+    @FXML
+    private Circle avatarBorder;
 
     private DialogBox(String text, Image img) {
         try {
@@ -57,13 +64,37 @@ public class DialogBox extends HBox {
 
     public static StackPane getUserDialog(String text, Image img) {
         DialogBox dialogBox = new DialogBox(text, img);
+        dialogBox.compactUserAvatar();
         return wrap(dialogBox, "user-dialog");
     }
 
+    /** Makes the user avatar more compact while preserving its circular border. */
+    private void compactUserAvatar() {
+        double avatarSize = 91;
+        double imageSize = 81;
+        double center = imageSize / 2;
+
+        avatarContainer.setPrefSize(avatarSize, avatarSize);
+        displayPicture.setFitWidth(imageSize);
+        displayPicture.setFitHeight(imageSize);
+        imageClip.setCenterX(center);
+        imageClip.setCenterY(center);
+        imageClip.setRadius(center);
+        avatarBorder.setCenterX(center);
+        avatarBorder.setCenterY(center);
+        avatarBorder.setRadius(center - 1.5);
+    }
+
     public static StackPane getBeanDialog(String text, Image img) {
+        return getBeanDialog(text, img, false);
+    }
+
+    /** Creates a Bean response dialog, optionally styled as an error. */
+    public static StackPane getBeanDialog(String text, Image img, boolean isError) {
         var dialogBox = new DialogBox(text, img);
         dialogBox.flip();
-        return wrap(dialogBox, "bean-dialog");
+        String styleClass = isError ? "error-dialog" : "bean-dialog";
+        return wrap(dialogBox, styleClass);
     }
 
     /** Wraps a dialogue in a transparent node that supplies the outer shadow. */

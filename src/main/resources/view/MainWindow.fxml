@@ -35,7 +35,7 @@
                        prefWidth="324.0"
                        styleClass="userInput"
                        stylesheets="@../styles/main.css"
-                       alignment="TOP_LEFT" />
+                       alignment="CENTER_LEFT" />
         </StackPane>
         <StackPane styleClass="send-button-container"
                    prefHeight="80.0"
