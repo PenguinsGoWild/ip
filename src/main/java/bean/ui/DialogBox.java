@@ -20,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
@@ -57,6 +58,56 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+        if (isTaskListResponse(text)) {
+            getChildren().set(0, createTaskList(text));
+        }
+    }
+
+    /** Returns whether the response should be rendered as a structured task list. */
+    private boolean isTaskListResponse(String text) {
+        return text.startsWith("Here are the tasks in your list:");
+    }
+
+    /** Creates a styled list of task rows from the command response. */
+    private VBox createTaskList(String text) {
+        VBox taskList = new VBox(6);
+        taskList.setMaxWidth(Double.MAX_VALUE);
+        taskList.getStyleClass().add("task-list");
+
+        String[] lines = text.split("\\R");
+        Label header = new Label(lines[0]);
+        header.getStyleClass().add("task-list-header");
+        taskList.getChildren().add(header);
+
+        int taskCount = 0;
+        for (int i = 1; i < lines.length; i++) {
+            if (!lines[i].isBlank()) {
+                Label taskRow = new Label(lines[i]);
+                taskRow.setWrapText(true);
+                taskRow.getStyleClass().add("task-list-item");
+                taskRow.getStyleClass().add(getPriorityStyleClass(lines[i]));
+                taskList.getChildren().add(taskRow);
+                taskCount++;
+            }
+        }
+
+        if (taskCount == 0) {
+            Label emptyMessage = new Label("No tasks yet.");
+            emptyMessage.getStyleClass().add("task-list-empty");
+            taskList.getChildren().add(emptyMessage);
+        }
+        return taskList;
+    }
+
+    /** Returns the style class associated with a task's priority prefix. */
+    private String getPriorityStyleClass(String taskText) {
+        if (taskText.contains(". HIGH ")) {
+            return "priority-high";
+        }
+        if (taskText.contains(". MEDIUM ")) {
+            return "priority-medium";
+        }
+        return "priority-low";
     }
 
     /**
