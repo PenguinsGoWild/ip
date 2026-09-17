@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import bean.exception.InvalidSyntaxException;
 import bean.exception.UnknownCommandException;
 import bean.task.BeanList;
 import bean.task.Priority;
@@ -54,5 +55,13 @@ public class CommandParserTest {
 
         assertEquals("Here are the tasks in your list:\n\n"
                 + "1. HIGH [T][ ] Buy textbook\n2. LOW [T][ ] Read textbook", response);
+    }
+
+    @Test
+    public void getCommand_nonNumericTaskIndex_throwsInvalidSyntaxException() {
+        BeanList taskList = new BeanList();
+
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("mark first", taskList));
     }
 }

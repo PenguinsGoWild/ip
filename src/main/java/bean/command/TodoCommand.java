@@ -9,30 +9,30 @@ public class TodoCommand {
 
     /** Adds a to-do task based on the supplied command input. */
     public static String execute(String input, BeanList taskList) {
-        String[] words = input.split(" ");
-        int[] indexes = {-1, -1};
+        String[] words = input.trim().split("\\s+");
+        int priorityIndex = -1;
 
         for (int i = 1; i < words.length; i++) {
-            if (words[i].equals("/priority")) {
-                indexes[1] = i + 1;
+            if (words[i].equalsIgnoreCase("/priority")) {
+                priorityIndex = i;
                 break;
             }
-            indexes[0] = i;
         }
 
-        StringBuilder taskName = CommandText.joinWords(words, 1, indexes[0] + 1);
+        int taskEnd = priorityIndex == -1 ? words.length : priorityIndex;
+        StringBuilder taskName = CommandText.joinWords(words, 1, taskEnd);
 
         CommandValidator.checkEmpty(taskName, input, "todo",
                 "Todo must have a name!\n\n", "Usage: todo \"TASK\"");
 
-        if (indexes[1] != -1) {
-            if (words.length - indexes[1] - 1 >= 0) {
-                Priority priority = Priority.fromString(words[indexes[1]]);
-                return taskList.addTodo(taskName.toString().trim(), priority);
+        if (priorityIndex != -1) {
+            if (priorityIndex + 1 >= words.length || priorityIndex + 2 != words.length) {
+                throw new InvalidSyntaxException(
+                        "Uh Oh! Invalid Syntax for adding todo with priority!\n\n"
+                        + "Usage: todo \"TASK\" /priority \"{HIGH | MEDIUM | LOW}\"", input);
             }
-            throw new InvalidSyntaxException(
-                    "Uh Oh! Invalid Syntax for adding todo with priority!\n\n"
-                    + "Usage: todo \"TASK\" /priority \"{HIGH | MEDIUM | LOW}\"", input);
+            Priority priority = Priority.fromString(words[priorityIndex + 1]);
+            return taskList.addTodo(taskName.toString().trim(), priority);
         }
 
         return taskList.addTodo(taskName.toString().trim());

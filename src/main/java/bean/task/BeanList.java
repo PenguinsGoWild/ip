@@ -21,12 +21,12 @@ public class BeanList {
 
     public String getTaskTag(int i) {
         validateTaskIndex(i);
-        return tasks.get(i - 1).getTag();
+        return getTaskAtDisplayIndex(i).getTag();
     }
 
     public String getTaskName(int i) {
         validateTaskIndex(i);
-        return tasks.get(i - 1).get()[1];
+        return getTaskAtDisplayIndex(i).get()[1];
     }
 
     public int getSize() {
@@ -141,6 +141,14 @@ public class BeanList {
         size += 1;
     }
 
+    /** Marks the most recently loaded task as complete. */
+    public void markLastAddedTask() {
+        if (tasks.isEmpty()) {
+            throw new IllegalStateException("Cannot mark a task in an empty task list");
+        }
+        tasks.get(tasks.size() - 1).markDone();
+    }
+
     /**
      * Marks the task at the given one-based index as complete.
      */
@@ -149,10 +157,11 @@ public class BeanList {
             return "";
         }
 
-        tasks.get(index - 1).markDone();
+        Task task = getTaskAtDisplayIndex(index);
+        task.markDone();
 
         return "Good Job! I'll mark the task as done!\n\n"
-            + " " + getTaskTag(index) + "[X] " + getTaskName(index);
+            + " " + task.getTag() + "[X] " + task.get()[1];
     }
 
     /**
@@ -161,9 +170,10 @@ public class BeanList {
     public String unmarkTask(int index) {
 
         validateTaskIndex(index);
-        tasks.get(index - 1).unmarkDone();
+        Task task = getTaskAtDisplayIndex(index);
+        task.unmarkDone();
         return "Awww, Okay! I'll unmark it!\n\n"
-                + " " + getTaskTag(index) + "[ ] " + getTaskName(index);
+                + " " + task.getTag() + "[ ] " + task.get()[1];
     }
 
     /**
@@ -172,7 +182,8 @@ public class BeanList {
     public String deleteTask(int index) {
 
         validateTaskIndex(index);
-        Task removedTask = tasks.remove(index - 1);
+        Task removedTask = getTaskAtDisplayIndex(index);
+        tasks.remove(removedTask);
 
         size -= 1;
         return "Alrighty! I've removed the following task:\n\n"
@@ -252,12 +263,20 @@ public class BeanList {
     }
 
     private String formatTaskDisplay(List<Task> taskList) {
-        List<Task> sortedTasks = taskList.stream()
-                .sorted(Comparator.comparingInt((Task task) -> -task.getPriority().getLevel())
-                        .thenComparingInt(Task::getPosition))
-                .toList();
+        List<Task> sortedTasks = getTasksInDisplayOrder(taskList);
         return IntStream.range(0, sortedTasks.size())
             .mapToObj(index -> index + 1 + ". " + sortedTasks.get(index))
             .collect(Collectors.joining("\n"));
+    }
+
+    private Task getTaskAtDisplayIndex(int index) {
+        return getTasksInDisplayOrder(tasks).get(index - 1);
+    }
+
+    private List<Task> getTasksInDisplayOrder(List<Task> taskList) {
+        return taskList.stream()
+                .sorted(Comparator.comparingInt((Task task) -> -task.getPriority().getLevel())
+                        .thenComparingInt(Task::getPosition))
+                .toList();
     }
 }

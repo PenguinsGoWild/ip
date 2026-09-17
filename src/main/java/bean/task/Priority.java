@@ -1,5 +1,7 @@
 package bean.task;
 
+import java.util.Locale;
+
 import bean.exception.InvalidSyntaxException;
 
 /** Represents a task's priority and its numeric storage level. */
@@ -26,7 +28,7 @@ public enum Priority {
      * @throws InvalidSyntaxException If the name is not high, medium, or low.
      */
     public static Priority fromString(String value) {
-        return switch (value.toLowerCase()) {
+        return switch (value.toLowerCase(Locale.ROOT)) {
             case "high" -> Priority.HIGH;
             case "medium" -> Priority.MEDIUM;
             case "low" -> Priority.LOW;

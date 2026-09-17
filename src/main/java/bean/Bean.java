@@ -54,7 +54,7 @@ public class Bean extends Application {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Unable to start the Bean interface", e);
         }
     }
 

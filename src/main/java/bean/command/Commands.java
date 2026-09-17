@@ -21,6 +21,10 @@ public enum Commands {
 
     /** Returns the command matching the given input, or {@link #NONE} when there is no match. */
     public static Commands match(String input) {
+        if (input == null) {
+            return NONE;
+        }
+
         for (Commands command : Commands.values()) {
             for (String name : command.names) {
                 if (name.equalsIgnoreCase(input)) {

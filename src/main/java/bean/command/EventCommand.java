@@ -10,39 +10,45 @@ public class EventCommand {
 
     /** Adds an event task based on the supplied command input. */
     public static String execute(String input, BeanList taskList) {
-        String[] words = input.split(" ");
-        int[] indexes = {-1, -1, -1, -1};
-        int index = 0;
+        String[] words = input.trim().split("\\s+");
+        int fromIndex = -1;
+        int toIndex = -1;
+        int priorityIndex = -1;
 
         for (int i = 1; i < words.length; i++) {
-            indexes[index] = i;
-            if (words[i].equals("/from")) {
-                index = 1;
+            if (words[i].equalsIgnoreCase("/from")) {
+                if (fromIndex != -1) {
+                    throw invalidSyntax(input);
+                }
+                fromIndex = i;
             }
-            if (words[i].equals("/to")) {
-                index = 2;
+            if (words[i].equalsIgnoreCase("/to")) {
+                if (toIndex != -1) {
+                    throw invalidSyntax(input);
+                }
+                toIndex = i;
             }
-            if (words[i].equals("/priority")) {
-                index = 3;
+            if (words[i].equalsIgnoreCase("/priority")) {
+                if (priorityIndex != -1) {
+                    throw invalidSyntax(input);
+                }
+                priorityIndex = i;
             }
         }
 
-        if (indexes[0] == -1 || indexes[1] == -1 || indexes[2] == -1) {
-            throw new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n\n"
-                    + "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\"", input);
+        if (fromIndex == -1 || toIndex == -1 || toIndex < fromIndex
+                || (priorityIndex != -1 && priorityIndex < toIndex)) {
+            throw invalidSyntax(input);
         }
 
-        if (indexes[3] == -1 && words[indexes[2]].equals("/priority")) {
-            throw new InvalidSyntaxException(
-                    "Uh Oh! Invalid Syntax for adding event with priority!\n\n"
-                    + "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\" "
-                    + "/priority \"{HIGH | MEDIUM | LOW}\"", input);
+        if (priorityIndex != -1 && priorityIndex + 2 != words.length) {
+            throw invalidSyntax(input);
         }
 
-        StringBuilder taskName = CommandText.joinWords(words, 1, indexes[0]);
-        StringBuilder from = CommandText.joinWords(words, indexes[0] + 1, indexes[1]);
-        StringBuilder to = CommandText.joinWords(words, indexes[1] + 1,
-                indexes[3] > indexes[2] ? indexes[2] : indexes[2] + 1);
+        StringBuilder taskName = CommandText.joinWords(words, 1, fromIndex);
+        StringBuilder from = CommandText.joinWords(words, fromIndex + 1, toIndex);
+        int toEnd = priorityIndex == -1 ? words.length : priorityIndex;
+        StringBuilder to = CommandText.joinWords(words, toIndex + 1, toEnd);
 
         CommandValidator.checkEmpty(taskName, input, "event",
                 "Event must have a name!\n\n", USAGE);
@@ -53,13 +59,19 @@ public class EventCommand {
                 "Event must have a to date!\n\nTry the format yyyy-mm-dd!\n\n",
                 USAGE);
 
-        if (indexes[3] != -1) {
-            Priority priority = Priority.fromString(words[indexes[3]]);
+        if (priorityIndex != -1) {
+            Priority priority = Priority.fromString(words[priorityIndex + 1]);
             return taskList.addEvent(taskName.toString().trim(),
                     from.toString().trim(), to.toString().trim(), priority);
         }
 
         return taskList.addEvent(taskName.toString().trim(), from.toString().trim(),
                 to.toString().trim());
+    }
+
+    private static InvalidSyntaxException invalidSyntax(String input) {
+        return new InvalidSyntaxException("Uh Oh! Invalid Syntax for event!\n\n"
+                + "Usage: event \"TASK\" /from \"DATE\" /to \"DATE\" "
+                + "[/priority \"{HIGH | MEDIUM | LOW}\"]", input);
     }
 }

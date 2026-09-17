@@ -8,7 +8,11 @@ public class CommandParser {
 
     /** Executes the command represented by the given input. */
     public static String getCommand(String input, BeanList taskList) {
-        String[] words = input.split(" ");
+        if (input == null || input.isBlank()) {
+            throw new UnknownCommandException("Sorry, I don't know what you mean. :<", input);
+        }
+
+        String[] words = input.trim().split("\\s+");
 
         return switch (Commands.match(words[0])) {
             case EXIT -> ExitCommand.execute();

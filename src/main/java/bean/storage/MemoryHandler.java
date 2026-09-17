@@ -20,6 +20,7 @@ public class MemoryHandler {
     private static final String TASK_EVENT = "2";
 
     private static final String TASK_MARKED = "1";
+    private static final String TASK_UNMARKED = "0";
 
     private static final String PRIORITY_HIGH = "2";
     private static final String PRIORITY_MEDIUM = "1";
@@ -55,8 +56,6 @@ public class MemoryHandler {
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        } catch (DateTimeParseException e) {
-            System.out.println("Warning: Data format in memory is incorrect! Skipping line!");
         }
     }
 
@@ -71,27 +70,30 @@ public class MemoryHandler {
         try {
             validateMemoryData(values, line);
             int sizeBeforeAdding = taskList.getSize();
-            if (!addTaskFromMemory(values, taskList, line)) {
-                return false;
-            }
+            addTaskFromMemory(values, taskList, line);
             if (taskList.getSize() != sizeBeforeAdding + 1) {
                 throw new IllegalStateException("A valid memory record must add exactly one task");
             }
             if (values[1].equals(TASK_MARKED)) {
-                taskList.markTask(taskList.getSize());
+                taskList.markLastAddedTask();
             }
         } catch (InvalidMemoryDataException e) {
             System.out.println(e.getMessage());
+        } catch (DateTimeParseException e) {
+            System.out.println("Warning: Data format in memory is incorrect! Skipping line!");
         }
         return true;
     }
 
     /** Validates the fields shared by all saved task records. */
     private void validateMemoryData(String[] values, String line) {
-        if (values.length < 3) {
+        if (values.length < 4) {
             throw new InvalidMemoryDataException(line);
         }
-        if (values[2].isBlank()) {
+        if (!values[1].equals(TASK_MARKED) && !values[1].equals(TASK_UNMARKED)) {
+            throw new InvalidMemoryDataException("Warning: Invalid task status! Skipping line!", line);
+        }
+        if (values[3].isBlank()) {
             throw new InvalidMemoryDataException(
                     "Warning: Invalid Data! Name cannot be blank!", line);
         }
@@ -112,31 +114,30 @@ public class MemoryHandler {
 
     }
 
-    /** Adds a task represented by a saved record and returns whether reading should continue. */
-    private boolean addTaskFromMemory(String[] values, BeanList taskList, String line) {
+    /** Adds a task represented by a saved record. */
+    private void addTaskFromMemory(String[] values, BeanList taskList, String line) {
         switch (values[0]) {
             case TASK_TODO:
-                if (values.length < 4) {
+                if (values.length != 4) {
                     throw new InvalidMemoryDataException(line);
                 }
                 taskList.addTodoSilent(values[3], matchPriority(values[2]));
                 break;
             case TASK_DEADLINE:
-                if (values.length < 5) {
+                if (values.length != 5) {
                     throw new InvalidMemoryDataException(line);
                 }
                 taskList.addDeadlineSilent(values[3], values[4], matchPriority(values[2]));
                 break;
             case TASK_EVENT:
-                if (values.length < 6) {
+                if (values.length != 6) {
                     throw new InvalidMemoryDataException(line);
                 }
                 taskList.addEventSilent(values[3], values[4], values[5], matchPriority(values[2]));
                 break;
             default:
-                return false;
+                throw new InvalidMemoryDataException("Warning: Unknown task type! Skipping line!", line);
         }
-        return true;
     }
 
     /** Writes all tasks in the given task list to the memory file. */

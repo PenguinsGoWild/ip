@@ -56,6 +56,18 @@ public class BeanListTest {
     }
 
     @Test
+    public void prioritySortedDisplay_actionsUseDisplayedTaskIndex() {
+        BeanList beanList = new BeanList();
+        beanList.addTodoSilent("Low priority task", Priority.LOW);
+        beanList.addTodoSilent("High priority task", Priority.HIGH);
+
+        assertEquals("Good Job! I'll mark the task as done!\n\n [T][X] High priority task",
+                beanList.markTask(1));
+        assertEquals("Alrighty! I've removed the following task:\n\nLOW [T][ ] Low priority task"
+                + "\n\nNow you have 1 tasks in the list.", beanList.deleteTask(2));
+    }
+
+    @Test
     public void addEvent_validDates_taskIsStoredWithDates() {
         BeanList beanList = new BeanList();
 
