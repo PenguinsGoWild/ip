@@ -1,6 +1,5 @@
 package bean.task;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -36,9 +35,9 @@ public class BeanListTest {
 
         // Action & Assertion: Pass boundary-breaking indices and verify the program
         // silently returns instead of crashing with an IndexOutOfBoundsException
-        assertDoesNotThrow(() -> beanList.markTask(0)); // Zero index
-        assertDoesNotThrow(() -> beanList.markTask(-1)); // Negative index
-        assertDoesNotThrow(() -> beanList.markTask(5)); // Out of bounds index
+        assertEquals("", beanList.markTask(0)); // Zero index
+        assertEquals("", beanList.markTask(-1)); // Negative index
+        assertEquals("", beanList.markTask(5)); // Out of bounds index
     }
 
     @Test
@@ -46,8 +45,8 @@ public class BeanListTest {
         BeanList beanList = new BeanList();
         beanList.addTodoSilent("Read textbook", Priority.HIGH);
 
-        assertEquals("0|0|Read textbook", beanList.formatTask(0));
-        assertEquals("Here are the tasks in your list:\n\n1. [T][ ] Read textbook",
+        assertEquals("0|0|2|Read textbook|", beanList.formatTask(0));
+        assertEquals("Here are the tasks in your list:\n\n1. HIGH [T][ ] Read textbook",
                 beanList.findTasks("textbook"));
         assertEquals("Good Job! I'll mark the task as done!\n\n [T][X] Read textbook",
                 beanList.markTask(1));
@@ -65,6 +64,6 @@ public class BeanListTest {
         assertEquals(1, beanList.getSize());
         assertEquals("[E]", beanList.getTaskTag(1));
         assertEquals("Project meeting", beanList.getTaskName(1));
-        assertEquals("2|0|Project meeting|2026-09-01|2026-09-02", beanList.formatTask(0));
+        assertEquals("2|0|0|Project meeting|2026-09-01|2026-09-02", beanList.formatTask(0));
     }
 }

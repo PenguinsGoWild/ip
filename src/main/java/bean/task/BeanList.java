@@ -23,12 +23,12 @@ public class BeanList {
     }
 
     public String getTaskTag(int i) {
-        assert i >= 1 && i <= tasks.size() : "Task index must be one-based and valid";
+        validateTaskIndex(i);
         return tasks.get(i - 1).getTag();
     }
 
     public String getTaskName(int i) {
-        assert i >= 1 && i <= tasks.size() : "Task index must be one-based and valid";
+        validateTaskIndex(i);
         return tasks.get(i - 1).get()[1];
     }
 
@@ -154,7 +154,6 @@ public class BeanList {
             return "";
         }
 
-        assert index >= 1 && index <= tasks.size() : "Task index must be one-based and valid";
         tasks.get(index - 1).markDone();
 
         return "Good Job! I'll mark the task as done!\n\n"
@@ -166,7 +165,7 @@ public class BeanList {
      */
     public String unmarkTask(int index) {
 
-        assert index >= 1 && index <= tasks.size() : "Task index must be one-based and valid";
+        validateTaskIndex(index);
         tasks.get(index - 1).unmarkDone();
         return "Awww, Okay! I'll unmark it!\n\n"
                 + " " + getTaskTag(index) + "[ ] " + getTaskName(index);
@@ -177,7 +176,7 @@ public class BeanList {
      */
     public String deleteTask(int index) {
 
-        assert index >= 1 && index <= tasks.size() : "Task index must be one-based and valid";
+        validateTaskIndex(index);
         String removedTask = tasks.remove(index - 1).get()[1];
 
         size -= 1;
@@ -189,28 +188,44 @@ public class BeanList {
      * Returns the task at the zero-based index in a format suitable for storage.
      */
     public String formatTask(int index) {
-        assert index >= 0 && index < tasks.size() : "Storage index must be zero-based and valid";
+        validateStorageIndex(index);
         Task task = tasks.get(index);
         String[] taskData = task.get();
         String tag = task.getTag();
-        assert tag.equals("[T]") || tag.equals("[D]") || tag.equals("[E]")
-                : "Every task must have a recognized storage tag";
         return switch (tag) {
             case "[T]" -> {
-                assert taskData.length == 2 : "A to-do task must have two storage fields";
+                validateTaskDataLength(taskData, 3, "A to-do task must have three storage fields");
                 yield "0|" + taskData[0] + "|" + taskData[2] + "|" + taskData[1] + "|";
             }
             case "[D]" -> {
-                assert taskData.length == 3 : "A deadline task must have three storage fields";
+                validateTaskDataLength(taskData, 4, "A deadline task must have four storage fields");
                 yield "1|" + taskData[0] + "|" + taskData[3] + "|" + taskData[1] + "|" + taskData[2];
             }
             case "[E]" -> {
-                assert taskData.length == 4 : "An event task must have four storage fields";
+                validateTaskDataLength(taskData, 5, "An event task must have five storage fields");
                 yield "2|" + taskData[0] + "|" + taskData[4] + "|" + taskData[1] + "|" + taskData[2]
                         + "|" + taskData[3];
             }
-            default -> "";
+            default -> throw new IllegalStateException("Every task must have a recognized storage tag");
         };
+    }
+
+    private void validateTaskIndex(int index) {
+        if (index < 1 || index > tasks.size()) {
+            throw new IllegalArgumentException("Task index must be one-based and valid: " + index);
+        }
+    }
+
+    private void validateStorageIndex(int index) {
+        if (index < 0 || index >= tasks.size()) {
+            throw new IllegalArgumentException("Storage index must be zero-based and valid: " + index);
+        }
+    }
+
+    private void validateTaskDataLength(String[] taskData, int expectedLength, String message) {
+        if (taskData.length != expectedLength) {
+            throw new IllegalStateException(message);
+        }
     }
 
     /**
@@ -226,9 +241,9 @@ public class BeanList {
     public String findTasks(String searchExpression) {
         Pattern pattern = Pattern.compile(searchExpression);
 
-        List<Task> matchingTasks = tasks.stream()
+        List<Task> matchingTasks = new ArrayList<>(tasks.stream()
                 .filter(task -> pattern.matcher(task.get()[1]).find())
-                .toList();
+                .toList());
 
         return "Here are the tasks in your list:\n\n" + formatTaskDisplay(matchingTasks);
     }

@@ -31,11 +31,14 @@ public class DialogBox extends HBox {
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
-            assert dialog != null && displayPicture != null
-                    : "DialogBox.fxml must inject both dialog controls";
-            assert getChildren().size() == 2 : "DialogBox.fxml must contain two child nodes";
+            if (dialog == null || displayPicture == null) {
+                throw new IllegalStateException("DialogBox.fxml must inject both dialog controls");
+            }
+            if (getChildren().size() != 2) {
+                throw new IllegalStateException("DialogBox.fxml must contain two child nodes");
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Unable to load DialogBox.fxml", e);
         }
 
         dialog.setText(text);
