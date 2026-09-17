@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import bean.exception.UnknownCommandException;
 import bean.task.BeanList;
+import bean.task.Priority;
 
 public class CommandParserTest {
 
@@ -38,6 +39,20 @@ public class CommandParserTest {
         assertEquals(Commands.TODO, Commands.match("todo"));
         assertEquals(Commands.TODO, Commands.match("TD"));
         assertEquals(Commands.DEADLINE, Commands.match("dln"));
+        assertEquals(Commands.FIND, Commands.match("findtask"));
         assertEquals(Commands.NONE, Commands.match("unsupported"));
+    }
+
+    @Test
+    public void getCommand_findtaskAlias_returnsMatchingTasks() {
+        BeanList taskList = new BeanList();
+        taskList.addTodoSilent("Read textbook", Priority.LOW);
+        taskList.addTodoSilent("Buy textbook", Priority.HIGH);
+        taskList.addTodoSilent("Water plants", Priority.MEDIUM);
+
+        String response = CommandParser.getCommand("findtask \"textbook\"", taskList);
+
+        assertEquals("Here are the tasks in your list:\n\n"
+                + "1. HIGH [T][ ] Buy textbook\n2. LOW [T][ ] Read textbook", response);
     }
 }

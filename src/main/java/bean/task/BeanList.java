@@ -5,7 +5,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -232,12 +232,12 @@ public class BeanList {
 
     }
 
-    /** Finds and displays tasks whose descriptions match the given regular expression. */
-    public String findTasks(String searchExpression) {
-        Pattern pattern = Pattern.compile(searchExpression);
+    /** Finds and displays tasks whose descriptions contain the given keyword. */
+    public String findTasks(String keyword) {
+        String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
 
         List<Task> matchingTasks = new ArrayList<>(tasks.stream()
-                .filter(task -> pattern.matcher(task.get()[1]).find())
+                .filter(task -> task.get()[1].toLowerCase(Locale.ROOT).contains(normalizedKeyword))
                 .toList());
 
         return "Here are the tasks in your list:\n\n" + formatTaskDisplay(matchingTasks);
@@ -251,27 +251,13 @@ public class BeanList {
                 + taskDescription + "\n\nNow you have " + size + " tasks in the list.";
     }
 
-    private void updateTaskCachedPositions(List<Task> taskList) {
-        for (int i = 0; i < size; i++) {
-            Task task = taskList.get(i);
-            if (task.getPosition() != i) {
-                task.setPosition(i);
-            }
-        }
-
-    }
-
-    private void sortTaskPriorities(List<Task> taskList) {
-        updateTaskCachedPositions(taskList);
-        taskList.sort(Comparator.comparingInt((Task task) -> -task.getPriority().getLevel())
-            .thenComparing(Comparator.comparingInt((Task task) -> task.getPosition())));
-
-    }
-
     private String formatTaskDisplay(List<Task> taskList) {
-        sortTaskPriorities(taskList);
-        return IntStream.range(0, taskList.size())
-            .mapToObj(index -> index + 1 + ". " + taskList.get(index))
+        List<Task> sortedTasks = taskList.stream()
+                .sorted(Comparator.comparingInt((Task task) -> -task.getPriority().getLevel())
+                        .thenComparingInt(Task::getPosition))
+                .toList();
+        return IntStream.range(0, sortedTasks.size())
+            .mapToObj(index -> index + 1 + ". " + sortedTasks.get(index))
             .collect(Collectors.joining("\n"));
     }
 }

@@ -10,7 +10,7 @@ public enum Commands {
     DEADLINE("deadline", "dln"),
     EVENT("event", "evt"),
     DELETE("delete", "del"),
-    FIND("find", "f"),
+    FIND("find", "findtask", "f"),
     NONE;
 
     private final String[] names;

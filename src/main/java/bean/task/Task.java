@@ -18,6 +18,7 @@ class Task {
         this.task = task;
         this.isDone = false;
         this.priority = priority;
+        this.position = position;
     }
 
     public Priority getPriority() {
