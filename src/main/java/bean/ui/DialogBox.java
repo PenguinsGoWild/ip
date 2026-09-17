@@ -57,19 +57,20 @@ public class DialogBox extends HBox {
 
     public static StackPane getUserDialog(String text, Image img) {
         DialogBox dialogBox = new DialogBox(text, img);
-        return wrap(dialogBox);
+        return wrap(dialogBox, "user-dialog");
     }
 
     public static StackPane getBeanDialog(String text, Image img) {
-        var db = new DialogBox(text, img);
-        db.flip();
-        return wrap(db);
+        var dialogBox = new DialogBox(text, img);
+        dialogBox.flip();
+        return wrap(dialogBox, "bean-dialog");
     }
 
     /** Wraps a dialogue in a transparent node that supplies the outer shadow. */
-    private static StackPane wrap(DialogBox dialogBox) {
+    private static StackPane wrap(DialogBox dialogBox, String styleClass) {
         StackPane wrapper = new StackPane(dialogBox);
         wrapper.getStyleClass().add("dialog-wrapper");
+        wrapper.getStyleClass().add(styleClass);
         return wrapper;
     }
 }

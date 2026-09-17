@@ -1,5 +1,5 @@
 .main-window {
-    -fx-background-color: transparent;
+    -fx-background-color: #fffaf2;
 }
 
 .scroll-pane,
@@ -9,117 +9,85 @@
 }
 
 .sendButton {
-    -fx-background-color: rgba(221, 219, 219, 0.9);
-    -fx-backgroound-insets: 6px;
-    -fx-background-radius: 15px;
-
-    -fx-effect: innershadow(
-        gaussian,
-        rgba(252, 252, 252, 1),
-        10,
-        0.5,
-        0,
-        0
-    );
-}
-
-.send-button-container {
-    -fx-background-color: transparent;
-    -fx-effect: dropshadow(
-        gaussian,
-        rgba(28, 27, 27, 0.6),
-        10,
-        0.2,
-        0,
-        0
-    );
-}
-
-.userInput {
-    -fx-background-color: rgba(81, 81, 82, 0.3);
-    -fx-background-insets: 6px;
-    -fx-background-radius: 9px;
-    
-    -fx-border-color: rgba(255, 255, 255, 0.512);
-    -fx-border-width: 6px;
-    -fx-border-insets: 0;
-    -fx-border-radius: 15px;
-
-
-    -fx-text-fill: #323232;
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #dedfe2);
+    -fx-background-insets: 0;
+    -fx-background-radius: 18px;
+    -fx-text-fill: #35363a;
     -fx-font-family: "Segoe UI";
     -fx-font-size: 15px;
     -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(63, 66, 72, 0.28), 10, 0.22, 0, 4);
 }
 
+.sendButton:hover {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f0f1f2);
+}
+
+.sendButton:pressed {
+    -fx-background-color: linear-gradient(to bottom, #d1d2d5, #f5f5f4);
+    -fx-translate-y: 1px;
+}
+
+.send-button-container,
 .user-input-container {
     -fx-background-color: transparent;
-    -fx-effect: dropshadow(
-        gaussian,
-        rgba(28, 27, 27, 0.6),
-        10,
-        0.5,
-        0,
-        0
-    );
+}
+
+.userInput {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-insets: 0;
+    -fx-background-radius: 18px;
+    -fx-border-color: #c8c9cc;
+    -fx-border-width: 2px;
+    -fx-border-radius: 18px;
+    -fx-text-fill: #35363a;
+    -fx-prompt-text-fill: #8c8e93;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 16px;
+    -fx-effect: dropshadow(gaussian, rgba(63, 66, 72, 0.18), 12, 0.18, 0, 4);
+}
+
+.userInput:focused {
+    -fx-border-color: #888b91;
+    -fx-effect: dropshadow(gaussian, rgba(63, 66, 72, 0.26), 14, 0.22, 0, 4);
 }
 
 .dialog {
-    -fx-background-color: rgba(81, 81, 82, 0.3);
-    -fx-background-insets: 6px;
-    -fx-background-radius: 9px;
-    
-    -fx-border-color: rgba(255, 255, 255, 0.512);
-    -fx-border-width: 6px;
-    -fx-border-insets: 0;
-    -fx-border-radius: 15px;
-
-    -fx-effect: innershadow(
-        gaussian,
-        rgba(255, 255, 255, 0.8),
-        10,
-        0.25,
-        0,
-        0
-    );
+    -fx-background-color: rgba(248, 247, 243, 0.88);
+    -fx-background-radius: 22px;
+    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-border-width: 1px;
+    -fx-border-radius: 22px;
 }
 
 .dialog-wrapper {
     -fx-background-color: transparent;
-    -fx-effect: dropshadow(
-        gaussian,
-        rgba(28, 27, 27, 0.6),
-        10,
-        0.5,
-        0,
-        0
-    );
+    -fx-effect: dropshadow(gaussian, rgba(63, 66, 72, 0.2), 14, 0.2, 0, 5);
 }
 
 .dialog-text {
-
-    -fx-background-color: rgba(235, 234, 234, 0.777);
-    -fx-background-radius: 15px;
-
-    -fx-effect: dropshadow(
-        gaussian,
-        rgba(28, 27, 27, 0.2),
-        10,
-        0.5,
-        0,
-        0
-
-    )
-    
-    
-
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16px;
+    -fx-text-fill: #35363a;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(63, 66, 72, 0.12), 8, 0.18, 0, 3);
 }
 
 .displayPicture {
-    -fx-border-color: #2196F3;
-    -fx-border-width: 2px;
-    -fx-border-radius: 15px;
+    -fx-border-color: #9a9ca1;
+    -fx-border-width: 3px;
+    -fx-border-radius: 52px;
+}
 
+.scrollPane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
 }
 
 .scrollPane .scroll-bar:vertical {
@@ -134,13 +102,13 @@
 }
 
 .scrollPane .scroll-bar:vertical .thumb {
-    -fx-background-color: rgba(80, 150, 190, 0.4);
+    -fx-background-color: rgba(104, 107, 114, 0.42);
     -fx-background-radius: 4px;
     -fx-background-insets: 1px;
 }
 
 .scrollPane .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: rgba(80, 180, 220, 0.65);
+    -fx-background-color: rgba(75, 78, 84, 0.68);
 }
 
 .scrollPane .scroll-bar:vertical .increment-button,
@@ -159,12 +127,4 @@
     -fx-background-color: transparent;
     -fx-padding: 0;
     -fx-shape: "";
-}
-
-
-.dialog-text {
-    -fx-text-fill: #323232;
-    -fx-font-family: "Segoe UI";
-    -fx-font-size: 15px;
-    -fx-font-weight: bold;
 }
