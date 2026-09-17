@@ -21,6 +21,30 @@
             xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1">
     <children>
+        <ScrollPane fx:id="scrollPane"
+                    fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    hvalue="1.0"
+                    prefHeight="521.0"
+                    prefWidth="400.0"
+                    styleClass="scrollPane"
+                    vvalue="0.0"
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+            <content>
+                <VBox fx:id="dialogContainer"
+                      spacing="10.0">
+                    <padding>
+                        <Insets top="5"
+                                bottom="120.0"
+                                right="5"
+                                left="5" />
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
         <StackPane styleClass="user-input-container"
                    prefHeight="80.0"
                    prefWidth="324.0"
@@ -52,29 +76,5 @@
                     text="Send"
                     styleClass="sendButton" />
         </StackPane>
-        <ScrollPane fx:id="scrollPane"
-                    fitToWidth="true"
-                    hbarPolicy="NEVER"
-                    hvalue="1.0"
-                    prefHeight="521.0"
-                    prefWidth="400.0"
-                    styleClass="scrollPane"
-                    vvalue="0.0"
-                    AnchorPane.bottomAnchor="80.0"
-                    AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0"
-                    AnchorPane.topAnchor="0.0">
-            <content>
-                <VBox fx:id="dialogContainer"
-                      spacing="10.0">
-                    <padding>
-                        <Insets top="5"
-                                bottom="35.0"
-                                right="5"
-                                left="5" />
-                    </padding>
-                </VBox>
-            </content>
-        </ScrollPane>
     </children>
 </AnchorPane>
