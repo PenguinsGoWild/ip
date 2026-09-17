@@ -62,12 +62,20 @@ public class DialogBox extends HBox {
         displayPicture.setImage(img);
         if (isTaskListResponse(text)) {
             getChildren().set(0, createTaskList(text));
+        } else if (isTaskActionResponse(text)) {
+            getChildren().set(0, createTaskAction(text));
         }
     }
 
     /** Returns whether the response should be rendered as a structured task list. */
     private boolean isTaskListResponse(String text) {
         return text.startsWith("Here are the tasks in your list:");
+    }
+
+    /** Returns whether the response describes an add or delete task action. */
+    private boolean isTaskActionResponse(String text) {
+        return text.startsWith("Alrighty! I've added the following task:")
+                || text.startsWith("Alrighty! I've removed the following task:");
     }
 
     /** Creates a styled list of task rows from the command response. */
@@ -84,17 +92,7 @@ public class DialogBox extends HBox {
         int taskCount = 0;
         for (int i = 1; i < lines.length; i++) {
             if (!lines[i].isBlank()) {
-                Text taskText = new Text(lines[i]);
-                taskText.setStrikethrough(lines[i].contains("[X]"));
-                taskText.getStyleClass().add("task-row-text");
-                TextFlow taskRow = new TextFlow(taskText);
-                taskRow.setMaxWidth(Double.MAX_VALUE);
-                taskRow.getStyleClass().add("task-list-item");
-                taskRow.getStyleClass().add(getPriorityStyleClass(lines[i]));
-                if (lines[i].contains("[X]")) {
-                    taskRow.getStyleClass().add("task-completed");
-                }
-                taskList.getChildren().add(taskRow);
+                taskList.getChildren().add(createTaskRow(lines[i], "task-list-item"));
                 taskCount++;
             }
         }
@@ -107,12 +105,59 @@ public class DialogBox extends HBox {
         return taskList;
     }
 
+    /** Creates a structured panel for an add or delete response. */
+    private VBox createTaskAction(String text) {
+        String[] sections = text.split("Here are the tasks in your list:", 2);
+        String[] actionLines = sections[0].split("\\R");
+
+        VBox actionPanel = new VBox(6);
+        actionPanel.setMaxWidth(Double.MAX_VALUE);
+        actionPanel.getStyleClass().add("task-action");
+
+        Label header = new Label(actionLines[0]);
+        header.getStyleClass().add("task-action-header");
+        actionPanel.getChildren().add(header);
+
+        if (actionLines.length > 2 && !actionLines[2].isBlank()) {
+            actionPanel.getChildren().add(createTaskRow(actionLines[2], "task-action-item"));
+        }
+
+        if (actionLines.length > 4 && !actionLines[4].isBlank()) {
+            Label footer = new Label(actionLines[4]);
+            footer.setWrapText(true);
+            footer.getStyleClass().add("task-action-footer");
+            actionPanel.getChildren().add(footer);
+        }
+
+        if (sections.length > 1) {
+            actionPanel.getChildren().add(
+                    createTaskList("Here are the tasks in your list:" + sections[1]));
+        }
+        return actionPanel;
+    }
+
+    /** Creates a styled task row with priority and completion state. */
+    private TextFlow createTaskRow(String taskText, String rowStyleClass) {
+        Text taskLabel = new Text(taskText);
+        taskLabel.setStrikethrough(taskText.contains("[X]"));
+        taskLabel.getStyleClass().add("task-row-text");
+
+        TextFlow taskRow = new TextFlow(taskLabel);
+        taskRow.setMaxWidth(Double.MAX_VALUE);
+        taskRow.getStyleClass().add(rowStyleClass);
+        taskRow.getStyleClass().add(getPriorityStyleClass(taskText));
+        if (taskText.contains("[X]")) {
+            taskRow.getStyleClass().add("task-completed");
+        }
+        return taskRow;
+    }
+
     /** Returns the style class associated with a task's priority prefix. */
     private String getPriorityStyleClass(String taskText) {
-        if (taskText.contains(". HIGH ")) {
+        if (taskText.contains("HIGH ")) {
             return "priority-high";
         }
-        if (taskText.contains(". MEDIUM ")) {
+        if (taskText.contains("MEDIUM ")) {
             return "priority-medium";
         }
         return "priority-low";

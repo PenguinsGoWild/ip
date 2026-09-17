@@ -148,6 +148,16 @@
     -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.72), 8, 0.22, 0, -2);
 }
 
+.task-action {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #e7edf7);
+    -fx-background-radius: 16px;
+    -fx-border-color: rgba(255, 255, 255, 0.86);
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
+    -fx-padding: 10px 12px;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.72), 8, 0.22, 0, -2);
+}
+
 .task-list-header {
     -fx-text-fill: #35363a;
     -fx-font-family: "Trebuchet MS";
@@ -156,6 +166,7 @@
 }
 
 .task-list-item,
+.task-action-item,
 .task-list-empty {
     -fx-text-fill: #3f5364;
     -fx-font-family: "Trebuchet MS";
@@ -164,6 +175,19 @@
     -fx-padding: 5px 7px;
     -fx-background-color: rgba(218, 235, 247, 0.72);
     -fx-background-radius: 9px;
+}
+
+.task-action-header,
+.task-action-footer {
+    -fx-text-fill: #35363a;
+    -fx-font-family: "Trebuchet MS";
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.task-action-footer {
+    -fx-font-size: 13px;
+    -fx-text-fill: #71808b;
 }
 
 .task-row-text {

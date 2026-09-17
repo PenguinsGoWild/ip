@@ -19,7 +19,7 @@ public class CommandParserTest {
         assertEquals(1, taskList.getSize());
         assertEquals("[T]", taskList.getTaskTag(1));
         assertEquals("read textbook", taskList.getTaskName(1));
-        assertEquals("Alrighty! I've added the following task:\n\n[T][ ] read textbook"
+        assertEquals("Alrighty! I've added the following task:\n\nLOW [T][ ] read textbook"
                 + "\n\nNow you have 1 tasks in the list.", response);
     }
 

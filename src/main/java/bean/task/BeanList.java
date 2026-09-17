@@ -1,7 +1,6 @@
 package bean.task;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,8 +11,6 @@ import java.util.stream.IntStream;
 
 /** Stores and manages the tasks currently known to the application. */
 public class BeanList {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
-
     private final List<Task> tasks;
     private int size = 0;
 
@@ -44,7 +41,7 @@ public class BeanList {
             LocalDate parsedDate = LocalDate.parse(date);
             tasks.add(new Deadline(task, parsedDate, size + 1));
             size += 1;
-            return formatAddTask("[D][ ] " + task + " (by: " + parsedDate.format(DATE_FORMATTER) + ")");
+            return formatAddTask(tasks.get(size - 1).toString());
         } catch (DateTimeParseException e) {
             return "Woah! You tried keying in a wrong date format!\n"
                     + "Try the format yyyy-mm-dd!";
@@ -59,7 +56,7 @@ public class BeanList {
             LocalDate parsedDate = LocalDate.parse(date);
             tasks.add(new Deadline(task, parsedDate, priority, size + 1));
             size += 1;
-            return formatAddTask("[D][ ] " + task + " (by: " + parsedDate.format(DATE_FORMATTER) + ")");
+            return formatAddTask(tasks.get(size - 1).toString());
         } catch (DateTimeParseException e) {
             return "Woah! You tried keying in a wrong date format!\n"
                     + "Try the format yyyy-mm-dd!";
@@ -75,8 +72,7 @@ public class BeanList {
             LocalDate parsedTo = LocalDate.parse(to);
             tasks.add(new Event(task, parsedFrom, parsedTo, size + 1));
             size += 1;
-            return formatAddTask("[E][ ] " + task + " (from: " + parsedFrom.format(DATE_FORMATTER)
-                    + " to: " + parsedTo.format(DATE_FORMATTER) + ")");
+            return formatAddTask(tasks.get(size - 1).toString());
         } catch (DateTimeParseException e) {
             return "Woah! You tried keying in a wrong date format!\n"
                     + "Try the format yyyy-mm-dd!";
@@ -92,8 +88,7 @@ public class BeanList {
             LocalDate parsedTo = LocalDate.parse(to);
             tasks.add(new Event(task, parsedFrom, parsedTo, priority, size + 1));
             size += 1;
-            return formatAddTask("[E][ ] " + task + " (from: " + parsedFrom.format(DATE_FORMATTER)
-                    + " to: " + parsedTo.format(DATE_FORMATTER) + ")");
+            return formatAddTask(tasks.get(size - 1).toString());
         } catch (DateTimeParseException e) {
             return "Woah! You tried keying in a wrong date format!\n"
                     + "Try the format yyyy-mm-dd!";
@@ -106,7 +101,7 @@ public class BeanList {
     public String addTodo(String task) {
         tasks.add(new Todo(task, size + 1));
         size += 1;
-        return formatAddTask("[T][ ] " + task);
+        return formatAddTask(tasks.get(size - 1).toString());
     }
 
     /**
@@ -115,7 +110,7 @@ public class BeanList {
     public String addTodo(String task, Priority priority) {
         tasks.add(new Todo(task, priority, size + 1));
         size += 1;
-        return formatAddTask("[T][ ] " + task);
+        return formatAddTask(tasks.get(size - 1).toString());
     }
 
     /**
@@ -177,7 +172,7 @@ public class BeanList {
     public String deleteTask(int index) {
 
         validateTaskIndex(index);
-        String removedTask = tasks.remove(index - 1).get()[1];
+        Task removedTask = tasks.remove(index - 1);
 
         size -= 1;
         return "Alrighty! I've removed the following task:\n\n"

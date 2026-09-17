@@ -50,7 +50,7 @@ public class BeanListTest {
                 beanList.findTasks("textbook"));
         assertEquals("Good Job! I'll mark the task as done!\n\n [T][X] Read textbook",
                 beanList.markTask(1));
-        assertEquals("Alrighty! I've removed the following task:\n\nRead textbook"
+        assertEquals("Alrighty! I've removed the following task:\n\nHIGH [T][X] Read textbook"
                 + "\n\nNow you have 0 tasks in the list.", beanList.deleteTask(1));
         assertEquals(0, beanList.getSize());
     }
