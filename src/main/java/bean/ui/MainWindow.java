@@ -19,23 +19,16 @@ import javafx.scene.layout.VBox;
  * Controller for the main GUI.
  */
 public class MainWindow {
-    private static final String DEFAULT_INTRO_MESSAGE = "       ▄▄▄                    \n"
-            + "      ██▀▀█▄                  \n"
-            + "      ██ ▄█▀             ▄    \n"
-            + "      ██▀▀█▄ ▄█▀█▄ ▄▀▀█▄ ████▄\n"
-            + "    ▄ ██  ▄█ ██▄█▀ ▄█▀██ ██ ██\n"
-            + "    ▀██████▀▄▀█▄▄▄▄▀█▄██▄██ ▀█\n"
-            + "Hello! I'm Bean.\n\nWhat can I do for you today?";
-    private static final String SECRET_INTRO_MESSAGE = "     ▄▄▄▄· ▄▄▄ . ▄▄▄·  ▐ ▄ \n"
-            + "     ▐█ ▀█▪▀▄.▀·▐█ ▀█ •█▌▐█\n"
-            + "     ▐█▀▀█▄▐▀▀▪▄▄█▀▀█ ▐█▐▐▌\n"
-            + "     ██▄▪▐█▐█▄▄▌▐█ ▪▐▌██▐█▌\n"
-            + "     ·▀▀▀▀  ▀▀▀  ▀  ▀ ▀▀ █▪\n"
-            + "Hello! I'm Bean.\n\nWhat can I do for you today?";
+    private static final String DEFAULT_INTRO_MESSAGE = "Hello! I'm Bean.\n\nWhat can I do for you today?";
+    private static final String SECRET_INTRO_MESSAGE = "Hello! I'm Bean.\n\nWhat can I do for you today?";
     private static final Image USER_IMAGE = new Image(
             Bean.class.getResourceAsStream("/images/BeanUser.jpg"));
     private static final Image BEAN_IMAGE = new Image(
             Bean.class.getResourceAsStream("/images/BeanBot.jpg"));
+    private static final Image BEAN_LOGO_IMAGE = new Image(
+            Bean.class.getResourceAsStream("/images/bean.png"));
+    private static final Image SECRET_BEAN_LOGO_IMAGE = new Image(
+            Bean.class.getResourceAsStream("/images/secret bean.png"));
 
     @FXML
     private AnchorPane rootPane;
@@ -126,6 +119,8 @@ public class MainWindow {
     /** Displays either the standard greeting or the secret greeting. */
     public void showIntroMessage() {
         String introMessage = showDefaultMessage ? DEFAULT_INTRO_MESSAGE : SECRET_INTRO_MESSAGE;
-        dialogContainer.getChildren().addAll(DialogBox.getBeanDialog(introMessage, BEAN_IMAGE));
+        Image introGraphic = showDefaultMessage ? BEAN_LOGO_IMAGE : SECRET_BEAN_LOGO_IMAGE;
+        dialogContainer.getChildren().addAll(
+                DialogBox.getBeanIntroDialog(introMessage, BEAN_IMAGE, introGraphic));
     }
 }

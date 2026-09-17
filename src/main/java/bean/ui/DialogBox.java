@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -206,6 +207,26 @@ public class DialogBox extends HBox {
         dialogBox.flip();
         String styleClass = isError ? "error-dialog" : "bean-dialog";
         return wrap(dialogBox, styleClass, -700);
+    }
+
+    /** Creates a Bean introduction with a graphic above the greeting text. */
+    public static StackPane getBeanIntroDialog(String text, Image avatar, Image introGraphic) {
+        DialogBox dialogBox = new DialogBox(text, avatar);
+        dialogBox.setIntroGraphic(introGraphic);
+        dialogBox.flip();
+        return wrap(dialogBox, "bean-dialog", -700);
+    }
+
+    /** Renders the introduction graphic above the text while preserving the dialog label. */
+    private void setIntroGraphic(Image introGraphic) {
+        ImageView graphic = new ImageView(introGraphic);
+        graphic.setFitWidth(330);
+        graphic.setFitHeight(100);
+        graphic.setPreserveRatio(true);
+        graphic.setSmooth(false);
+        dialog.setGraphic(graphic);
+        dialog.setContentDisplay(ContentDisplay.TOP);
+        dialog.setGraphicTextGap(10);
     }
 
     /** Wraps a dialogue in a transparent node that supplies the outer shadow. */
