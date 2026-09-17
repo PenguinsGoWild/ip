@@ -77,8 +77,8 @@
 }
 
 .error-dialog .dialog {
-    -fx-background-color: rgba(255, 244, 242, 0.94);
-    -fx-border-color: #c66d6d;
+    -fx-background-color: rgba(255, 230, 228, 0.96);
+    -fx-border-color: #d4545e;
     -fx-border-width: 2px;
 }
 
@@ -113,8 +113,8 @@
 }
 
 .error-dialog .dialog-text {
-    -fx-background-color: #fff0ee;
-    -fx-text-fill: #b33f3f;
+    -fx-background-color: #ffdfdd;
+    -fx-text-fill: #a5222e;
 }
 
 .displayPicture {

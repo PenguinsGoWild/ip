@@ -3,6 +3,12 @@ package bean.ui;
 import java.io.IOException;
 import java.util.Collections;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 /**
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
@@ -65,7 +72,7 @@ public class DialogBox extends HBox {
     public static StackPane getUserDialog(String text, Image img) {
         DialogBox dialogBox = new DialogBox(text, img);
         dialogBox.compactUserAvatar();
-        return wrap(dialogBox, "user-dialog");
+        return wrap(dialogBox, "user-dialog", 700);
     }
 
     /** Makes the user avatar more compact while preserving its circular border. */
@@ -94,14 +101,47 @@ public class DialogBox extends HBox {
         var dialogBox = new DialogBox(text, img);
         dialogBox.flip();
         String styleClass = isError ? "error-dialog" : "bean-dialog";
-        return wrap(dialogBox, styleClass);
+        return wrap(dialogBox, styleClass, -700);
     }
 
     /** Wraps a dialogue in a transparent node that supplies the outer shadow. */
-    private static StackPane wrap(DialogBox dialogBox, String styleClass) {
+    private static StackPane wrap(DialogBox dialogBox, String styleClass, double startX) {
         StackPane wrapper = new StackPane(dialogBox);
         wrapper.getStyleClass().add("dialog-wrapper");
         wrapper.getStyleClass().add(styleClass);
+        animateIn(wrapper, startX);
         return wrapper;
+    }
+
+    /** Animates a dialogue into place from its speaker's side. */
+    private static void animateIn(StackPane wrapper, double startX) {
+        Duration duration = Duration.millis(220);
+
+        FadeTransition fade = new FadeTransition(duration, wrapper);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+
+        double reboundX = startX > 0 ? -14 : 14;
+        TranslateTransition slide = new TranslateTransition(duration, wrapper);
+        slide.setFromX(startX);
+        slide.setToX(reboundX);
+        slide.setInterpolator(Interpolator.EASE_OUT);
+
+        TranslateTransition settle = new TranslateTransition(Duration.millis(90), wrapper);
+        settle.setFromX(reboundX);
+        settle.setToX(0);
+        settle.setInterpolator(Interpolator.EASE_OUT);
+
+        ScaleTransition pop = new ScaleTransition(duration, wrapper);
+        pop.setFromX(0.94);
+        pop.setFromY(0.94);
+        pop.setToX(1);
+        pop.setToY(1);
+        pop.setInterpolator(Interpolator.EASE_OUT);
+
+        new ParallelTransition(
+                fade,
+                pop,
+                new SequentialTransition(slide, settle)).play();
     }
 }
