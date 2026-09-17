@@ -7,13 +7,16 @@ import bean.exception.ExitCommandException;
 import javafx.application.Application.Parameters;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * Controller for the main GUI.
@@ -40,8 +43,16 @@ public class MainWindow {
     private TextField userInput;
     @FXML
     private Button sendButton;
+    @FXML
+    private Button minimizeButton;
+    @FXML
+    private Button maximizeButton;
+    @FXML
+    private Button closeButton;
 
     private boolean showDefaultMessage = true;
+    private double windowDragOffsetX;
+    private double windowDragOffsetY;
 
     /** Initializes the dialog container and displays Bean's greeting. */
     @FXML
@@ -122,5 +133,52 @@ public class MainWindow {
         Image introGraphic = showDefaultMessage ? BEAN_LOGO_IMAGE : SECRET_BEAN_LOGO_IMAGE;
         dialogContainer.getChildren().addAll(
                 DialogBox.getBeanIntroDialog(introMessage, BEAN_IMAGE, introGraphic));
+    }
+
+    /** Stores the pointer offset used while dragging the custom title bar. */
+    @FXML
+    private void handleWindowPressed(MouseEvent event) {
+        Stage stage = getWindow(event);
+        windowDragOffsetX = event.getScreenX() - stage.getX();
+        windowDragOffsetY = event.getScreenY() - stage.getY();
+    }
+
+    /** Moves the window with the pointer while the custom title bar is dragged. */
+    @FXML
+    private void handleWindowDragged(MouseEvent event) {
+        Stage stage = getWindow(event);
+        if (!stage.isMaximized()) {
+            stage.setX(event.getScreenX() - windowDragOffsetX);
+            stage.setY(event.getScreenY() - windowDragOffsetY);
+        }
+    }
+
+    /** Minimizes the application window. */
+    @FXML
+    private void minimizeWindow() {
+        getWindow(minimizeButton).setIconified(true);
+    }
+
+    /** Toggles the application window between its normal and maximized sizes. */
+    @FXML
+    private void toggleMaximizeWindow() {
+        Stage stage = getWindow(maximizeButton);
+        stage.setMaximized(!stage.isMaximized());
+    }
+
+    /** Closes the application window. */
+    @FXML
+    private void closeWindow() {
+        getWindow(closeButton).close();
+    }
+
+    /** Returns the stage containing the supplied scene node. */
+    private Stage getWindow(Node node) {
+        return (Stage) node.getScene().getWindow();
+    }
+
+    /** Returns the stage containing the event source node. */
+    private Stage getWindow(MouseEvent event) {
+        return getWindow((Node) event.getSource());
     }
 }

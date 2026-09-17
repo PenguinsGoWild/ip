@@ -12,13 +12,17 @@ import bean.ui.MainWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /** Starts the Bean command-line task manager. */
 public class Bean extends Application {
     private static final BeanList TASKS = new BeanList();
     private static final MemoryHandler MEMORY_HANDLER = new MemoryHandler("memory.txt");
+    private static final Image WINDOW_ICON = new Image(
+            Bean.class.getResourceAsStream("/images/BeanUser.jpg"));
 
     @Override
     public void start(Stage stage) {
@@ -38,6 +42,7 @@ public class Bean extends Application {
     private static void initGui(Stage stage, Parameters param) {
 
         try {
+            stage.initStyle(StageStyle.UNDECORATED);
             FXMLLoader fxmlLoader = new FXMLLoader(Bean.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             MainWindow controller = fxmlLoader.getController();
@@ -45,6 +50,7 @@ public class Bean extends Application {
             controller.showIntroMessage();
             Scene scene = new Scene(ap);
             stage.setTitle("Bean");
+            stage.getIcons().add(WINDOW_ICON);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

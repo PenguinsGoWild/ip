@@ -2,6 +2,49 @@
     -fx-background-color: #298dff;
 }
 
+.window-bar {
+    -fx-background-color: linear-gradient(to bottom, #0377fc, #176ed1);
+    -fx-border-color: rgba(255, 255, 255, 0.55);
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 0 6px 0 14px;
+    -fx-effect: dropshadow(gaussian, rgba(31, 63, 105, 0.28), 8, 0.18, 0, 2);
+}
+
+.window-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Trebuchet MS";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.window-icon {
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(31, 63, 105, 0.3), 5, 0.18, 0, 1);
+}
+
+.window-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Trebuchet MS";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-min-width: 34px;
+    -fx-pref-width: 34px;
+    -fx-min-height: 28px;
+    -fx-pref-height: 28px;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.window-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+}
+
+.window-close-button:hover {
+    -fx-background-color: #c7354c;
+}
+
 .scroll-pane,
 .scroll-pane > .viewport,
 .scroll-pane .viewport {
