@@ -1,10 +1,14 @@
 package bean.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import bean.exception.BeanListOutOfBoundsException;
+import bean.exception.ExitCommandException;
 import bean.exception.InvalidSyntaxException;
 import bean.exception.UnknownCommandException;
 import bean.task.BeanList;
@@ -63,5 +67,160 @@ public class CommandParserTest {
 
         assertThrows(InvalidSyntaxException.class, () ->
                 CommandParser.getCommand("mark first", taskList));
+    }
+
+    @Test
+    public void match_allAliases_returnsExpectedCommands() {
+        assertEquals(Commands.EXIT, Commands.match("Q"));
+        assertEquals(Commands.LIST, Commands.match("LS"));
+        assertEquals(Commands.MARK, Commands.match("mark"));
+        assertEquals(Commands.UNMARK, Commands.match("unmark"));
+        assertEquals(Commands.DEADLINE, Commands.match("DEADLINE"));
+        assertEquals(Commands.EVENT, Commands.match("evt"));
+        assertEquals(Commands.DELETE, Commands.match("del"));
+        assertEquals(Commands.FIND, Commands.match("F"));
+        assertEquals(Commands.NONE, Commands.match(null));
+    }
+
+    @Test
+    public void getCommand_nullOrBlankInput_throwsUnknownCommandException() {
+        BeanList taskList = new BeanList();
+
+        assertThrows(UnknownCommandException.class, () -> CommandParser.getCommand(null, taskList));
+        assertThrows(UnknownCommandException.class, () -> CommandParser.getCommand("   ", taskList));
+    }
+
+    @Test
+    public void getCommand_listAliases_returnCurrentTasks() {
+        BeanList taskList = new BeanList();
+        taskList.addTodoSilent("Read", Priority.LOW);
+
+        assertEquals(taskList.displayTasks(), CommandParser.getCommand(" list ", taskList));
+        assertEquals(taskList.displayTasks(), CommandParser.getCommand("LS", taskList));
+    }
+
+    @Test
+    public void getCommand_todoWithPriority_isCaseInsensitiveAndWhitespaceTolerant() {
+        BeanList taskList = new BeanList();
+
+        String response = CommandParser.getCommand(
+                "  TD   prepare   presentation   /PrIoRiTy   hIgH  ", taskList);
+
+        assertEquals(1, taskList.getSize());
+        assertTrue(response.contains("HIGH [T][ ] prepare presentation"));
+    }
+
+    @Test
+    public void getCommand_todoWithInvalidSyntax_throwsInvalidSyntaxException() {
+        BeanList taskList = new BeanList();
+
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("todo", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("todo task /priority", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("todo task /priority high extra", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("todo task /priority urgent", taskList));
+    }
+
+    @Test
+    public void getCommand_deadlineWithAndWithoutPriority_addsTasks() {
+        BeanList taskList = new BeanList();
+
+        CommandParser.getCommand("deadline submit report /by 2026-08-28", taskList);
+        CommandParser.getCommand("dln renew pass /by 2026-09-01 /priority MEDIUM", taskList);
+
+        assertEquals(2, taskList.getSize());
+        assertTrue(taskList.displayTasks().contains("MEDIUM [D][ ] renew pass"));
+        assertTrue(taskList.displayTasks().contains("LOW [D][ ] submit report"));
+    }
+
+    @Test
+    public void getCommand_deadlineWithInvalidSyntax_throwsInvalidSyntaxException() {
+        BeanList taskList = new BeanList();
+
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("deadline submit report", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("deadline submit /by", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("deadline /by 2026-08-28", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("deadline submit /priority high /by 2026-08-28", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("deadline submit /by 2026-08-28 /by 2026-09-01", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("deadline submit /by 2026-08-28 /priority high extra", taskList));
+    }
+
+    @Test
+    public void getCommand_eventWithAndWithoutPriority_addsTasks() {
+        BeanList taskList = new BeanList();
+
+        CommandParser.getCommand("event conference /from 2026-08-28 /to 2026-08-29", taskList);
+        CommandParser.getCommand("evt dinner /from 2026-09-01 /to 2026-09-02 /priority low", taskList);
+
+        assertEquals(2, taskList.getSize());
+        assertTrue(taskList.displayTasks().contains("LOW [E][ ] dinner"));
+        assertTrue(taskList.displayTasks().contains("LOW [E][ ] conference"));
+    }
+
+    @Test
+    public void getCommand_eventWithInvalidSyntax_throwsInvalidSyntaxException() {
+        BeanList taskList = new BeanList();
+
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("event conference /from 2026-08-28", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("event conference /to 2026-08-29 /from 2026-08-28", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("event /from 2026-08-28 /to 2026-08-29", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("event conference /from /to 2026-08-29", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("event conference /from 2026-08-28 /to 2026-08-29 /priority", taskList));
+        assertThrows(InvalidSyntaxException.class, () -> CommandParser.getCommand(
+                "event conference /from 2026-08-28 /to 2026-08-29 /priority high extra", taskList));
+    }
+
+    @Test
+    public void getCommand_taskActions_updateListAndRejectInvalidArguments() {
+        BeanList taskList = new BeanList();
+        taskList.addTodoSilent("Read", Priority.LOW);
+
+        String markResponse = CommandParser.getCommand("mark 1", taskList);
+        assertTrue(markResponse.contains("[X] Read"));
+        assertTrue(CommandParser.getCommand("unmark 1", taskList).contains("[ ] Read"));
+        assertThrows(BeanListOutOfBoundsException.class, () ->
+                CommandParser.getCommand("delete 2", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("mark 1 extra", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("unmark first", taskList));
+        assertFalse(CommandParser.getCommand("mark", taskList).contains("Read"));
+    }
+
+    @Test
+    public void getCommand_find_validatesKeywordAndSearchesCaseInsensitively() {
+        BeanList taskList = new BeanList();
+        taskList.addTodoSilent("Read Textbook", Priority.LOW);
+
+        assertTrue(CommandParser.getCommand("f \"textBOOK\"", taskList).contains("Read Textbook"));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("find", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("find \"\"", taskList));
+    }
+
+    @Test
+    public void getCommand_exitAliases_throwExitSignal() {
+        BeanList taskList = new BeanList();
+
+        ExitCommandException exception = assertThrows(ExitCommandException.class, () ->
+                CommandParser.getCommand("q", taskList));
+
+        assertEquals("Baiiii!", exception.getMessage());
+        assertThrows(ExitCommandException.class, () -> CommandParser.getCommand("exit", taskList));
     }
 }

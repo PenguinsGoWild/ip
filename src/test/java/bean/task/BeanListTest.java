@@ -1,8 +1,12 @@
 package bean.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import bean.exception.InvalidSyntaxException;
 
 public class BeanListTest {
 
@@ -77,5 +81,97 @@ public class BeanListTest {
         assertEquals("[E]", beanList.getTaskTag(1));
         assertEquals("Project meeting", beanList.getTaskName(1));
         assertEquals("2|0|0|Project meeting|2026-09-01|2026-09-02", beanList.formatTask(0));
+    }
+
+    @Test
+    public void addTask_overloads_storeCorrectTypesAndPriorities() {
+        BeanList beanList = new BeanList();
+
+        beanList.addTodo("Plain todo");
+        beanList.addDeadline("Deadline", "2026-08-28", Priority.HIGH);
+        beanList.addEvent("Event", "2026-09-01", "2026-09-02", Priority.MEDIUM);
+
+        assertEquals(3, beanList.getSize());
+        assertEquals("1|0|2|Deadline|2026-08-28", beanList.formatTask(1));
+        assertEquals("2|0|1|Event|2026-09-01|2026-09-02", beanList.formatTask(2));
+        assertEquals("0|0|0|Plain todo|", beanList.formatTask(0));
+    }
+
+    @Test
+    public void addTask_invalidDates_doNotChangeList() {
+        BeanList beanList = new BeanList();
+
+        assertTrue(beanList.addDeadline("Deadline", "2026/08/28").contains("wrong date format"));
+        assertTrue(beanList.addEvent("Event", "2026-09-01", "tomorrow").contains("wrong date format"));
+        assertEquals(0, beanList.getSize());
+    }
+
+    @Test
+    public void displayTasks_sortsAllTaskTypesByPriority() {
+        BeanList beanList = new BeanList();
+        beanList.addTodoSilent("Low todo", Priority.LOW);
+        beanList.addEventSilent("Medium event", "2026-09-01", "2026-09-02", Priority.MEDIUM);
+        beanList.addDeadlineSilent("High deadline", "2026-08-28", Priority.HIGH);
+
+        assertEquals("Here are the tasks in your list:\n\n"
+                + "1. HIGH [D][ ] High deadline (by: Aug 28 2026)\n"
+                + "2. MEDIUM [E][ ] Medium event (from: Sept 01 2026 to: Sept 02 2026)\n"
+                + "3. LOW [T][ ] Low todo", beanList.displayTasks());
+        assertEquals("[D]", beanList.getTaskTag(1));
+        assertEquals("High deadline", beanList.getTaskName(1));
+    }
+
+    @Test
+    public void findTasks_matchesNamesOnlyAndHandlesNoMatch() {
+        BeanList beanList = new BeanList();
+        beanList.addDeadlineSilent("Submit report", "2026-08-28", Priority.LOW);
+
+        assertTrue(beanList.findTasks("REPORT").contains("Submit report"));
+        assertTrue(beanList.findTasks("2026").endsWith("\n\n"));
+    }
+
+    @Test
+    public void markAndUnmarkTask_updateDisplayedTaskStatus() {
+        BeanList beanList = new BeanList();
+        beanList.addTodoSilent("Finish assignment", Priority.MEDIUM);
+
+        assertTrue(beanList.markTask(1).contains("[X] Finish assignment"));
+        assertTrue(beanList.displayTasks().contains("[X] Finish assignment"));
+        assertTrue(beanList.unmarkTask(1).contains("[ ] Finish assignment"));
+        assertTrue(beanList.displayTasks().contains("[ ] Finish assignment"));
+    }
+
+    @Test
+    public void markLastAddedTask_marksUnderlyingLatestTask() {
+        BeanList beanList = new BeanList();
+        beanList.addTodoSilent("First high", Priority.HIGH);
+        beanList.addTodoSilent("Second low", Priority.LOW);
+
+        beanList.markLastAddedTask();
+
+        assertTrue(beanList.displayTasks().contains("HIGH [T][ ] First high"));
+        assertTrue(beanList.displayTasks().contains("LOW [T][X] Second low"));
+    }
+
+    @Test
+    public void taskOperations_invalidIndices_throwExpectedExceptions() {
+        BeanList beanList = new BeanList();
+        beanList.addTodoSilent("Read textbook", Priority.LOW);
+
+        assertThrows(IllegalArgumentException.class, () -> beanList.getTaskTag(0));
+        assertThrows(IllegalArgumentException.class, () -> beanList.getTaskName(2));
+        assertThrows(IllegalArgumentException.class, () -> beanList.unmarkTask(0));
+        assertThrows(IllegalArgumentException.class, () -> beanList.deleteTask(2));
+        assertThrows(IllegalArgumentException.class, () -> beanList.formatTask(-1));
+        assertThrows(IllegalArgumentException.class, () -> beanList.formatTask(1));
+    }
+
+    @Test
+    public void priority_fromString_parsesValidValuesAndRejectsInvalidValue() {
+        assertEquals(Priority.HIGH, Priority.fromString("HiGh"));
+        assertEquals(Priority.MEDIUM, Priority.fromString("medium"));
+        assertEquals(Priority.LOW, Priority.fromString("LOW"));
+        assertEquals(2, Priority.HIGH.getLevel());
+        assertThrows(InvalidSyntaxException.class, () -> Priority.fromString("urgent"));
     }
 }
