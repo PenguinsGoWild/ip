@@ -117,7 +117,7 @@ public class BeanListTest {
 
         assertEquals("Here are the tasks in your list:\n\n"
                 + "1. HIGH [D][ ] High deadline (by: Aug 28 2026)\n"
-                + "2. MEDIUM [E][ ] Medium event (from: Sept 01 2026 to: Sept 02 2026)\n"
+                + "2. MEDIUM [E][ ] Medium event (from: Sep 01 2026 to: Sep 02 2026)\n"
                 + "3. LOW [T][ ] Low todo", beanList.displayTasks());
         assertEquals("[D]", beanList.getTaskTag(1));
         assertEquals("High deadline", beanList.getTaskName(1));
