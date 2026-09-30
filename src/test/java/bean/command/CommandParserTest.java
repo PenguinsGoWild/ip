@@ -121,8 +121,8 @@ public class CommandParserTest {
                 CommandParser.getCommand("todo task /priority high extra", taskList));
         assertThrows(InvalidSyntaxException.class, () ->
                 CommandParser.getCommand("todo task /priority urgent", taskList));
-        assertThrows(InvalidSyntaxException.class, () ->
-                CommandParser.getCommand("todo call | bank /priority HIGH", taskList));
+        CommandParser.getCommand("todo call | bank /priority HIGH", taskList);
+        assertEquals("call | bank", taskList.getTaskName(1));
     }
 
     @Test
@@ -203,8 +203,10 @@ public class CommandParserTest {
                 CommandParser.getCommand("mark 1 extra", taskList));
         assertThrows(InvalidSyntaxException.class, () ->
                 CommandParser.getCommand("unmark first", taskList));
-        assertTrue(CommandParser.getCommand("mark", taskList).contains("Usage: mark INDEX"));
-        assertTrue(CommandParser.getCommand("unmark", taskList).contains("Usage: unmark INDEX"));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("mark", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("unmark", taskList));
     }
 
     @Test

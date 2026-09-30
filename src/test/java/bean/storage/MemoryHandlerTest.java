@@ -68,6 +68,21 @@ public class MemoryHandlerTest {
     }
 
     @Test
+    public void writeAndReadMemory_escapesPipesAndBackslashesInTaskNames() throws IOException {
+        Path memoryFile = temporaryDirectory.resolve("special-characters.txt");
+        BeanList original = new BeanList();
+        original.addTodoSilent("Call | bank \\\\ today", Priority.HIGH);
+
+        MemoryHandler handler = new MemoryHandler(memoryFile.toString());
+        handler.writeMemory(original);
+
+        BeanList restored = new BeanList();
+        handler.readMemory(restored);
+
+        assertEquals("Call | bank \\\\ today", restored.getTaskName(1));
+    }
+
+    @Test
     public void readMemory_missingFile_createsEmptyMemoryFile() {
         Path memoryFile = temporaryDirectory.resolve("new-memory.txt");
 

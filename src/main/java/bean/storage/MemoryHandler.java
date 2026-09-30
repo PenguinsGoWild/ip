@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import bean.exception.InvalidMemoryDataException;
 import bean.task.BeanList;
@@ -65,7 +67,7 @@ public class MemoryHandler {
             return true;
         }
 
-        String[] values = line.split("\\|");
+        String[] values = splitMemoryFields(line);
 
         try {
             validateMemoryData(values, line);
@@ -85,6 +87,29 @@ public class MemoryHandler {
             System.out.println("Warning: Event dates in memory are invalid! Skipping line!");
         }
         return true;
+    }
+
+    /** Splits a memory record while allowing escaped pipes inside task names. */
+    private String[] splitMemoryFields(String line) {
+        List<String> fields = new ArrayList<>();
+        StringBuilder field = new StringBuilder();
+
+        for (int index = 0; index < line.length(); index++) {
+            char character = line.charAt(index);
+            if (character == '\\' && index + 1 < line.length()
+                    && (line.charAt(index + 1) == '\\' || line.charAt(index + 1) == '|')) {
+                field.append(line.charAt(++index));
+            } else if (character == '|') {
+                fields.add(field.toString());
+                field.setLength(0);
+            } else {
+                field.append(character);
+            }
+        }
+        if (line.charAt(line.length() - 1) != '|') {
+            fields.add(field.toString());
+        }
+        return fields.toArray(new String[0]);
     }
 
     /** Validates the fields shared by all saved task records. */

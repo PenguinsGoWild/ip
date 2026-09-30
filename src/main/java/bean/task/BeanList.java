@@ -210,15 +210,18 @@ public class BeanList {
         return switch (tag) {
             case "[T]" -> {
                 validateTaskDataLength(taskData, 3, "A to-do task must have three storage fields");
-                yield "0|" + taskData[0] + "|" + taskData[2] + "|" + taskData[1] + "|";
+                yield "0|" + taskData[0] + "|" + taskData[2] + "|"
+                        + escapeMemoryField(taskData[1]) + "|";
             }
             case "[D]" -> {
                 validateTaskDataLength(taskData, 4, "A deadline task must have four storage fields");
-                yield "1|" + taskData[0] + "|" + taskData[3] + "|" + taskData[1] + "|" + taskData[2];
+                yield "1|" + taskData[0] + "|" + taskData[3] + "|"
+                        + escapeMemoryField(taskData[1]) + "|" + taskData[2];
             }
             case "[E]" -> {
                 validateTaskDataLength(taskData, 5, "An event task must have five storage fields");
-                yield "2|" + taskData[0] + "|" + taskData[4] + "|" + taskData[1] + "|" + taskData[2]
+                yield "2|" + taskData[0] + "|" + taskData[4] + "|"
+                        + escapeMemoryField(taskData[1]) + "|" + taskData[2]
                         + "|" + taskData[3];
             }
             default -> throw new IllegalStateException("Every task must have a recognized storage tag");
@@ -241,6 +244,11 @@ public class BeanList {
         if (taskData.length != expectedLength) {
             throw new IllegalStateException(message);
         }
+    }
+
+    /** Escapes characters that have a special meaning in the memory-file format. */
+    private String escapeMemoryField(String field) {
+        return field.replace("\\", "\\\\").replace("|", "\\|");
     }
 
     /**

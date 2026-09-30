@@ -18,12 +18,4 @@ final class CommandValidator {
         }
     }
 
-    /** Throws an exception when a task name contains the memory-file delimiter. */
-    static void checkStorageDelimiter(StringBuilder taskName, String input, String usage) {
-        if (taskName.indexOf("|") >= 0) {
-            throw new InvalidSyntaxException("Uh Oh! Task names cannot contain '|'.\n\n"
-                    + "The character '|' is reserved for saving tasks.\n"
-                    + "Usage: " + usage, input);
-        }
-    }
 }

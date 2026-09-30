@@ -24,8 +24,6 @@ public class TodoCommand {
 
         CommandValidator.checkEmpty(taskName, input, "todo",
                 "Todo must have a name!\n\n", "Usage: todo \"TASK\"");
-        CommandValidator.checkStorageDelimiter(taskName, input,
-                "todo \"TASK\" [/priority \"{HIGH | MEDIUM | LOW}\"]");
 
         if (priorityIndex != -1) {
             if (priorityIndex + 1 >= words.length || priorityIndex + 2 != words.length) {
