@@ -81,7 +81,7 @@
     -fx-background-color: rgba(184, 216, 236, 0.96);
     -fx-background-insets: 0;
     -fx-background-radius: 18px;
-    -fx-border-color: #6296bb;
+    -fx-border-color: #6fa8dc;
     -fx-border-width: 2px;
     -fx-border-radius: 18px;
     -fx-text-fill: #1f4059;
@@ -94,7 +94,7 @@
 }
 
 .userInput:focused {
-    -fx-border-color: #2f6e9f;
+    -fx-border-color: #6fa8dc;
     -fx-effect: dropshadow(gaussian, rgba(47, 110, 159, 0.34), 14, 0.22, 0, 4);
 }
 
