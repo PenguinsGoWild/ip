@@ -1,7 +1,6 @@
 package bean.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -122,6 +121,8 @@ public class CommandParserTest {
                 CommandParser.getCommand("todo task /priority high extra", taskList));
         assertThrows(InvalidSyntaxException.class, () ->
                 CommandParser.getCommand("todo task /priority urgent", taskList));
+        assertThrows(InvalidSyntaxException.class, () ->
+                CommandParser.getCommand("todo call | bank /priority HIGH", taskList));
     }
 
     @Test
@@ -202,7 +203,8 @@ public class CommandParserTest {
                 CommandParser.getCommand("mark 1 extra", taskList));
         assertThrows(InvalidSyntaxException.class, () ->
                 CommandParser.getCommand("unmark first", taskList));
-        assertFalse(CommandParser.getCommand("mark", taskList).contains("Read"));
+        assertTrue(CommandParser.getCommand("mark", taskList).contains("Usage: mark INDEX"));
+        assertTrue(CommandParser.getCommand("unmark", taskList).contains("Usage: unmark INDEX"));
     }
 
     @Test

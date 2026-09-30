@@ -52,6 +52,8 @@ public class EventCommand {
 
         CommandValidator.checkEmpty(taskName, input, "event",
                 "Event must have a name!\n\n", USAGE);
+        CommandValidator.checkStorageDelimiter(taskName, input,
+                "event \"TASK\" /from \"DATE\" /to \"DATE\"");
         CommandValidator.checkEmpty(from, input, "event",
                 "Event must have a from date!\n\nTry the format yyyy-mm-dd!\n\n",
                 USAGE);

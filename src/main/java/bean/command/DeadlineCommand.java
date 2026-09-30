@@ -43,6 +43,8 @@ public class DeadlineCommand {
 
         CommandValidator.checkEmpty(taskName, input, "deadline",
                 "Deadline must have a name!\n\n", USAGE);
+        CommandValidator.checkStorageDelimiter(taskName, input,
+                "deadline \"TASK\" [/by \"DATE\"] [/priority \"{HIGH | MEDIUM | LOW}\"]");
         CommandValidator.checkEmpty(date, input, "deadline",
                 "Deadline must have a by date!\n\nTry the format yyyy-mm-dd!\n\n",
                 USAGE);
