@@ -103,6 +103,8 @@ public class BeanListTest {
 
         assertTrue(beanList.addDeadline("Deadline", "2026/08/28").contains("wrong date format"));
         assertTrue(beanList.addEvent("Event", "2026-09-01", "tomorrow").contains("wrong date format"));
+        assertTrue(beanList.addEvent("Event", "2026-10-10", "2026-10-01")
+                .contains("cannot end before it starts"));
         assertEquals(0, beanList.getSize());
     }
 
@@ -127,7 +129,18 @@ public class BeanListTest {
         beanList.addDeadlineSilent("Submit report", "2026-08-28", Priority.LOW);
 
         assertTrue(beanList.findTasks("REPORT").contains("Submit report"));
-        assertTrue(beanList.findTasks("2026").endsWith("\n\n"));
+        assertEquals("No matching tasks found.", beanList.findTasks("2026"));
+    }
+
+    @Test
+    public void findTasks_preservesIndicesFromCompleteDisplayedList() {
+        BeanList beanList = new BeanList();
+        beanList.addTodoSilent("Low report", Priority.LOW);
+        beanList.addTodoSilent("High task", Priority.HIGH);
+
+        assertEquals("Here are the tasks in your list:\n\n2. LOW [T][ ] Low report",
+                beanList.findTasks("report"));
+        assertTrue(beanList.markTask(2).contains("Low report"));
     }
 
     @Test

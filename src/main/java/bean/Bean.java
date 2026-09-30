@@ -11,9 +11,11 @@ import bean.task.BeanList;
 import bean.ui.MainWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -52,10 +54,21 @@ public class Bean extends Application {
             stage.setTitle("Bean");
             stage.getIcons().add(WINDOW_ICON);
             stage.setScene(scene);
+            positionWindowOnScreen(stage);
             stage.show();
         } catch (IOException e) {
             throw new IllegalStateException("Unable to start the Bean interface", e);
         }
+    }
+
+    /** Sizes and centers the window within the usable area of the primary screen. */
+    private static void positionWindowOnScreen(Stage stage) {
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        stage.sizeToScene();
+        stage.setWidth(Math.min(stage.getWidth(), visualBounds.getWidth()));
+        stage.setHeight(Math.min(stage.getHeight(), visualBounds.getHeight()));
+        stage.setX(visualBounds.getMinX() + (visualBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY(visualBounds.getMinY() + (visualBounds.getHeight() - stage.getHeight()) / 2);
     }
 
     /**

@@ -81,6 +81,8 @@ public class MemoryHandler {
             System.out.println(e.getMessage());
         } catch (DateTimeParseException e) {
             System.out.println("Warning: Data format in memory is incorrect! Skipping line!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Warning: Event dates in memory are invalid! Skipping line!");
         }
         return true;
     }

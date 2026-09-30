@@ -58,7 +58,7 @@ public class CommandParserTest {
         String response = CommandParser.getCommand("findtask \"textbook\"", taskList);
 
         assertEquals("Here are the tasks in your list:\n\n"
-                + "1. HIGH [T][ ] Buy textbook\n2. LOW [T][ ] Read textbook", response);
+                + "1. HIGH [T][ ] Buy textbook\n3. LOW [T][ ] Read textbook", response);
     }
 
     @Test
@@ -182,6 +182,10 @@ public class CommandParserTest {
                 CommandParser.getCommand("event conference /from 2026-08-28 /to 2026-08-29 /priority", taskList));
         assertThrows(InvalidSyntaxException.class, () -> CommandParser.getCommand(
                 "event conference /from 2026-08-28 /to 2026-08-29 /priority high extra", taskList));
+        assertTrue(CommandParser.getCommand(
+                "event conference /from 2026-10-10 /to 2026-10-01", taskList)
+                .contains("cannot end before it starts"));
+        assertEquals(0, taskList.getSize());
     }
 
     @Test

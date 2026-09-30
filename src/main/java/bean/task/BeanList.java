@@ -70,6 +70,9 @@ public class BeanList {
         try {
             LocalDate parsedFrom = LocalDate.parse(from);
             LocalDate parsedTo = LocalDate.parse(to);
+            if (parsedFrom.isAfter(parsedTo)) {
+                return "Woah! An event cannot end before it starts.";
+            }
             tasks.add(new Event(task, parsedFrom, parsedTo, size + 1));
             size += 1;
             return formatAddTask(tasks.get(size - 1).toString());
@@ -86,6 +89,9 @@ public class BeanList {
         try {
             LocalDate parsedFrom = LocalDate.parse(from);
             LocalDate parsedTo = LocalDate.parse(to);
+            if (parsedFrom.isAfter(parsedTo)) {
+                return "Woah! An event cannot end before it starts.";
+            }
             tasks.add(new Event(task, parsedFrom, parsedTo, priority, size + 1));
             size += 1;
             return formatAddTask(tasks.get(size - 1).toString());
@@ -129,6 +135,9 @@ public class BeanList {
     public void addEventSilent(String task, String from, String to, Priority priority) {
         LocalDate parsedFrom = LocalDate.parse(from);
         LocalDate parsedTo = LocalDate.parse(to);
+        if (parsedFrom.isAfter(parsedTo)) {
+            throw new IllegalArgumentException("Event end date cannot be before start date");
+        }
         tasks.add(new Event(task, parsedFrom, parsedTo, priority, size + 1));
         size += 1;
     }
@@ -247,11 +256,17 @@ public class BeanList {
     public String findTasks(String keyword) {
         String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
 
-        List<Task> matchingTasks = new ArrayList<>(tasks.stream()
+        List<Task> sortedTasks = getTasksInDisplayOrder(tasks);
+        List<Task> matchingTasks = sortedTasks.stream()
                 .filter(task -> task.get()[1].toLowerCase(Locale.ROOT).contains(normalizedKeyword))
-                .toList());
+                .toList();
 
-        return "Here are the tasks in your list:\n\n" + formatTaskDisplay(matchingTasks);
+        if (matchingTasks.isEmpty()) {
+            return "No matching tasks found.";
+        }
+
+        return "Here are the tasks in your list:\n\n"
+                + formatTaskDisplayWithOriginalIndices(matchingTasks, sortedTasks);
     }
 
     /**
@@ -267,6 +282,14 @@ public class BeanList {
         return IntStream.range(0, sortedTasks.size())
             .mapToObj(index -> index + 1 + ". " + sortedTasks.get(index))
             .collect(Collectors.joining("\n"));
+    }
+
+    /** Formats search results using the one-based indices of the complete task list. */
+    private String formatTaskDisplayWithOriginalIndices(List<Task> matchingTasks,
+            List<Task> sortedTasks) {
+        return matchingTasks.stream()
+                .map(task -> sortedTasks.indexOf(task) + 1 + ". " + task)
+                .collect(Collectors.joining("\n"));
     }
 
     private Task getTaskAtDisplayIndex(int index) {
